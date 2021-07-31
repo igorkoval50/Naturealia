@@ -1,0 +1,14 @@
+{% block sw_cms_element_image_slider_preview %}
+    <div class="sw-cms-el-preview-image-slider">
+        <sw-icon name="default-arrow-head-left" size="10"></sw-icon>
+        <div>
+            <img :src="'/administration/static/img/cms/preview_mountain_small.jpg' | asset">
+            <div class="txt">
+                <h4>Slide Title</h4>
+                <p>Slide Text Content</p>
+                <button class="btn btn--primary">Button text</button>
+            </div>
+        </div>
+        <sw-icon name="default-arrow-head-right" size="10"></sw-icon>
+    </div>
+{% endblock %}

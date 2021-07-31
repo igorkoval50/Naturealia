@@ -1,0 +1,36 @@
+{
+    "sw-cms": {
+        "elements": {
+            "delightElement": {
+                "slide": "Slide content",
+                "label": "Delight Slider Element",
+                "imageHref": {
+                    "label": "Slide Link",
+                    "placeholder": "Slide Link..."
+                }
+            },
+            "general": {
+                "config": {
+                    "label": {
+                        "position": "Position of the block items",
+                        "leftTop": "Left/Top",
+                        "leftBottom": "Left/Bottom",
+                        "center": "Center",
+                        "rightTop": "Right/Top",
+                        "rightBottom": "Right/Bottom"
+                    }
+                }
+            },
+            "defaultSlideContent": {
+                "title": "Slide Title",
+                "text": "Slide Text Content",
+                "buttonText": "Button text"
+            }
+        },
+        "blocks": {
+            "delightBlock": {
+                "label": "Advanced Slider Element"
+            }
+        }
+    }
+}

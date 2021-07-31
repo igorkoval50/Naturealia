@@ -1,0 +1,12 @@
+{% block sw_cms_block_image_text_reversed_preview %}
+    <div class="sw-cms-preview-slider-image-text">
+        <sw-icon name="default-arrow-head-left" size="20"></sw-icon>
+        <img :src="'/administration/static/img/cms/preview_mountain_small.jpg' | asset">
+        <sw-icon name="default-arrow-head-right" size="20"></sw-icon>
+        <div class="txt">
+            <h2>Slide Title</h2>
+            <p>Slide Text Content</p>
+            <button class="btn btn--primary">Button text</button>
+        </div>
+    </div>
+{% endblock %}

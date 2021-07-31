@@ -1,0 +1,36 @@
+{
+    "sw-cms": {
+        "elements": {
+            "delightElement": {
+                "slide": "Folieninhalt",
+                "label": "Delight Slider Element",
+                "imageHref": {
+                    "label": "Schiebelink",
+                    "placeholder": "Schiebelink..."
+                }
+            },
+            "general": {
+                "config": {
+                    "label": {
+                        "position": "Textblockposition",
+                        "leftTop": "Links/Oben",
+                        "leftBottom": "Links/Unter",
+                        "center": "Center",
+                        "rightTop": "Rechts/Oben",
+                        "rightBottom": "Rechts/Unter"
+                    }
+                }
+            },
+            "defaultSlideContent": {
+                "title": "Folientitel",
+                "text": "Textinhalt schieben",
+                "buttonText": "Schaltflächentext"
+            }
+        },
+        "blocks": {
+            "delightBlock": {
+                "label": "individuelles Sliderbild"
+            }
+        }
+    }
+}

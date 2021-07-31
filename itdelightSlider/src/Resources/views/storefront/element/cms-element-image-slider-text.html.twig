@@ -1,0 +1,94 @@
+{% block element_image_slider %}
+    {%  set sliderConfig = element.fieldConfig.elements %}
+
+    <div class="itdelight-cms-el-slider cms-element-{{ element.type }}">
+        {% set baseSliderOptions = {
+            slider: {
+                navPosition: 'bottom',
+                speed: 500,
+                nav: sliderConfig.navigationDots.value ? true : false,
+                controls: sliderConfig.navigationArrows.value ? true : false,
+                autoHeight: true
+            }
+        } %}
+
+        {% block element_image_slider_alignment %}
+            <div class="base-slider image-slider{% if sliderConfig.navigationArrows.value == "outside" %} has-nav-outside{% endif %}{% if sliderConfig.navigationDots.value == "outside" %} has-dots-outside{% endif %}"
+                 data-base-slider="true"
+                 data-base-slider-options='{{ baseSliderOptions|json_encode }}'>
+
+                {% block element_image_slider_inner %}
+                    <div class="image-slider-container"
+                         data-base-slider-container="true">
+                        {% set myVal = 0 %}
+                        {% for image in element.data.sliderItems %}
+                            {% set imageElement %}
+                                <div class="image-slider-item is--{{ sliderConfig.position.value}} is-standard">
+                                    {% set attributes = {
+                                        'class': 'img-fluid image-slider-image',
+                                        'alt': (image.media.translated.alt ?: ''),
+                                        'title': (image.media.translated.title ?: '')
+                                    } %}
+                                    {% if image.imageHref is not empty %}
+                                        <a href="{{ image.imageHref }}" {% if image.newTab %} target="_blank" {% endif %}>
+                                            {% sw_thumbnails 'cms-image-slider-thumbnails' with {
+                                                media: image.media
+                                            } %}
+                                        </a>
+                                    {% else %}
+                                        {% sw_thumbnails 'cms-image-slider-thumbnails' with {
+                                            media: image.media
+                                        } %}
+                                    {% endif %}
+                                    <div class="wrapper-image-text">
+                                        {% if element.data.sliderItems[myVal].content is not empty %}
+                                            {{ element.data.sliderItems[myVal].content|raw }}
+                                        {% endif %}
+                                    </div>
+                                    {% set myVal = myVal + 1 %}
+                                </div>
+                            {% endset %}
+
+                            {% block element_image_slider_inner_item %}
+                                <div class="image-slider-item-container">
+                                    {{ imageElement }}
+                                </div>
+                            {% endblock %}
+                        {% endfor %}
+                    </div>
+
+                    {% block element_image_slider_controls %}
+                        {% if sliderConfig.navigationArrows.value %}
+                            <div class="image-slider-controls-container">
+                                <div class="base-slider-controls"
+                                     data-base-slider-controls="true">
+                                    {% block element_image_slider_controls_items %}
+                                        {% block element_image_slider_controls_items_arrows %}
+                                            <button class="base-slider-controls-prev image-slider-controls-prev{% if sliderConfig.navigationArrows.value == "outside" %} is-nav-prev-outside{% elseif sliderConfig.navigationArrows.value == "inside" %} is-nav-prev-inside{% endif %}">
+                                                {% block element_image_slider_controls_items_prev_icon %}
+                                                    {% sw_icon 'arrow-head-left' %}
+                                                {% endblock %}
+                                            </button>
+                                            <button class="base-slider-controls-next image-slider-controls-next{% if sliderConfig.navigationArrows.value == "outside" %} is-nav-next-outside{% elseif sliderConfig.navigationArrows.value == "inside" %} is-nav-next-inside{% endif %}">
+                                                {% block element_image_slider_controls_items_next_icon %}
+                                                    {% sw_icon 'arrow-head-right' %}
+                                                {% endblock %}
+                                            </button>
+                                        {% endblock %}
+                                    {% endblock %}
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endblock %}
+                {% endblock %}
+            </div>
+        {% endblock %}
+        <style>
+            @media screen and (max-width: 376px) {
+                .base-slider {
+                    height: 150px;
+                }
+            }
+        </style>
+    </div>
+{% endblock %}

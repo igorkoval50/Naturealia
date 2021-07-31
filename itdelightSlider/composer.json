@@ -1,0 +1,42 @@
+{
+    "name": "itdelight/slider-text",
+    "description": "Advanced Custom Slider by ItDelight",
+    "type": "shopware-platform-plugin",
+    "license": "proprietary",
+    "version": "1.0.0",
+    "autoload": {
+        "psr-4": {
+            "ITDelight\\SliderText\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "ItDelight"
+        }
+    ],
+    "require": {
+        "shopware/core": "^6.4",
+        "shopware/storefront": "^6.4",
+        "shopware/platform": "^6.4"
+    },
+    "extra": {
+        "shopware-plugin-class": "ITDelight\\SliderText\\SliderText",
+        "plugin-icon": "src/Resources/config/plugin.png",
+        "label": {
+            "de-DE": "Аortgeschritten Slider",
+            "en-GB": "Advanced Slider"
+        },
+        "description": {
+            "en-GB": "Advanced CMS Element",
+            "de-DE": "Аortgeschritten CMS Element"
+        },
+        "manufacturerLink": {
+            "en-GB": "https://itdelight.com",
+            "de-DE": "https://itdelight.com"
+        },
+        "supportLink": {
+            "de-DE": "https://www.shopware.com/de/partner/agenturen/it-delight/",
+            "en-GB": "https://www.shopware.com/de/partner/agenturen/it-delight/"
+        }
+    }
+}
