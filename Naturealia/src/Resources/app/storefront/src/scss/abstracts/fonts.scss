@@ -1,7 +1,107 @@
-@import "BrandonGrotesque-Medium/font";
-@import "BrandonGrotesque-Regular/font";
+@import "BrandonGrotesque/font";
 
 body {
   font-family: 'Brandon Grotesque';
   font-weight: 400;
+}
+
+
+@media (min-width: 1024px) {
+  h1 {
+    font-size: 46px;
+    line-height: normal;
+    font-weight: 500;
+  }
+  h2 {
+    font-size: 42px;
+    line-height: normal;
+    font-weight: 500;
+  }
+  h3 {
+    font-size: 34px;
+    line-height: normal;
+    font-weight: 500;
+  }
+  h4 {
+    font-size: 26px;
+    line-height: normal;
+    font-weight: 500;
+  }
+  p, span, a, strong {
+    font-size: 20px;
+    line-height: normal;
+  }
+  .main-navigation-link-text {
+    span {
+      font-size: 19px;
+    }
+  }
+  .container, .cms-section .boxed {
+    max-width: 100%;
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+}
+@media (max-width: 1024px) {
+  .container, .cms-section .boxed {
+    max-width: 100%;
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+}
+@media (max-width: 1023px) {
+  h1 {
+    font-size: 42px;
+    line-height: normal;
+    font-weight: 500;
+  }
+  h2 {
+    font-size: 38px;
+    line-height: normal;
+    font-weight: 500;
+  }
+  h3 {
+    font-size: 30px;
+    line-height: normal;
+    font-weight: 500;
+  }
+  h4 {
+    font-size: 22px;
+    line-height: normal;
+    font-weight: 500;
+  }
+  p, span, a, strong {
+    font-size: 19px;
+    line-height: normal;
+  }
+}
+
+@media (max-width: 568px) {
+  h1 {
+    font-size: 38px;
+    line-height: normal;
+  }
+  h2 {
+    font-size: 34px;
+    line-height: normal;
+  }
+  h3 {
+    font-size: 26px;
+    line-height: normal;
+  }
+  h4 {
+    font-size: 18px;
+    line-height: normal;
+  }
+  p, span, a, strong {
+    font-size: 17px;
+    line-height: normal;
+  }
+}
+
+@media (max-width: 320px) {
+  h2 {
+    font-size: 32px;
+    line-height: 36px;
+  }
 }

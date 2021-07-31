@@ -1,0 +1,36 @@
+.nav-main {
+  .main-navigation-link.active .main-navigation-link-text {
+    border-color: $green;
+    span {
+      color: $green;
+    }
+  }
+}
+
+.main-navigation-menu {
+  display: flex;
+  justify-content: center;
+}
+
+.main-navigation-link {
+  &:hover, &:active, &:focus {
+    color: $green;
+  }
+}
+
+.top-bar {
+  background: $grey;
+  margin-left: -40px;
+  margin-right: -40px;
+  padding-left: 40px;
+  padding-right: 40px;
+  height: 35px;
+  span {
+    font-size: 12px;
+    color: $grey-text;
+  }
+}
+
+.header-row {
+  margin-bottom: 0;
+}
