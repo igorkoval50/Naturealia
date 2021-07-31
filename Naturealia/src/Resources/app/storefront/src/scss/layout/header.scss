@@ -21,16 +21,123 @@
 .top-bar {
   background: $grey;
   margin-left: -40px;
-  margin-right: -40px;
+  margin-right: -45px;
   padding-left: 40px;
-  padding-right: 40px;
+  padding-right: 32px;
   height: 35px;
-  span {
+  .top-price-text {
     font-size: 12px;
     color: $grey-text;
   }
 }
 
 .header-row {
-  margin-bottom: 0;
+  padding-bottom: 0;
+  padding-top: 9px;
+}
+
+.header-search {
+  .header-search-input, .input-group-append {
+    height: 35px;
+  }
+}
+
+.header-search-col {
+  position: relative;
+  top: -26px;
+  left: 32px;
+}
+
+.nav-main {
+  margin-top: -40px;
+  position: relative;
+  left: 30px;
+}
+
+.header-search {
+  max-width: 434px;
+  margin: auto;
+  position: relative;
+  left: -12px;
+}
+
+.nav-main {
+  .main-navigation-link-text {
+    padding-bottom: 10px;
+  }
+  .main-navigation-link {
+    padding-bottom: 0;
+  }
+}
+
+.header-search-input, .header-search-btn {
+  border-color: $border;
+}
+
+.navigation-flyout {
+  left: -25px;
+}
+
+.header-cart-total, .top-bar-currency {
+  display: none;
+}
+
+.top-bar-nav {
+  justify-content: space-between;
+  padding-top: 8px;
+}
+
+.image-ssl {
+  content: "";
+  background-image: url(../assets/icons/ssl.svg);
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  padding-right: 27px;
+}
+
+.image-bio {
+  content: "";
+  background-image: url(../assets/icons/bio.svg);
+  display: inline-block;
+  width: 24px;
+  height: 20px;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.account-menu-btn, .header-actions-btn {
+  &:hover {
+    opacity: .8;
+  }
+}
+.icon-avatar {
+  content: "";
+  background-image: url(../assets/icons/account.svg);
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  svg {
+    display: none;
+  }
+}
+
+.icon-bag {
+  content: "";
+  background-image: url(../assets/icons/cart.svg);
+  display: inline-block;
+  width: 23px;
+  height: 20px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  &:hover {
+    opacity: .8;
+  }
+  svg {
+    display: none;
+  }
 }
