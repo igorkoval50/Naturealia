@@ -58,7 +58,7 @@
   max-width: 434px;
   margin: auto;
   position: relative;
-  left: -12px;
+  left: -32px;
 }
 
 .nav-main {
@@ -108,6 +108,19 @@
   background-size: contain;
 }
 
+.icon-search {
+  content: "";
+  background-image: url(../assets/icons/search.svg);
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  svg {
+    display: none;
+  }
+}
+
 .account-menu-btn, .header-actions-btn {
   &:hover {
     opacity: .8;
@@ -141,3 +154,24 @@
     display: none;
   }
 }
+
+.header-actions-col {
+  padding-right: 0;
+  margin-top: -40px;
+}
+
+.header-cart-btn {
+  padding-right: 4px;
+  padding-left: 0;
+}
+
+.account-menu-btn {
+  padding-right: 15px;
+}
+.header-search {
+  .header-search-btn {
+    padding-right: 10px;
+    padding-top: 5px;
+  }
+}
+
