@@ -41,6 +41,13 @@ body {
     padding-left: 40px;
     padding-right: 40px;
   }
+  .cms-block-slider-image-text {
+    h2 {
+      font-size: 34px;
+      line-height: normal;
+      font-weight: 500;
+    }
+  }
 }
 @media (max-width: 1024px) {
   .container, .cms-section .boxed {
@@ -74,6 +81,13 @@ body {
     font-size: 19px;
     line-height: normal;
   }
+  .cms-block-slider-image-text {
+    h2 {
+      font-size: 30px;
+      line-height: normal;
+      font-weight: 500;
+    }
+  }
 }
 
 @media (max-width: 568px) {
@@ -96,6 +110,12 @@ body {
   p, span, a, strong {
     font-size: 17px;
     line-height: normal;
+  }
+  .cms-block-slider-image-text {
+    h2 {
+      font-size: 26px;
+      line-height: normal;
+    }
   }
 }
 

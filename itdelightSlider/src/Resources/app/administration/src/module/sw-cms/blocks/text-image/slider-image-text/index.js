@@ -8,8 +8,8 @@ Shopware.Service('cmsService').registerCmsBlock({
     component: 'sw-cms-block-slider-image-text',
     previewComponent: 'sw-cms-preview-slider-image-text',
     defaultConfig: {
-        marginBottom: '20px',
-        marginTop: '20px',
+        marginBottom: '0px',
+        marginTop: '10px',
         marginLeft: '20px',
         marginRight: '20px',
         sizingMode: 'boxed'
