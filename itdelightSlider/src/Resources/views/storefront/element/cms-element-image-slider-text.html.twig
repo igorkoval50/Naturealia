@@ -66,12 +66,17 @@
                                         {% block element_image_slider_controls_items_arrows %}
                                             <button class="base-slider-controls-prev image-slider-controls-prev{% if sliderConfig.navigationArrows.value == "outside" %} is-nav-prev-outside{% elseif sliderConfig.navigationArrows.value == "inside" %} is-nav-prev-inside{% endif %}">
                                                 {% block element_image_slider_controls_items_prev_icon %}
-                                                    {% sw_icon 'arrow-head-left' %}
+                                                    <svg width="17" height="30" viewBox="0 0 17 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M3.51777 15L16.3839 27.8661C16.872 28.3543 16.872 29.1457 16.3839 29.6339C15.8957 30.122 15.1043 30.122 14.6161 29.6339L0.866116 15.8839C0.377961 15.3957 0.377961 14.6043 0.866116 14.1161L14.6161 0.366117C15.1043 -0.122039 15.8957 -0.122039 16.3839 0.366117C16.872 0.854272 16.872 1.64573 16.3839 2.13388L3.51777 15Z" fill="#333333"/>
+                                                    </svg>
                                                 {% endblock %}
                                             </button>
                                             <button class="base-slider-controls-next image-slider-controls-next{% if sliderConfig.navigationArrows.value == "outside" %} is-nav-next-outside{% elseif sliderConfig.navigationArrows.value == "inside" %} is-nav-next-inside{% endif %}">
                                                 {% block element_image_slider_controls_items_next_icon %}
-                                                    {% sw_icon 'arrow-head-right' %}
+                                                    <svg width="17" height="30" viewBox="0 0 17 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M13.4822 15L0.616117 27.8661C0.127962 28.3543 0.127962 29.1457 0.616117 29.6339C1.10427 30.122 1.89573 30.122 2.38389 29.6339L16.1339 15.8839C16.622 15.3957 16.622 14.6043 16.1339 14.1161L2.38389 0.366117C1.89573 -0.122039 1.10427 -0.122039 0.616117 0.366117C0.127962 0.854272 0.127962 1.64573 0.616117 2.13388L13.4822 15Z" fill="#333333"/>
+                                                    </svg>
+
                                                 {% endblock %}
                                             </button>
                                         {% endblock %}

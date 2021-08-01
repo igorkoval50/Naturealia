@@ -1,0 +1,14 @@
+.cms-block-slider-image-text {
+  .base-slider-controls-prev {
+    opacity: 1;
+    &:hover {
+      opacity: .8;
+    }
+  }
+  .base-slider-controls-next {
+    opacity: 1;
+    &:hover {
+      opacity: .8;
+    }
+  }
+}
