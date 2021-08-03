@@ -4,5 +4,22 @@
   },
   "header": {
     "searchPlaceholder": "Suchbegriff / Artikelnr."
+  },
+  "form": {
+    "required":  "*Pflichtfelder"
+  },
+  "footer": {
+    "hotline": {
+      "question": "Sie haben Fragen zu einer Bestellung?",
+      "email": "service@junghannsgmbh.de",
+      "number": "09901 / 90 30 40",
+      "phone": "09901903040",
+      "hiring": "Wir stellen ein!",
+      "secondEmail": "karriere@junghannsgmbh.de"
+    },
+    "bottom": {
+      "date": "©2020 junghanns GmbH ",
+      "design": "Design and Development by <a href='#'>mediaMEANS</a>"
+    }
   }
 }

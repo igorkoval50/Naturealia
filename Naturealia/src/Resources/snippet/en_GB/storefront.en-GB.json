@@ -4,5 +4,53 @@
   },
   "header": {
     "searchPlaceholder": "Suchbegriff / Artikelnr."
+  },
+  "form": {
+    "required":  "*Pflichtfelder"
+  },
+  "footer": {
+    "hotline": {
+      "question": "Sie haben Fragen zu einer Bestellung?",
+      "email": "service@junghannsgmbh.de",
+      "number": "09901 / 90 30 40",
+      "phone": "09901903040",
+      "hiring": "Wir stellen ein!",
+      "secondEmail": "karriere@junghannsgmbh.de"
+    },
+    "bottom": {
+      "date": "©2020 junghanns GmbH ",
+      "design": "Design and Development by <a href='#'>mediaMEANS</a>"
+    },
+    "topForm": {
+      "title": "Newsletter",
+      "text": "Sicher dir deinen 10 € Gutschein auf deine erste Bestellung.",
+      "button": "zum newsletter anmelden",
+      "placeholder": "Deine E-Mail Adresse"
+    },
+    "info": {
+      "title": "Lass uns Freunde bleiben"
+    },
+    "detailBlock": {
+      "contactTitle": "Wir sind für dich da",
+      "contactPhoneTitle": "Ruf uns gerne an",
+      "contactPhoneLink": "+750488546",
+      "contactEmailTitle": "Schreib uns eine Nachricht",
+      "contactEmailLink": "mailto:",
+      "advantagesTitle": "Deine Vorteile",
+      "advantagesText": "Wir haben viele Vorteile, exklusiv für dich.",
+      "paymentTitle": "Zahlung",
+      "shoppingTitle": "Versand"
+    },
+    "about": {
+      "title": "Wofür steht Naturealia?",
+      "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor si."
+    },
+    "navigation": {
+      "socialTitle": "Soziale Netzwerke",
+      "formTitle": "Newsletter",
+      "formButton": "Button",
+      "facebook": "www.facebook.com",
+      "instagram": "instagram.com"
+    }
   }
 }
