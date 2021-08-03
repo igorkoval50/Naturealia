@@ -1,0 +1,14 @@
+{
+    "sw-cms": {
+        "blocks": {
+            "imageText": {
+                "imageTextInside": {
+                    "label": "Two column text inside"
+                },
+                "bannerTextInside": {
+                    "label": "One column text inside"
+                }
+            }
+        }
+    }
+}

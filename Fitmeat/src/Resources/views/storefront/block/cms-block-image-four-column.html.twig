@@ -1,0 +1,25 @@
+{% sw_extends '@Storefront/storefront/block/cms-block-image-four-column.html.twig' %}
+
+{% block block_image_four_column %}
+    {% if block.cssClass == 'home-steps-items' %}
+        {% for blockItem in block.slots %}
+            <div class="col-md-3 home-steps-item">
+                <div class="home-steps-icon">
+                    <img src="{{ blockItem.data.media.url }}">
+                </div>
+                <p>{{ blockItem.data.url | raw }}</p>
+            </div>
+        {% endfor %}
+    {% elseif block.cssClass == 'bestellinfo-packaging-items' %}
+        {% for blockItem in block.slots %}
+            <div class="col-md-3 bestellinfo-packaging-item">
+                <div class="bestellinfo-packaging-icon">
+                    <img src="{{ blockItem.data.media.url }}">
+                </div>
+                <p>{{ blockItem.data.url | raw }}</p>
+            </div>
+        {% endfor %}
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}

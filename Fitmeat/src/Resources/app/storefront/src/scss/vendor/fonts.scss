@@ -1,0 +1,246 @@
+@font-face {
+    font-family: 'NeutrifStudio';
+    src: url('../assets/fonts/NeutrifStudio/37E355_8_0.woff2') format('woff2');
+    font-weight: 400;
+}
+@font-face {
+    font-family: 'NeutrifStudio';
+    src: url('../assets/fonts/NeutrifStudio/37E355_7_0.woff2') format('woff2');
+    font-weight: 500;
+}
+@font-face {
+    font-family: 'NeutrifStudio';
+    src: url('../assets/fonts/NeutrifStudio/37E355_5_0.woff2') format('woff2');
+    font-weight: 700;
+}
+@font-face {
+    font-family: 'Orange Personal Use';
+    src: url('../assets/fonts/OrangePersonalUse/Orange.ttf') format("opentype");
+    font-weight: 400;
+}
+
+//new fonts
+@font-face {
+    font-family: 'ApercuRegularPro';
+    src: url('../assets/fonts/ApercuRegular/apercu-regular-pro.eot');
+    src: url('../assets/fonts/ApercuRegular/apercu-regular-pro.eot?#iefix') format('embedded-opentype'),
+    url('../assets/fonts/ApercuRegular/apercu-regular-pro.woff2') format('woff2'),
+    url('../assets/fonts/ApercuRegular/apercu-regular-pro.woff') format('woff'),
+    url('../assets/fonts/ApercuRegular/apercu-regular-pro.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'ApercuMediumPro';
+    src: url('../assets/fonts/ApercuMedium/apercu-medium-pro.eot');
+    src: url('../assets/fonts/ApercuMedium/apercu-medium-pro.eot?#iefix') format('embedded-opentype'),
+    url('../assets/fonts/ApercuMedium/apercu-medium-pro.woff2') format('woff2'),
+    url('../assets/fonts/ApercuMedium/apercu-medium-pro.woff') format('woff'),
+    url('../assets/fonts/ApercuMedium/apercu-medium-pro.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+@import url("https://use.typekit.net/emb1dgb.css");
+.skolar {
+    font-family: ApercuRegularPro,sans-serif;
+    font-weight: 500;
+    font-style: normal;
+}
+h1 {
+    line-height: 44px;
+}
+h2 {
+    line-height: 34px;
+}
+h3 {
+    line-height: 29px;
+}
+@media (max-width: 480px) {
+    h1 {
+        line-height: 31px;
+    }
+    h2 {
+        line-height: 25px;
+    }
+    h3 {
+        line-height: 22px;
+    }
+}
+h1, h2, h3 {
+    font-family: ApercuMediumPro, sans-serif !important;
+    font-weight: normal !important;
+    font-style: normal;
+}
+.footer-main, .content-main {
+  a, div, span {
+      font-family: ApercuRegularPro, sans-serif;
+  }
+}
+p, a, div, th, td, li {
+    font-family: ApercuRegularPro, sans-serif !important;
+}
+
+body {
+    font-family: ApercuRegularPro, sans-serif;
+}
+
+.is-ctl-navigation.is-act-home .home-hello-text .cms-element-text p:nth-child(3) {
+    font-family: 'ApercuRegularPro', sans-serif !important;
+}
+
+.is-ctl-navigation.is-act-home .home-important-item .home-important-text {
+    font-family: 'ApercuRegularPro', sans-serif !important;
+}
+
+.is-ctl-navigation.is-act-home .home-important-item .home-important-text.red, .is-ctl-navigation.is-act-home .home-important-item .home-important-text.custom-font {
+    font-family: ApercuRegularPro, sans-serif !important;
+}
+
+
+@mixin h1 {
+    font-size: 36px;
+    color: #000000;
+    text-transform: unset;
+}
+
+@mixin h2 {
+    font-size: 28px;
+    color: #000000;
+    text-transform: unset;
+}
+
+@mixin h3 {
+    font-size: 24px;
+    color: #000000;
+    text-transform: unset;
+}
+
+@mixin p {
+    font-size: 18px;
+    color: #000000;
+    text-transform: unset;
+    font-weight: 400;
+}
+.content-main {
+    th, td {
+        font-size: 18px;
+        padding: .70rem .59rem;
+    }
+}
+
+.headline-three {
+    font-size: 18px;
+}
+
+h1 {
+    @include h1;
+    @media (max-width: 576px) {
+        font-size: 31px;
+    }
+}
+h2 {
+    @include h2;
+}
+h3 {
+    @include h3;
+}
+p, li {
+    @include p;
+}
+
+.header-main {
+    font-family: 'ApercuRegularPro',sans-serif;
+}
+
+@media only screen and (max-width: 1380px) and (min-width: 576px) {
+    .container-main {
+        h1 {
+            font-size: 30px;
+            line-height: 36px;
+            margin-bottom: 34px;
+        }
+        h2 {
+            font-size: 26px;
+        }
+        h3 {
+            font-size: 21px;
+        }
+        p, a, span, div, th, td, .headline-three, li {
+            font-size: 16px;
+        }
+    }
+}
+
+@media (max-width: 575px) {
+    h1 {
+        font-size: 25px !important;
+        line-height: 31px !important;
+    }
+
+    h2 {
+        font-size: 21px !important;
+        line-height: 25px !important;
+    }
+
+    h3 {
+        font-size: 18px !important;
+    }
+
+    p, th, td, .headline-three, li {
+        font-size: 15px !important;
+        line-height:  20px !important;
+    }
+   html body .footer-main .footer-columns .footer-column-headline {
+        font-size: 13px !important;
+       letter-spacing: 3%;
+    }
+
+    .container-main {
+        h1 {
+            font-size: 25px;
+            line-height: 31px;
+            margin-bottom: 23px;
+            br {
+                display: none;
+            }
+        }
+        h2 {
+            font-size: 25px;
+        }
+        h3 {
+            font-size: 18px;
+        }
+        p, a, span, div, li {
+            font-size: 15px;
+        }
+    }
+}
+
+body {
+    .container-main .swiper-containers .product-name, .swiper-slide .content a {
+        font-weight: 500 !important;
+        font-family: 'ApercuMediumPro' !important;
+    }
+}
+.main-navigation-link {
+    span {
+        font-family: "ApercuMediumPro" !important;
+        font-size: 12px;
+        font-weight: 500;
+    }
+}
+
+.bestellinfo {
+    .tab-content {
+        font-size: 18px;
+        @media only screen and (max-width: 1380px) and (min-width: 576px) {
+            font-size: 16px;
+        }
+        @media (max-width: 575px) {
+            font-size: 15px;
+        }
+    }
+}

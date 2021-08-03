@@ -1,0 +1,78 @@
+{% sw_extends '@Storefront/storefront/block/cms-block-image-text-row.html.twig' %}
+{% block block_image_text_row %}
+    {% set columns = 3 %}
+    {% set id = element.id %}
+
+    {% block block_image_text_row_left %}
+        <div class="col-md-6 banner-two-colomun">
+            {% block block_image_text_row_left_image %}
+                {% if page.header.navigation.active.customFields.custom_category_additional_class == 'is--contacts Werte' %}
+                    {% set element = block.slots.getSlot('left-image') %}
+                    <div class="text">
+                        <div data-cms-element-id="">
+                            <div class="cms-element-text">
+                                {{ element.data.url|raw }}
+                            </div>
+                        </div>
+                    </div>
+                    <div data-cms-element-id="{{ id }}">
+                        {% sw_include "@Storefront/storefront/element/cms-element-" ~ element.type ~ ".html.twig" ignore missing %}
+                    </div>
+                {% else %}
+                    {% set element = block.slots.getSlot('left-image') %}
+                    <div data-cms-element-id="{{ id }}">
+                    {% sw_include "@Storefront/storefront/element/cms-element-" ~ element.type ~ ".html.twig" ignore missing %}
+                     </div>
+                {% endif %}
+            {% endblock %}
+        </div>
+    {% endblock %}
+
+    {% block block_image_text_row_center %}
+        <div class="col-md-6 banner-two-colomun">
+            {% if page.header.navigation.active.customFields.custom_category_additional_class == 'is--contacts Werte' %}
+                {% block block_image_text_row_center_image %}
+                    {% set element = block.slots.getSlot('center-image') %}
+                    <div class="col-md-6 banner-two-colomun">
+                        {% block block_image_text_row_center_images %}
+                            {% set element = block.slots.getSlot('center-image') %}
+
+                            <div data-cms-element-id="{{ id }}">
+                                {% sw_include "@Storefront/storefront/element/cms-element-" ~ element.type ~ ".html.twig" ignore missing %}
+                            </div>
+                        {% endblock %}
+
+                        <div class="text">
+                            {% block block_image_text_row_center_texts %}
+                                {% set element = block.slots.getSlot('center-text') %}
+
+                                <div data-cms-element-id="{{ id }}">
+                                    {% sw_include "@Storefront/storefront/element/cms-element-" ~ element.type ~ ".html.twig" ignore missing %}
+                                </div>
+                            {% endblock %}
+                        </div>
+                    </div>
+                {% endblock %}
+                 {% else %}
+                     {% set elements = block.slots.getSlot('center-image') %}
+                     <div class="text-wrapper" style="background: url({{ elements.data.media.url }})">
+                         <div class="text" >
+                             {% block block_image_text_row_center_text %}
+                                 {% set element = block.slots.getSlot('center-text') %}
+
+                                 <div data-cms-element-id="{{ id }}">
+                                     {% sw_include "@Storefront/storefront/element/cms-element-" ~ element.type ~ ".html.twig" ignore missing %}
+                                 </div>
+                             {% endblock %}
+                         </div>
+                     </div>
+            {% endif %}
+            {#{% block block_image_text_row_center_image %}#}
+                {##}
+                {#<div data-cms-element-id="{{ id }}">#}
+                    {#{% sw_include "@Storefront/storefront/element/cms-element-" ~ element.type ~ ".html.twig" ignore missing %}#}
+                {#</div>#}
+            {#{% endblock %}#}
+        </div>
+    {% endblock %}
+{% endblock %}

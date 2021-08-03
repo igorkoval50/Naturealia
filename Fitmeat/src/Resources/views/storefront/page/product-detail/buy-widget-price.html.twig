@@ -1,0 +1,157 @@
+{% sw_extends '@Storefront/storefront/page/product-detail/buy-widget-price.html.twig' %}
+
+{% block page_product_detail_price_inner %}
+    {% if page.product.calculatedPrices|length > 1 %}
+        {% block page_product_detail_price_block %}
+            <div class="product-block-prices">
+                {% block page_product_detail_price_block_table %}
+                    <table class="table table-sm table-bordered product-block-prices-table">
+                        {% block page_product_detail_price_block_table_head %}
+                            <thead class="product-block-prices-head">
+                            {% block page_product_detail_price_block_table_head_inner %}
+                                <tr class="product-block-prices-row">
+                                    <th scope="col" class="product-block-prices-cell">
+                                        {{ "detail.dataColumnQuantity"|trans|sw_sanitize }}
+                                    </th>
+                                    <th scope="col" class="product-block-prices-cell">
+                                        {{ "detail.dataColumnPrice"|trans|sw_sanitize }}
+                                    </th>
+                                    {% if page.product.calculatedPrice.referencePrice %}
+                                        <th scope="col" class="product-block-prices-cell">
+                                            {{ "detail.dataColumnReferencePrice"|trans|sw_sanitize }}
+                                        </th>
+                                    {% endif %}
+                                </tr>
+                            {% endblock %}
+                            </thead>
+                        {% endblock %}
+
+                        {% block page_product_detail_price_block_table_body %}
+                            <tbody class="product-block-prices-body">
+                            {% block page_product_detail_price_block_table_body_inner %}
+                                {% for price in page.product.calculatedPrices %}
+                                    {% block page_product_detail_price_block_table_body_row %}
+                                        <tr class="product-block-prices-row"
+                                            itemprop="offers" itemscope
+                                            itemtype="https://schema.org/Offer">
+
+                                            {% block page_product_detail_price_block_table_body_cell_quantity %}
+                                                <th scope="row" class="product-block-prices-cell">
+                                                    <meta itemprop="priceCurrency" content="{{ page.header.activeCurrency.id }}" />
+                                                    <meta itemprop="price" content="{{ price.unitPrice }}" />
+                                                    <link itemprop="availability" href="https://schema.org/InStock" />
+
+                                                    {% if loop.last %}
+                                                        {{ "detail.priceDataInfoFrom"|trans|sw_sanitize }}
+                                                        <span class="product-block-prices-quantity">{{ price.quantity }}</span>
+
+                                                    {% else %}
+                                                        {{ "detail.priceDataInfoUntil"|trans|sw_sanitize }}
+                                                        <span class="product-block-prices-quantity">{{ price.quantity }}</span>
+                                                    {% endif %}
+                                                </th>
+                                            {% endblock %}
+
+                                            {% block page_product_detail_price_block_table_body_cell_price %}
+                                                <td class="product-block-prices-cell">
+                                                    {{ price.unitPrice|currency }}{{ "general.star"|trans|sw_sanitize }}
+                                                </td>
+                                            {% endblock %}
+
+                                            {% block page_product_detail_price_block_table_body_cell_reference_price %}
+                                                {% if price.referencePrice is not null %}
+                                                    <td class="product-block-prices-cell">
+                                                        {{ price.referencePrice.price|currency }}{{ "general.star"|trans|sw_sanitize }} / {{ price.referencePrice.referenceUnit }} {{ price.referencePrice.unitName }}
+                                                    </td>
+                                                {% endif %}
+                                            {% endblock %}
+                                        </tr>
+                                    {% endblock %}
+                                {% endfor %}
+                            {% endblock %}
+                            </tbody>
+                        {% endblock %}
+                    </table>
+                {% endblock %}
+            </div>
+        {% endblock %}
+    {% else %}
+        {% set price = page.product.calculatedPrice %}
+
+        {% if page.product.calculatedPrices|length == 1 %}
+            {% set price = page.product.calculatedPrices.first %}
+        {% endif %}
+
+        <meta itemprop="price"
+              content="{{ price.unitPrice }}">
+
+        {% set listPrice = page.product.priceRange ? null : price.listPrice %}
+
+        <div class="product-detail-table">
+            <div class="product-detail-table-row product-detail-table-price">
+                <div class="label">Preis:</div>
+                <div class="content">
+                    <p class="price{% if listPrice.percentage > 0 %} with-list-price{% endif %}">
+                        {{ price.unitPrice|currency }}
+                    </p>
+                    <p class="price-ca">ca. {{ page.product.purchaseUnit }} {{ page.product.unit.translation('shortCode') }}</p>
+                    {% if price.referencePrice is not null %}
+                        {% block page_product_detail_price_unit_reference_content %}
+                            {% block page_product_detail_price_unit_refrence_content %}
+                                <span class="price-unit-reference-content">
+                                        | {{ price.referencePrice.price|currency }} / {{ page.product.unit.translation('shortCode') }}
+                                    </span>
+                            {% endblock %}
+                        {% endblock %}
+                    {% endif %}
+                    {% if listPrice.percentage > 0 %}
+                        {% block page_product_detail_was_price %}
+                            {% block page_product_detail_was_price_badge %}
+                                <span class="list-price-badge">&#37;</span>
+                            {% endblock %}
+                            {% block page_product_detail_was_price_wrapper %}
+                                <span class="product-detail-list-price-wrapper">
+                                    <span class="list-price-price">{{ listPrice.price|currency }}{{ "general.star"|trans|sw_sanitize }}</span>
+                                    <span class="list-price-percentage">{{ "detail.listPricePercentage"|trans({'%price%': listPrice.percentage })|sw_sanitize }}</span>
+                                </span>
+                            {% endblock %}
+                        {% endblock %}
+                    {% endif %}
+                    <div class="product-detail-tooltip">
+                        <div class="icon"></div>
+                        <p class="content">Fleisch ist ein Naturprodukt - entsprechend variabel fällt auch das Gewicht aus. <br>Die Abrechnung erfolgt natürlich grammgenau. Sonderwünsche wie "eher groß" oder "eher klein" bitte im Warenkorb angeben.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="product-detail-table-row product-detail-table-price-kg">
+                <div class="label">Preis/kg:</div>
+                <div class="content">
+                    {#<div class="product-detail-billing-gram-container">#}
+                        {#<div class="product-detail-tooltip text">#}
+                            {#<div class="icon">Grammgenaue Abrechnung</div>#}
+                            {#<p class="content">Fleisch ist ein Naturprodukt - entsprechend variabel fällt auch das Gewicht aus. <br>Die Abrechnung erfolgt natürlich grammgenau. Sonderwünsche wie "eher groß" oder "eher klein" bitte im Warenkorb angeben.</p>#}
+                        {#</div>#}
+                    {#</div>#}
+                    <div class="product-detail-tax-container">
+                        {% if context.taxState == "gross" %}
+                            {% set taxText = "general.grossTaxInformation"|trans|sw_sanitize %}
+                        {% else %}
+                            {% set taxText = "general.netTaxInformation"|trans|sw_sanitize %}
+                        {% endif %}
+                        <p class="product-detail-tax">
+                            {% block page_product_detail_tax_link %}
+                                <a class="product-detail-tax-link"
+                                   href="{{ path('frontend.cms.page',{ id: shopware.config.core.basicInformation.shippingPaymentInfoPage }) }}"
+                                   title="{{ taxText }}"
+                                   data-toggle="modal"
+                                   data-url="{{ path('frontend.cms.page',{ id: shopware.config.core.basicInformation.shippingPaymentInfoPage }) }}">
+                                    {{ taxText }}
+                                </a>
+                            {% endblock %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

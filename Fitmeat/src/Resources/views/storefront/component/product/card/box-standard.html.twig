@@ -1,0 +1,158 @@
+{% sw_extends '@Storefront/storefront/component/product/card/box-standard.html.twig' %}
+{% block component_product_box %}
+    {% if product %}
+        {% set name = product.translated.name %}
+        {% set id = product.id %}
+        {% set cover = product.cover.media %}
+
+        <div class="card product-box box-{{ layout }}">
+            {% block component_product_box_content %}
+                <div class="card-body">
+                    {% block component_product_box_badges %}
+                        {% sw_include '@Storefront/storefront/component/product/card/badges.html.twig' %}
+                    {% endblock %}
+
+                    {% block component_product_box_rich_snippets %}
+                        {% sw_include '@Storefront/storefront/component/product/card/meta.html.twig' %}
+                    {% endblock %}
+
+                    {% block component_product_box_image %}
+                        <div class="product-image-wrapper">
+                            <div class="product-badges">
+                                {% block component_product_badges_discount %}
+                                    {% if product.customFields.custom_badge_black %}
+                                        <div class="badge badge-black">
+                                            <span>{{ 'product.black'|trans }}</span>
+                                        </div>
+                                    {% endif %}
+                                    {% if product.stock > 0 and product.stock < 10 %}
+                                        <div class="badge badge-only">
+                                            <span style="font-size: 12px;">{{ 'product.limit'|trans }} {{ product.stock }} STK.</span>
+                                        </div>
+                                    {% endif %}
+                                    {% if product.extensions.BstSoldOutBadge6.isSoldOut %}
+                                        {%  set config = page.header.extensions.BstSoldOutBadge6.config %}
+                                        <div>
+                                            <div class="badge badge-danger badge-soldOut" style="color:{{ config.textColor }};background-color:{{ config.backgroundColor }};">
+                                                <span style="font-size: 12px;">{{ config.infoText }}</span>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+
+                                    {% set listPrice = product.priceRange or product.calculatedPrices.count > 0 ? null : product.calculatedPrice.listPrice.percentage > 0 %}
+
+                                    {% if listPrice %}
+                                        <div class="badge badge-danger badge-discount">
+                                            <span>{{ 'product.sold'|trans }}</span>
+                                        </div>
+                                    {% endif %}
+                                {% endblock %}
+
+                                {% block component_product_badges_topseller %}
+                                    {% if product.markAsTopseller %}
+                                        <div>
+                                            <span class="badge badge-warning badge-topseller">{{ "listing.boxLabelTopseller"|trans|sw_sanitize }}</span>
+                                        </div>
+                                    {% endif %}
+                                {% endblock %}
+
+                                {% block component_product_badges_new %}
+                                    {% if product.isNew %}
+                                        <div>
+                                            <span class="badge badge-success badge-new">{{ "listing.boxLabelNew"|trans|sw_sanitize }}</span>
+                                        </div>
+                                    {% endif %}
+                                {% endblock %}
+                            </div>
+                            {# fallback if display mode is not set #}
+                            {% set displayMode = displayMode ?: 'standard' %}
+
+                            {# set display mode 'cover' for box-image with standard display mode #}
+                            {% if layout == 'image' and displayMode == 'standard' %}
+                                {% set displayMode = 'cover' %}
+                            {% endif %}
+
+                            <a href="{{ seoUrl('frontend.detail.page', {'productId': id}) }}"
+                               title="{{ name }}"
+                               class="product-image-link is-{{ displayMode }}">
+                                {% if cover.url %}
+                                    {% set attributes = {
+                                        'class': 'product-image is-'~displayMode,
+                                        'alt': (cover.translated.alt ?: name),
+                                        'title': (cover.translated.title ?: name)
+                                    } %}
+
+                                    {% if displayMode == 'cover' or displayMode == 'contain' %}
+                                        {% set attributes = attributes|merge({ 'data-object-fit': displayMode }) %}
+                                    {% endif %}
+
+                                    {% sw_thumbnails 'product-image-thumbnails' with {
+                                        media: cover,
+                                        sizes: {
+                                            'xs': '501px',
+                                            'sm': '315px',
+                                            'md': '427px',
+                                            'lg': '333px',
+                                            'xl': '284px'
+                                        }
+                                    } %}
+                                {% else %}
+                                    <div class="product-image-placeholder">
+                                        {% sw_icon 'placeholder' style {
+                                            'size': 'fluid'
+                                        } %}
+                                    </div>
+                                {% endif %}
+                            </a>
+                        </div>
+                    {% endblock %}
+
+                    {% block component_product_box_info %}
+                        <div class="product-info">
+                            {% block component_product_box_rating %}
+                                {% if shopware.config.detail.showReviews %}
+                                    <div class="product-rating">
+                                        {% if product.ratingAverage %}
+                                            {% sw_include '@Storefront/storefront/component/review/rating.html.twig' with {
+                                                points: product.ratingAverage,
+                                                style: 'text-primary'
+                                            } %}
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
+                            {% endblock %}
+
+                            {% block component_product_box_name %}
+                                {# Title #}
+                                {{ parent() }}
+                                {# Subtitle #}
+                                <p class="product-subtitle">{{ product.customFields.custom_product_subtitle }}</p>
+                            {% endblock %}
+
+                            {% block component_product_box_description %}
+                            {% endblock %}
+
+                            {% block component_product_box_price %}
+                                {# Price #}
+                                {% sw_include '@Storefront/storefront/component/product/card/price-unit-custom.html.twig' %}
+                                {# Delivery #}
+                                <div class="product-delivery">
+                                    {% sw_include '@Storefront/storefront/component/delivery-information.html.twig' %}
+                                </div>
+
+                                {# Short description #}
+                                <div class="product-description">
+                                    {{ product.customFields.custom_product_short_description|striptags|raw }}
+                                </div>
+                            {% endblock %}
+
+                            {% block component_product_box_action %}
+                                {% sw_include '@Storefront/storefront/component/product/card/action.html.twig' %}
+                            {% endblock %}
+                        </div>
+                    {% endblock %}
+                </div>
+            {% endblock %}
+        </div>
+    {% endif %}
+{% endblock %}

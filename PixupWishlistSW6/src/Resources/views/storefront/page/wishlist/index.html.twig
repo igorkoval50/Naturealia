@@ -1,0 +1,723 @@
+{% sw_extends '@Storefront/storefront/base.html.twig' %}
+{% block base_offcanvas_navigation %}
+    {{ parent() }}
+{% endblock %}
+{% block base_content %}
+    {{ parent() }}
+    <!-- wishlist site scripts -->
+    <script>
+        function printCurrentWishlist(){
+            //get information about wishlist
+            let id = document.getElementById("wishlistPageTitle").dataset.wishlistId;
+            url = "{{ url("frontend.pixup.wishlist.ajax.get_wishlists", {
+                'productId':'null',
+                'wishlistId':'--wishlistId--',
+                'returnProducts': 'true'
+            }) }}";
+            url = url.replace(/--wishlistId--/,escape(id));
+            pixupWishlist_ajaxCore(url,function(xhttp){
+                data = JSON.parse(xhttp.responseText);
+                if(data.error.success !== true){
+                    displayMessage(data.error.codes[0].label,false,);
+                    return false;
+                }
+                data = data.data.wishlists[0];
+                let wishlistId = data.id;
+                let isOwnWishlist = data.isOwnWishlist;
+                let wishlistName = data.name;
+                let wishlistPrivate = data.private;
+                let wishlistBirthday = data.birthday;
+                let wishlistEditable = data.editable;
+                let wishlistExternal = data.external;
+                let wishlistSubscribed = data.subscribed;
+                var products = [];
+                for(k in data.products){
+                    product = data.products[k];
+                    if(typeof product.price !== 'undefined' && product.price !== null){
+                        var price = product.price.gross.toFixed(2);
+                        var currencyId = product.price.currencyId;
+                    }else{
+                        var price = null;
+                        var currencyId = null;
+                    }
+                    productInfo = {
+                        id : product.id,
+                        ean : product.ean,
+                        ordernumber : product.productNumber,
+                        name : product.name,
+                        price : price,
+                        currencyId: currencyId
+                    };
+                    products.push(productInfo);
+                }
+                //display print version
+                d = document;
+                title = d.createElement("div");
+                title.innerHTML = wishlistName;
+
+                table = d.createElement("table");
+                table.style.width="100%";
+                tr = d.createElement("tr");
+                th = d.createElement("th");
+                th.innerHTML = "Article";
+                th.style.width="80%";
+                tr.appendChild(th);
+                th = d.createElement("th");
+                th.innerHTML = "Price";
+                tr.appendChild(th);
+                table.appendChild(tr);
+
+                for(i=0;i<products.length;i++){
+                    tr = d.createElement("tr");
+                    td = d.createElement("td");
+                    td.innerHTML = "<span style=\"font-weight:bold\">"+products[i].name+"</span><br/><span style=\"font-size:0.7em\"> orderNumber: "+products[i].ordernumber+"</span>";
+                    tr.appendChild(td);
+                    td = d.createElement("td");
+                    td.innerHTML = products[i].price;
+                    tr.appendChild(td);
+                    table.appendChild(tr);
+                    tr = d.createElement("tr");
+                    td = d.createElement("td");
+                    td2 = d.createElement("td");
+                    td.innerHTML = "<hr/>";
+                    td2.innerHTML = "<hr/>";
+                    tr.appendChild(td);
+                    tr.appendChild(td2);
+                    table.appendChild(tr);
+
+                }
+
+                wrapper = d.createElement("div");
+                wrapper.appendChild(table);
+
+                var WinPrint = window.open('', '', 'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0');
+                WinPrint.document.write(wrapper.innerHTML);
+                WinPrint.document.close();
+                WinPrint.focus();
+                WinPrint.print();
+                //WinPrint.close();
+            },[]);
+        }
+
+        function displayMessage(text,success,disapear=4000){
+            let messageBody = document.getElementById("messageContainer");
+
+            //create new msg
+            let div = document.createElement("div");
+            div.innerHTML = text;
+            div.classList = "pixupWishlistErrorMsg";
+            div.addEventListener("click",function (){
+                this.parentNode.removeChild(this);
+            });
+            div.style.backgroundColor = (success === true)?"#1b9448":"#8e0107";
+            disapear = (typeof disapear == "number")?disapear:4000;
+            messageBody.appendChild(div);
+            setTimeout(function(){
+                messageBody.removeChild(div)
+            },disapear);
+        }
+
+        function pixupWishlist_ajaxCore(url,callback,options=null){
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    if(options !== null) {
+                        callback(this, ...options);
+                    }else
+                        callback(this);
+                }
+            };
+            xhttp.open("GET", url, true);
+            xhttp.send();
+        }
+
+        function pixupWishlist_removeFromWishlistInit(url,productId,removeElementId,wishlistId){
+            pixupWishlist_ajaxCore(url,function(xhttp,url,productId,removeElementId,wishlistId){
+                data = JSON.parse(xhttp.responseText);
+                if(data.data.success) {
+                    element = document.getElementById(removeElementId);
+                    element.parentNode.removeChild(element);
+                    substrectOneFromWLHeader(); {# inside layout/header/header.html.twig #}
+                    //substrect one from side menu
+                    element = document.getElementById("menu"+wishlistId+"-count");
+                    element.innerHTML = (parseInt(element.innerHTML,0)-1).toString();
+                }else{
+                    if(data.error.codes[0].code !== 0){
+                        displayMessage(data.error.codes[0].label,false,4000);
+                    }
+                }
+            },[url,productId,removeElementId,wishlistId]);
+        }
+
+        function pixupWishlist_createWishlistInit(url){
+            name = document.getElementById("wishlistName").value;
+            if(!document.getElementById("wishlistName").value) {
+                document.getElementById("wishlistName").style.border = "1px solid red";
+                return;
+            }else
+                document.getElementById("wishlistName").style.border = "1px solid #bcc1c7";
+            products = JSON.stringify({});
+            {% if wishlistCanBePublic %}
+                privateState = document.getElementById("wishlistPrivate").checked;
+                editable = document.getElementById("wishlistEditable").checked;
+                {% if wishlistBirthday %}
+                birthday = document.getElementById('wishlistBirthday').checked;
+                {% else %}
+                 birthday = false;
+                {% endif %}
+                password = document.getElementById("wishlistPassword").value;
+                password = (password == "")?null:password;
+            {% else %}
+                privateState = true;
+                editable = false;
+                password = null;
+                birthday = false;
+            {% endif %}
+            wishlistId = null;
+
+            url = url.replace(/--name--/, escape(name)).replace(/--products--/,escape(products))
+                .replace(/--private--/,privateState).replace(/--editable--/,editable).replace(/--birthday--/,birthday)
+                .replace(/--password--/,escape(password)).replace(/--wishlistId--/,wishlistId);
+
+
+            pixupWishlist_ajaxCore(url,function(xhttp,name,editable,privateState,birthday){
+                data = JSON.parse(xhttp.responseText);
+                if(data.data.success === false){
+                    displayMessage(data.error.codes[0].label,false,6000);
+                }else{
+                    $('#pixupWishlist_createWishlistModal').modal("hide");
+                    {% if wishlistCanBePublic %}
+                    document.getElementById("wishlistPassword").value = "";
+                    {% endif %}
+                    document.getElementById("wishlistName").value = "";
+                    //init menu entry
+                    pixupWIshlist_createMenuEntry(data.data.wishlistId,name,privateState,editable,birthday);
+                    pixupWishlist_switchWishlist(data.data.wishlistId)
+                }
+            },[name,editable,privateState,birthday])
+        }
+        function pixupWIshlist_createMenuEntry(wishlistId,name,privateState,editable,birthday){
+            var div = document.createElement("div");
+            div.id = "menu"+wishlistId;
+            div.classList = "pixupWishlistMenuEntry";
+            div.dataset.wishlistId = wishlistId;
+            div.dataset.wishlistLabel = name;
+            div.setAttribute('onclick','pixupWishlist_switchWishlist(this.dataset.wishlistId)');
+            div.innerHTML += "<span><span id=\"menu"+wishlistId+"-name\">"+name+"</span> (<span id=\"menu"+wishlistId+"-count\">0</span>)</span>";
+            div.innerHTML += pixup_createBatchDivs(privateState,editable,birthday);
+            document.getElementById("pixupWishlistMenu").insertBefore(div,document.getElementById("pixupWishlistMenu").firstChild);
+        }
+        function pixupWishlist_removeWishlistModal(name){
+            title = document.getElementById("delete_wishlist_title");
+            title.innerHTML = title.innerHTML.replace(/--namePlaceHolder--/,name);
+            $('#pixupWishlist_deleteWishlistModal').modal();
+        }
+        function pixupWishlist_removeWishlistInit(url,wishListId){
+            url = url.replace(/--wishlistId--/,wishListId);
+            pixupWishlist_ajaxCore(url,function(xhttp,url,wishlistId){
+                data = JSON.parse(xhttp.responseText);
+                $('#pixupWishlist_deleteWishlistModal').modal("hide");
+                if(data.data.success === true) {
+                    wishlistContent = document.getElementById(wishlistId);
+                    wishlistMenu = document.getElementById("menu"+wishlistId);
+                    wishlistContent.parentNode.removeChild(wishlistContent);
+                    wishlistMenu.parentNode.removeChild(wishlistMenu);
+
+                    //history.pushState({page: 1}, "wishlist", "/wishlist/");
+                    window.history.pushState({}, null, window.location.toString().replace(/\/pixup\/wishlist(\/.*)?/gi, '/pixup/wishlist/'))
+
+                    id = document.getElementById("pixupWishlistMenu").children[0].id.replace(/menu/,"");
+                    if(id === ""){
+                        //no wishlist in list remove all old variables
+                        title = document.getElementById("wishlistPageTitle");
+                        title.innerHTML = "";
+                        title.dataset.wishlistId = "";
+                        return;
+                    }
+
+                    pixupWishlist_switchWishlist(document.getElementById("pixupWishlistMenu").children[0].id.replace(/menu/,""));
+                }else if(data.data.success === false){
+                    displayMessage(data.error.codes[0].label,false);
+                }
+            },[url,wishListId]);
+        }
+
+        function pixupWishlist_switchWishlist(newWishlistId){
+            /**
+             * TODO add ajax method to load product container
+             */
+            window.history.pushState({}, null, window.location.toString().replace(/\/pixup\/wishlist(\/.*)?/gi, '/pixup/wishlist/'+newWishlistId))
+            url = "{{ url('frontend.pixup.wishlist.ajax.get_wishlists', {'wishlistId': "--wishlistId--", 'returnView':'true'})  }}";
+            url = url.replace(/--wishlistId--/,escape(newWishlistId));
+            addLoadingCircle(document.getElementById("pixupWishlistContent"));
+            pixupWishlist_ajaxCore(url,function(xhttp){
+                data = JSON.parse(xhttp.responseText).data;
+                document.getElementById("pixupWishlistContent").innerHTML = data.view;
+                document.getElementById('wishlist_header_actions').style.display = "block";
+                titleBox = document.getElementById("wishlistPageTitle");
+                //titleBox.innerHTML = data.wishlists[0].name;
+                //titleBox.innerHTML += pixup_createBatchDivs(data.wishlists[0].private,data.wishlists[0].editable,data.wishlists[0].birthday,data.wishlists[0].subscribed);
+                titleBox.dataset.wishlistId = data.wishlists[0].id;
+                //adjust menu
+                menuItems = document.getElementById("pixupWishlistMenu").children;
+                for(i=0;i<menuItems.length;i++){
+                    if(menuItems[i].id === "menu"+data.wishlists[0].id)
+                        menuItems[i].classList += " pixupWishlistMenuEntryActive";
+                    else
+                        menuItems[i].classList.remove("pixupWishlistMenuEntryActive");
+                }
+                //reload the plugins so the add to cart btn works and events are registerd by shopware
+                PluginManager.initializePlugins();
+            });
+        }
+
+        function pixupWishlist_editWishlistTrigger(wishListId){
+            //opens the modal box and sets the correct data
+            modal = document.getElementById("pixupWishlist_editWishlistModal");
+            modal.dataset.wishlistId = wishListId;
+
+            nameField = document.getElementById("wishlist_edit_Name");
+            {% if wishlistCanBePublic %}
+            privateField = document.getElementById("wishlist_edit_Public");
+            {% if wishlistBirthday %}
+                birthday = document.getElementById("wishlist_edit_Birthday");
+            {% endif %}
+            editableField = document.getElementById("wishlist_edit_Editable");
+            passwordField = document.getElementById("wishlist_edit_Password");
+            {% endif %}
+
+            //get information about wishlist
+            url = "{{ url("frontend.pixup.wishlist.ajax.get_wishlists", {
+                'productId':'null',
+                'wishlistId':'--wishlistId--'
+            }) }}";
+            url = url.replace(/--wishlistId--/,wishListId);
+            pixupWishlist_ajaxCore(url,function(xhttp){
+                data = JSON.parse(xhttp.responseText).data;
+                nameField.value = data.wishlists[0].name;
+                {% if wishlistCanBePublic %}
+                privateField.checked = data.wishlists[0].private;
+                    {% if wishlistBirthday %}
+                        birthday.checked = data.wishlists[0].birthday;
+                    {% endif %}
+                editableField.checked = data.wishlists[0].editable;
+                passwordField.value = data.wishlists[0].password;
+                {% endif %}
+
+                modalTitle = document.getElementById("pixupWishlist_edit_title");
+                modalTitle.innerHTML = modalTitle.innerHTML.replace(/--namePlaceHolder--/,data.wishlists[0].name);
+            });
+            $('#pixupWishlist_editWishlistModal').modal()
+
+        }
+
+        function pixupWishlist_editeWishlistInit(url){
+            modal = document.getElementById("pixupWishlist_editWishlistModal");
+            wishlistID = modal.dataset.wishlistId;
+            nameField = document.getElementById("wishlist_edit_Name").value;
+            {% if wishlistCanBePublic %}
+            privateField = document.getElementById("wishlist_edit_Public").checked;
+            editableField = document.getElementById("wishlist_edit_Editable").checked;
+                {% if wishlistBirthday %}
+                birthdayField = document.getElementById("wishlist_edit_Birthday").checked;
+                {% else %}
+                birthdayField = "";
+                {% endif %}
+            passwordField = document.getElementById("wishlist_edit_Password").value;
+            {% else %}
+            privateField = "";
+            editableField = "";
+            passwordField = "";
+            birthdayField = "";
+            {% endif %}
+            url = url.replace(/--name--/,escape(nameField)).replace(/--private--/,privateField).replace(/--birthday--/,birthdayField)
+                .replace(/--editable--/,editableField).replace(/--password--/,escape(passwordField)).replace(/--wishlistId--/,wishlistID);
+
+            pixupWishlist_ajaxCore(url,function(xhttp,wishlistID,name,editableField,privateField,birthdayField){
+                data = JSON.parse(xhttp.responseText);
+                if(data.data.success === false){
+                    displayMessage(data.error.codes[0].label,false);
+                }else{
+                    $('#pixupWishlist_editWishlistModal').modal("hide");
+
+                    menuItem = document.getElementById('menu'+wishlistID);
+                    menuItem.dataset.wishlistId = wishlistID;
+                    menuItem.dataset.wishlistLabel = name;
+                    menuItem.innerHTML = "<span><span id=\"menu"+wishlistID+"-name\">"+name+"</span> (<span id=\"menu"+wishlistID+"-count\">"+document.getElementById("menu"+wishlistID+"-count").innerHTML+"</span>)</span>"
+                    menuItem.innerHTML += pixup_createBatchDivs(privateField,editableField,birthdayField);
+
+                    title = document.getElementById("wishlistPageTitle");
+                    //title.innerHTML = name + pixup_createBatchDivs(privateField,editableField,birthdayField);
+                }
+            },[wishlistID,nameField,editableField,privateField,birthdayField])
+
+        }
+
+        function pixup_createBatchDivs(publicState,editable,birthday,subscribed = false){
+            html = "<span>";
+            if(publicState === false)
+            html += `<span data-toggle="tooltip" data-placement="top" title="{{ "pixup-wishlist.wishlist-page.wishlist.batch.public"|trans }}">{% sw_icon "lock-open" style {"class":" pxModeIcon","size":"xs"} %}</span>`;
+            if(editable === true)
+            html += `<span data-toggle="tooltip" data-placement="top" title="{{ "pixup-wishlist.wishlist-page.wishlist.batch.editable"|trans }}">{% sw_icon "paper-pencil" style {"class":" pxModeIcon","size":"xs"} %}</span>`;
+            if(birthday === true)
+            html += `<span data-toggle="tooltip" data-placement="top" title="{{ "pixup-wishlist.wishlist-page.wishlist.batch.birthday"|trans }}">{% sw_icon "package-gift" style {"class":" pxModeIcon","size":"xs"} %}</span>`;
+            if(subscribed === true)
+            html += `<span data-toggle="tooltip" data-placement="top" title="{{ "pixup-wishlist.wishlist-page.wishlist.batch.subscribed"|trans }}">{% sw_icon "avatar" style {"class":" pxModeIcon","size":"xs"} %}</span>`;
+            html +="</span>";
+            return html;
+        }
+        {% if wishlistCanBePublic %}
+        function pixupWishlist_shareWishlist(wishlistId){
+            url = "{{ url("frontend.pixup.wishlist.ajax.get_wishlists", {
+                'productId':'null',
+                'wishlistId':'--wishlistId--'
+            }) }}";
+            url = url.replace(/--wishlistId--/,wishlistId);
+            pixupWishlist_ajaxCore(url,function(xhttp){
+                data = JSON.parse(xhttp.responseText).data;
+                WishlistIsPrivate = data.wishlists[0].private;
+                body = document.getElementById("pixupWishlist_shareWishlist_body");
+                btn = document.getElementById("pixupWishlist_share_btn");
+                title = document.getElementById("share_wishlist_title");
+                title.innerHTML = title.innerHTML.replace(/--namePlaceHolder--/,data.wishlists[0].name)
+                if(WishlistIsPrivate) {
+                    body.value = "{{ "pixup-wishlist.wishlist-page.shareWishlist.privateError"|trans }}";
+                    body.style.backgroundColor = "darkred";
+                    body.style.color = "white";
+                    btn.style.display = "none";
+                }else{
+                    body = document.getElementById("pixupWishlist_shareWishlist_body");
+                    loc = window.location;
+                    body.value = (loc.href.includes(data.wishlists[0].id))?window.location.href:
+                        loc.protocol+"//"+loc.host+"/"+"pixup/wishlist/"+data.wishlists[0].id;
+                    body.style.backgroundColor = "";
+                    body.style.color = "";
+                    btn.style.display = "block"
+                }
+                $('#pixupWishlist_shareWishlistModal').modal();
+            });
+        }
+        function pixupWishlist_copyWishlistLink(){
+            var copyText = document.getElementById("pixupWishlist_shareWishlist_body");
+            copyText.select();
+            copyText.setSelectionRange(0, 99999);
+            document.execCommand('copy');
+        }
+        {% endif %}
+    </script>
+    <!-- Modal -->
+    <!--Create-->
+    <div class="modal fade" id="pixupWishlist_createWishlistModal" tabindex="-1" role="dialog" aria-labelledby="{{  "pixup-wishlist.wishlist-page.createModal.title"|trans }}" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="pixupWishlist_title">{{  "pixup-wishlist.wishlist-page.createModal.title"|trans }}</h5>
+                    <br>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="pixupWishlist_chooseWishlistModal_body">
+                        <div class="form-group row">
+                            <label for="wishlistName" class="col-sm-2 col-form-label">{{  "pixup-wishlist.wishlist-page.createModal.form.name"|trans }}</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" id="wishlistName" placeholder="{{  "pixup-wishlist.wishlist-page.createModal.form.placeholder.name"|trans }}">
+                            </div>
+                        </div>
+                        {% if wishlistCanBePublic %}
+                        <div class="form-group row">
+                            <label for="wishlistPassword" class="col-sm-2 col-form-label">{{  "pixup-wishlist.wishlist-page.createModal.form.password"|trans }}</label>
+                            <div class="col-sm-10">
+                                <input type="password" class="form-control" id="wishlistPassword" placeholder="{{  "pixup-wishlist.wishlist-page.createModal.form.placeholder.password"|trans }}">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="custom-control custom-checkbox" style="margin-left:1.5em;" data-toggle="tooltip" data-placement="bottom"
+                                 title="{{  "pixup-wishlist.wishlist-page.createModal.form.privateDescription"|trans }}">
+                                <input type="checkbox" class="custom-control-input" name="wishlistPrivate" id="wishlistPrivate" checked>
+                                <label for="wishlistPrivate" class="custom-control-label">{{  "pixup-wishlist.wishlist-page.createModal.form.private"|trans }}</label>
+                                {% sw_icon "lock-open" style {"class":" pxModeIcon","size":"xs"} %}
+                            </div>
+                            <div class="custom-control custom-checkbox" style="margin-left:1.5em;" data-toggle="tooltip" data-placement="bottom"
+                                 title="{{  "pixup-wishlist.wishlist-page.createModal.form.editableDescription"|trans }}">
+                                <input type="checkbox" class="custom-control-input" id="wishlistEditable">
+                                <label for="wishlistEditable" class="custom-control-label">{{  "pixup-wishlist.wishlist-page.createModal.form.editable"|trans }}</label>
+                                {% sw_icon "paper-pencil" style {"class":" pxModeIcon","size":"xs"} %}
+                            </div>
+                            {% if wishlistBirthday %}
+                            <div class="custom-control custom-checkbox" style="margin-left:1.5em;" data-toggle="tooltip" data-placement="bottom"
+                                 title="{{  "pixup-wishlist.wishlist-page.createModal.form.birthdayDescription"|trans }}">
+                                <input type="checkbox" class="custom-control-input" id="wishlistBirthday">
+                                <label for="wishlistBirthday" class="custom-control-label">{{  "pixup-wishlist.wishlist-page.createModal.form.birthday"|trans }}</label>
+                                {% sw_icon "package-gift" style {"class":" pxModeIcon","size":"xs"} %}
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{  "pixup-wishlist.wishlist-page.createModal.close"|trans }}</button>
+                    <button onclick="pixupWishlist_createWishlistInit(
+                        '{{ url("frontend.pixup.wishlist.ajax.create_wishlist", {
+                        'name': "--name--",
+                        'products':'--products--',
+                        'private':'--private--',
+                        'editable':'--editable--',
+                        'birthday':'--birthday--',
+                        'password':'--password--',
+                        'wishListId':'--wishlistId--'
+                    })  }}',
+                        )" type="button" class="btn btn-primary">{{  "pixup-wishlist.wishlist-page.createModal.save"|trans }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--edit-->
+    <div class="modal fade" id="pixupWishlist_editWishlistModal" data-wishlist-id="" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="pixupWishlist_edit_title">{{  "pixup-wishlist.wishlist-page.editWishlist.title"|trans({"%name%":"--namePlaceHolder--"}) }}</h5>
+                    <br>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="pixupWishlist_edit_chooseWishlistModal_body_select">
+                        <div class="form-group row">
+                            <label for="wishlist_edit_Name" class="col-sm-2 col-form-label">{{  "pixup-wishlist.wishlist-page.editWishlist.form.name"|trans }}</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" id="wishlist_edit_Name" placeholder="{{  "pixup-wishlist.wishlist-page.editWishlist.form.placeholder.name"|trans }}">
+                            </div>
+                        </div>
+                        {% if wishlistCanBePublic %}
+                        <div class="form-group row">
+                            <label for="wishlist_edit_Password" class="col-sm-2 col-form-label">{{  "pixup-wishlist.wishlist-page.editWishlist.form.password"|trans }}</label>
+                            <div class="col-sm-10">
+                                <input type="password" class="form-control" id="wishlist_edit_Password" placeholder="{{  "pixup-wishlist.wishlist-page.editWishlist.form.placeholder.password"|trans }}">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="custom-control custom-checkbox" style="margin-left:1.5em;" data-toggle="tooltip" data-placement="bottom"
+                                 title="{{  "pixup-wishlist.wishlist-page.editWishlist.form.privateDescription"|trans }}">
+                                <input type="checkbox" class="custom-control-input" name="wishlistPrivate" id="wishlist_edit_Public" checked>
+                                <label for="wishlist_edit_Public" class="custom-control-label">{{  "pixup-wishlist.wishlist-page.editWishlist.form.private"|trans }}</label>
+                                {% sw_icon "lock-open" style {"class":" pxModeIcon","size":"xs"} %}
+                            </div>
+
+                            <div class="custom-control custom-checkbox" style="margin-left:1.5em;" data-toggle="tooltip" data-placement="bottom"
+                                 title="{{  "pixup-wishlist.wishlist-page.editWishlist.form.editableDescription"|trans }}">
+                                <input type="checkbox" class="custom-control-input" id="wishlist_edit_Editable">
+                                <label for="wishlist_edit_Editable" class="custom-control-label">{{  "pixup-wishlist.wishlist-page.editWishlist.form.editable"|trans }}</label>
+                                {% sw_icon "paper-pencil" style {"class":" pxModeIcon","size":"xs"} %}
+                            </div>
+                            {% if wishlistBirthday %}
+                            <div class="custom-control custom-checkbox" style="margin-left:1.5em;" data-toggle="tooltip" data-placement="bottom"
+                                 title="{{  "pixup-wishlist.wishlist-page.editWishlist.form.birthdayDescription"|trans }}">
+                                <input type="checkbox" class="custom-control-input" id="wishlist_edit_Birthday">
+                                <label for="wishlist_edit_Birthday" class="custom-control-label">{{  "pixup-wishlist.wishlist-page.editWishlist.form.birthday"|trans }}</label>
+                                {% sw_icon "package-gift" style {"class":" pxModeIcon","size":"xs"} %}
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{  "pixup-wishlist.wishlist-page.editWishlist.close"|trans }}</button>
+                    <button onclick="pixupWishlist_editeWishlistInit(
+                        '{{ url("frontend.pixup.wishlist.ajax.edit_wishlist", {
+                        'name': "--name--",
+                        'wishListId':'--wishlistId--',
+                        'private':'--private--',
+                        'editable':'--editable--',
+                        'birthday':'--birthday--',
+                        'password':'--password--'
+                    })  }}',
+                        )" type="button" class="btn btn-primary">{{  "pixup-wishlist.wishlist-page.editWishlist.save"|trans }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if wishlistCanBePublic %}
+    <!--share wishlist-->
+    <div class="modal fade" id="pixupWishlist_shareWishlistModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="share_wishlist_title">{{  "pixup-wishlist.wishlist-page.shareWishlist.title"|trans({"%name%":"--namePlaceHolder--"}) }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-title">{{  "pixup-wishlist.wishlist-page.shareWishlist.description"|trans }}</div>
+
+                    <input class="form-control" type="text" id="pixupWishlist_shareWishlist_body" readonly>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{  "pixup-wishlist.wishlist-page.shareWishlist.close"|trans }}</button>
+                    <button id="pixupWishlist_share_btn" type="button" class="btn btn-primary"
+                    onclick="pixupWishlist_copyWishlistLink()">{{  "pixup-wishlist.wishlist-page.shareWishlist.copy"|trans }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    <!--delete wishlist-->
+    <div class="modal fade" id="pixupWishlist_deleteWishlistModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="delete_wishlist_title">{{  "pixup-wishlist.wishlist-page.deleteWishlist.title"|trans({"%name%":"--namePlaceHolder--"}) }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-title">{{  "pixup-wishlist.wishlist-page.deleteWishlist.description"|trans }}</div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{  "pixup-wishlist.wishlist-page.deleteWishlist.close"|trans }}</button>
+                    <button id="pixupWishlist_delete_btn" type="button" class="btn btn-primary"
+                            onclick="pixupWishlist_removeWishlistInit(
+                                '{{ url('frontend.pixup.wishlist.ajax.delete_wishlist', {'wishlistId': "--wishlistId--"})  }}',
+                                document.getElementById('wishlistPageTitle').dataset.wishlistId
+                                )">
+                        {{  "pixup-wishlist.wishlist-page.deleteWishlist.delete"|trans }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="pixupWishlistWrapp">
+        <div class="pixupWishlistHeader">
+            {% set selectedWishlist = {} %}
+            {% if wishlistId is not empty %}
+                {% for wishlist in wishlists %}
+                    {% if wishlist.id == wishlistId %}
+                        {% set selectedWishlist = wishlist %}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+            {% if selectedWishlist is empty %}
+                {% set selectedWishlist = wishlists[0] %}
+            {% endif %}
+            <script>
+                window.history.pushState({page: 1}, "wishlist", window.location.toString().replace(/\/pixup\/wishlist(\/.*)?/gi, '/pixup/wishlist/'+"{{selectedWishlist.id is not empty ? selectedWishlist.id : wishlists[0].id}}"));
+            </script>
+            <h1 class="wishListTitle text-primary" id="wishlistPageTitle"
+                  data-wishlist-id="{{selectedWishlist.id}}"
+            >
+                {#
+                {% if publicWishlist is empty %}
+                    {{selectedWishlist.name}}
+                {% else %}
+                    {{ publicWishlist[0].name }} - <span style="color:red;font-size:0.7em;">{{ "pixup-wishlist.wishlist-page.header.external"|trans }}</span>
+                {% endif %}
+                #}
+                {% sw_icon 'px-heart' style{"pack":"pixup","class":" PixupWishlistPageHeartIcon pxOutlinePrimarFat"} %} {{ "pixup-wishlist.wishlist-page.title"|trans }}
+            </h1>
+        </div>
+        <div role="alert"
+             id="messageContainer"
+             class="pixupWishlistErrorContainer"
+        >
+        </div>
+        {% if subscribedToWishlist == true %}
+            {# message to display if user subscribed to new wishlist #}
+            <script>
+                displayMessage("{{ "pixup-wishlist.wishlist-page.success.subscribed"|trans }}",true,6000);
+            </script>
+        {% endif %}
+        {% if message %}
+            {% if message == 8 %}
+                <script>
+                    displayMessage("{{ "pixup-wishlist.wishlist-page.errorCodes.8"|trans }}",false,4000);
+                </script>
+            {% endif %}
+        {% endif %}
+        <div class="pixupWishlistContainer">
+            <input type="checkbox" id="pixupWishlistMobileMenuBtn" style="display:none;" checked>
+            <label for="pixupWishlistMobileMenuBtn" class="pixupWishlistMobileMenuBtn">
+                {{ "pixup-wishlist.actions.name"|trans }}
+                <span class="pixupWishlistMobileMenuBtnIcon">
+                    {% sw_icon 'arrow-head-down' style {"class":" pixupWishlistMobileMenuBtnIconColor" } %}
+                </span>
+            </label>
+            <div class="pixupWishlistMenu" id="pixupWishlistMenu">
+
+                {% for wishlist in wishlists %}
+                    <div id="menu{{ wishlist.id }}" class="pixupWishlistMenuEntry {{ selectedWishlist.id == wishlist.id?"pixupWishlistMenuEntryActive":"" }}" data-wishlist-id="{{ wishlist.id }}" data-wishlist-label="{{ wishlist.name }}"
+                    onclick="pixupWishlist_switchWishlist(this.dataset.wishlistId)">
+                        <span><span id="menu{{ wishlist.id }}-name">{{ wishlist.name }}</span> (<span id="menu{{ wishlist.id }}-count">{{ wishlist.products|length }}</span>)</span>
+                    </div>
+                    <script>
+                        document.getElementById("menu{{ wishlist.id }}").innerHTML += pixup_createBatchDivs({{wishlist.private?'true':'false' }},{{wishlist.editable?'true':'false' }},{{wishlist.birthday?'true':'false' }},{{wishlist.subscribed?'true':'false' }});
+                    </script>
+                {% endfor %}
+                    <div class="pixupWishlistMenuEntry" onclick="$('#pixupWishlist_createWishlistModal').modal()">
+                        <span>
+                            + {{ "pixup-wishlist.wishlist-page.header.addWishlist"|trans }}
+                        </span>
+                    </div>
+            </div>
+            <div class="wishlistContentWrapper">
+            <div id="wishlist_header_actions" style="{% if publicWishlist is not empty %}display:none{% endif %}" class="pxWishlistIconSettings">
+                {% if wishlistCanBePublic %}
+                    <span class="btn pxWishlistPageHeaderIcons"
+                          onclick="pixupWishlist_shareWishlist(
+                          document.getElementById('wishlistPageTitle').dataset.wishlistId
+                          )"
+                          title="{{ "pixup-wishlist.wishlist-page.header.shareWishlist"|trans }}">
+                    {% sw_icon 'share' style {"class":" pxHeaderIcon"} %}
+                    <span class="btn-description">{{ "pixup-wishlist.wishlist-page.header.shareWishlist"|trans }}</span>
+                    </span>
+                {% endif %}
+                <span class="btn pxWishlistPageHeaderIcons"
+                      onclick="pixupWishlist_editWishlistTrigger(
+                          document.getElementById('wishlistPageTitle').dataset.wishlistId
+                        )"
+                      title="{{ "pixup-wishlist.wishlist-page.header.editWishlist"|trans }}">
+                    {% sw_icon 'settings' style {"class":" pxHeaderIcon"} %}
+                    <span class="btn-description">{{ "pixup-wishlist.wishlist-page.header.editWishlist"|trans }}</span>
+                </span>
+                {% if wishlistCanBePrinted %}
+                    <span class="btn pxWishlistPageHeaderIcons"
+                          onclick="printCurrentWishlist(
+                          document.getElementById('wishlistPageTitle').dataset.wishlistId
+                        )"
+                          title="{{ "pixup-wishlist.wishlist-page.header.printWishlist"|trans }}">
+                    {% sw_icon 'printer' style {"class":" pxHeaderIcon"} %}
+                    <span class="btn-description">{{ "pixup-wishlist.wishlist-page.header.printWishlist"|trans }}</span>
+                </span>
+                {% endif %}
+                <span class="btn pxWishlistPageHeaderIcons"
+                      onclick="pixupWishlist_removeWishlistModal(document.getElementById('menu'+document.getElementById('wishlistPageTitle').dataset.wishlistId+'-name').innerHTML)"
+                      title="{{ "pixup-wishlist.wishlist-page.header.removeWishlist"|trans }}">
+                    {% sw_icon 'trash' style {"class":" pxHeaderIcon"} %}
+                    <span class="btn-description">{{ "pixup-wishlist.wishlist-page.header.removeWishlist"|trans }}</span>
+                </span>
+            </div>
+            <div class="pixupWishlistContent" id="pixupWishlistContent">
+                {% for wishlist in wishlists%}
+                    {% if (selectedWishlist.id is not empty ? selectedWishlist.id : wishlists[0].id) == wishlist.id %}
+                        {% set wishlists = [wishlist] %}
+                    {% endif %}
+                {% endfor %}
+                {% for wishlist in publicWishlist %}
+                    {# if a public wishlist is selected #}
+                    {% set wishlists = [wishlist] %}
+                {% endfor %}
+                {% sw_include '@Storefront/wishlist/box/product-collection-view.html.twig' with {
+                    wishlists: wishlists
+                } only %}
+            </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% sw_extends '@Storefront/storefront/component/product/card/action.html.twig' %}
+
+{% block component_product_box_action_buy %}
+    {# View #}
+    {% if page.cmsPage.type ==  'product_list' and block.cssClass != 'stories-single-products' %}
+        <div class="product-action-view">
+            <a href="{{ seoUrl('frontend.detail.page', {'productId': id}) }}" class="product-view btn-trans">{{ "cartDetail"|trans }}</a>
+        </div>
+    {% endif %}
+
+    {% if page.cmsPage.type == "landingpage" %}
+        <div class="product-action-view">
+            <a href="{{ seoUrl('frontend.detail.page', {'productId': id}) }}" class="product-view btn-trans">{{ "cartDetail"|trans }}</a>
+        </div>
+    {% endif %}
+    {{ parent() }}
+{% endblock %}

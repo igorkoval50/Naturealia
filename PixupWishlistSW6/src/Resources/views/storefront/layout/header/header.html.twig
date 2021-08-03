@@ -1,0 +1,242 @@
+{% sw_extends '@Storefront/storefront/layout/header/header.html.twig' %}
+
+{% block layout_header_actions_cart %}
+    <div class="col-auto">
+        <div class="header-cart">
+            <a class="btn header-cart-btn header-actions-btn PixupWishlistPageIcon"
+               href="{{ path('frontend.pixup.wishlist.overview') }}"
+               title="{{  "pixup-wishlist.actions.name"|trans }}">
+                <div class="PixupWishlistProductCount {% if page.header.pixup.wishlistProductCount == 0 %}remove-icon{% endif %}" id="wishlistProductCount">{{ page.header.pixup.wishlistProductCount }}</div>
+                <span class="header-cart-icon">
+                    {% sw_icon 'heart' %}
+                </span>
+                {#{  "pixup-wishlist.actions.name"|trans }#}
+            </a>
+        </div>
+    </div>
+
+
+    {#Content for: add-to-wishlist-button.html.twig #}
+
+    <!-- Modal -->
+
+    <div class="modal fade" id="pixupWishlist_chooseWishlistModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" style="margin-left:0.3em;"><span>{% sw_icon 'px-heart' style{"pack":"pixup","class":"PixupAddToWishlistRemoveIcon pixupBaseIcon pxOutlineWhite"} %} &thinsp;</span><span id="pixupWishlistSelect_title">{{  "pixup-wishlist.product-detail.modal.add.title"|trans }}</span></h5>
+                    <br>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="padding:0">
+                    <div class="modal-title PixupCechBoxGroupTitle" id="pixupWishlist_description">{{  "pixup-wishlist.product-detail.modal.add.description"|trans }}</div>
+
+                    <div id="pixupWishlist_chooseWishlistModal_body_select">
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{  "pixup-wishlist.product-detail.modal.close"|trans }}</button>
+                    <button id="pixupWishlist_save" type="button" class="btn btn-primary">{{  "pixup-wishlist.product-detail.modal.add.confirm"|trans }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function substrectOneFromWLHeader(){
+            wishlistCount = document.getElementById("wishlistProductCount");
+            currentCount = wishlistCount.innerHTML;
+            wishlistCount.innerHTML = (parseInt(currentCount,0)-1).toString();
+        }
+        function addOneFromWLHeader(){
+            wishlistCount = document.getElementById("wishlistProductCount");
+            currentCount = wishlistCount.innerHTML;
+            wishlistCount.innerHTML = (parseInt(currentCount,0)+1).toString();
+        }
+        function pixupWishlist_changeProductWishlistStateInit(elem,remove,productID,wishlistId=null,applyStyle=true){
+            if(remove === 'true' || remove === true)
+                baseUrl = "{{ url('frontend.pixup.wishlist.ajax.remove_product', {'productId': '--product-id--','wishlistId': '--wishListId--'})  }}";
+            else
+                baseUrl = "{{ url('frontend.pixup.wishlist.ajax.add_product', {'productId': '--product-id--','wishlistId': '--wishListId--'})  }}";
+            baseUrl = baseUrl.replace(/--product-id--/, productID).replace(/--wishListId--/,wishlistId);
+            pixupWishlist_ajaxCore(baseUrl,pixupWishlist_changeProductWishlistStateHandler,[elem,baseUrl,productID,remove,wishlistId,applyStyle]);
+        }
+        function pixupWishlist_changeProductWishlistStateHandler(xhttp,elem,baseUrl,productID,removeProduct,wishlistId=null,applyStyle=true){
+            removeProductMsg = "{{ "pixup-wishlist.product-detail.deleteProduct"|trans }}";
+            addProductMsg = "{{ "pixup-wishlist.product-detail.addProduct"|trans }}";
+            data = JSON.parse(xhttp.responseText).data;
+            if(data.productOnWishlist === false && data.success) { // product removed
+                substrectOneFromWLHeader();
+                if(applyStyle) {
+                    elem.title = addProductMsg;
+                    elem.children[0].style.display = "inline-block";
+                    elem.children[1].style.display = "none";
+                    elem.dataset.remove = false;
+                }
+            }else if(data.success){ // product added
+                addOneFromWLHeader();
+                if(applyStyle) {
+                    elem.title = removeProductMsg;
+                    elem.children[0].style.display = "none";
+                    elem.children[1].style.display = "inline-block";
+                    elem.dataset.remove = true;
+                }
+            }else if(!data.success && data.wishListIdRequired){ // cant perform action on product because multiple wishlists exsist
+                //get all wishlists
+                url = "{{ url('frontend.pixup.wishlist.ajax.get_wishlists',{'productId': '--product-id--'})  }}";
+                url = url.replace(/--product-id--/, "");
+                pixupWishlist_ajaxCore(url,pixupWishlists_selectWishlist,[elem,productID])
+            }
+        }
+        function pixupWishlists_selectWishlist(xhttp,elem,productID){
+            var safeBtn = document.getElementById('pixupWishlist_save');
+            var description = document.getElementById('pixupWishlist_description');
+            var title = document.getElementById("pixupWishlistSelect_title");
+            var select = document.getElementById("pixupWishlist_chooseWishlistModal_body_select");
+            var data = JSON.parse(xhttp.responseText).data.wishlists;
+            var addDescription = "{{  "pixup-wishlist.product-detail.modal.add.description"|trans }}";
+            var addConfirm = "{{  "pixup-wishlist.product-detail.modal.add.confirm"|trans }}";
+            var addTitle = "{{  "pixup-wishlist.product-detail.modal.add.title"|trans }}";
+            var removeDescription = "{{  "pixup-wishlist.product-detail.modal.remove.description"|trans }}";
+            var removeConfirm = "{{  "pixup-wishlist.product-detail.modal.remove.confirm"|trans }}";
+            var removeTitle = "{{  "pixup-wishlist.product-detail.modal.remove.title"|trans }}";
+
+            //clear old event Listener ( so only one function can listen on it )
+            safeBtnClone = safeBtn.cloneNode(true);
+            //set listener
+            safeBtnClone.addEventListener("click", function(){
+                //get all selected checkboxes and send the value to the changeState function
+                var all_checkboxes = document.querySelectorAll('input[name="pixupWishlistCheckBoxWishlistSelector[]"]');
+                productOnOneWishlist = false;
+                for(var x = 0, l = all_checkboxes.length; x < l;  x++) {
+                    if(all_checkboxes[x].checked === true)
+                        productOnOneWishlist = true;
+                    if(all_checkboxes[x].dataset.isOnWishlist === "true" && all_checkboxes[x].checked === true && all_checkboxes[x].value !== "-1" ||
+                        all_checkboxes[x].dataset.isOnWishlist === "false"  && all_checkboxes[x].checked === false)
+                        continue;
+
+                    pixupWishlist_changeProductWishlistStateInit(
+                        elem,
+                        !all_checkboxes[x].checked,
+                        productID,
+                        all_checkboxes[x].value,
+                        false
+                    );
+                }
+
+                if(productOnOneWishlist === true){
+                    elem.title = removeProductMsg;
+                    elem.children[0].style.display = "none";
+                    elem.children[1].style.display = "inline-block";
+                    elem.dataset.remove = true;
+                }else{
+                    elem.title = addProductMsg;
+                    elem.children[0].style.display = "inline-block";
+                    elem.children[1].style.display = "none";
+                    elem.dataset.remove = false;
+                }
+                $('#pixupWishlist_chooseWishlistModal').modal('hide')
+            });
+            safeBtn = safeBtn.parentNode.replaceChild(safeBtnClone, safeBtn);
+
+            //delete options
+            select.innerHTML = "";
+
+            //set proper messages
+            if(elem.dataset.remove === 'true'){
+                safeBtn.innerHTML = removeConfirm;
+                description.innerHTML = removeDescription;
+                title.innerHTML = removeTitle;
+            }else{
+                safeBtn.innerHTML = addConfirm;
+                description.innerHTML = addDescription;
+                title.innerHTML = addTitle;
+            }
+
+            //create a checkbox for every recieved wishlist ( subscribed wishlists excluded )
+            ownWishlistAdded = false;
+            for(i=0;i<data.length;i++){
+                if(data[i].subscribed === true)
+                    continue;
+
+                ownWishlistAdded = true;
+                select.appendChild(createCheckbox(data[i],productID));
+            }
+            //if no wishlist exsist
+            if(ownWishlistAdded === false){
+                customData = {name:"{{ "pixup-wishlist.product-detail.modal.createNewWishlist"|trans }}",id:-1,products:[-1]};
+                select.appendChild(createCheckbox(customData,-1));
+            }
+
+            //add checkboxes for subcribed wishlists
+            match = 0;
+            for(i=0;i<data.length;i++){
+                if(data[i].subscribed === false)
+                    continue;
+                if(data[i].editable !== true)
+                    continue;
+                match++;
+                if(match === 1) {
+                    var hr = document.createElement("hr");
+                    var div = document.createElement("div");
+                    div.classList = "center PixupCechBoxGroupTitle";
+                    div.innerHTML = "{{ "pixup-wishlist.product-detail.modal.subscribedWishlists"|trans }}";
+                    select.appendChild(hr);
+                    select.appendChild(div);
+                }
+                select.appendChild(createCheckbox(data[i],productID,"PixupCheckBoxRow2"));
+            }
+
+            $('#pixupWishlist_chooseWishlistModal').modal()
+        }
+        function createCheckbox(data,productId,className = ""){
+            var div = document.createElement("div");
+            div.className = "custom-control custom-checkbox PixupCheckBoxRow "+className;
+            var input = document.createElement("input");
+            input.type = "checkbox";
+            input.className = "custom-control-input";
+            input.id = "pixupWishlist"+i;
+            input.name = "pixupWishlistCheckBoxWishlistSelector[]";
+            input.value = data.id;
+            input.dataset.isOnWishlist = false;
+            isOnWishlist = false;
+            products = Object.values(data.products);
+            for(let x = 0; products.length > x;x++){
+                if(products[x] === productId) {
+                    isOnWishlist = true;
+                    break;
+                }
+            }
+            if (isOnWishlist) {
+                input.checked = true;
+                input.dataset.isOnWishlist = true;
+            }
+            var label = document.createElement("label");
+            label.className = "custom-control-label";
+            label.htmlFor ="pixupWishlist"+i;
+            label.innerHTML = data.name;
+
+            div.appendChild(input);
+            div.appendChild(label);
+            return div
+        }
+        function pixupWishlist_ajaxCore(url,callback,options=null){
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    if(options !== null) {
+                        callback(this, ...options);
+                    }else
+                        callback(this);
+                }
+            };
+            xhttp.open("GET", url, true);
+            xhttp.send();
+        }
+    </script>
+    {#end of content for add-to.wishlist.button.html.twig#}
+
+    {{ parent() }}
+{% endblock%}

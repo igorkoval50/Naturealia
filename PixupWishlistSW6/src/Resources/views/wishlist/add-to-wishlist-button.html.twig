@@ -1,0 +1,26 @@
+{% set stateMsg = remove ? "pixup-wishlist.product-detail.deleteProduct"|trans : "pixup-wishlist.product-detail.addProduct"|trans %}
+{% set removeBool = remove?"true":"false" %}
+{% set plp = plp?true:false %}
+<button
+        onclick="pixupWishlist_changeProductWishlistStateInit(
+                this,
+                this.dataset.remove,
+                '{{ productId }}',
+                )"
+        data-remove="{{ remove?"true":"false" }}"
+        name="wishlistModalButton"
+        class="PixupAddToWishlistBtnPDP"
+        style="background-color:transparent;border:0;"
+        title="{{ stateMsg }}">
+
+    <span class="ac-footer add" style="display:{% if removeBool  == "true" %}none{% else %}inline-block{% endif %};">
+  <span class="ac-footer-container ac-footer-brand">
+     <span class="ac-icon ac-icon-love-dark"></span>
+  </span>
+</span>
+    <span class="remove" style="display:{% if removeBool  == "true" %}inline-block{% else %}none{% endif %};">
+        {% sw_icon 'px-heart' style{"pack":"pixup","class":"PixupAddToWishlistRemoveIcon pixupBaseIcon pxOutlineWhite"} %}
+    </span>
+</button>
+
+{# Content and JS FIles needet for this twig can be found in layout/header/header.html.twig #}

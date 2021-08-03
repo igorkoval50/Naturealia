@@ -1,0 +1,146 @@
+{
+    "pixup-wishlist": {
+        "firstWishlist": "Favoriten",
+        "product-detail": {
+            "title": "Wunschliste",
+            "addProduct": "Zur Wunschliste hinzufügen",
+            "deleteProduct": "Von Wunschliste entfernen",
+            "modal": {
+                "add": {
+                    "title": "Produkt zur Wunschliste hinzufügen",
+                    "description": "Wählen Sie Wunschlisten, in welcher Sie das Produkt hinzufügen möchten",
+                    "confirm": "Speichern"
+                },
+                "remove": {
+                    "title": "Verknüpfte Wunschlisten bearbeiten",
+                    "description": "Wählen Sie Wunschlisten, in welcher Sie das Produkt hinzugefügt haben möchten",
+                    "confirm": "Speichern"
+                },
+                "subscribedWishlists": "Abonnierte Wunschlisten",
+                "close": "Schließen",
+                "createNewWishlist": "Private Wunschliste erstellen"
+            }
+        },
+
+        "cookie": {
+            "name": "Wunschliste",
+            "description" : "Für die Erstellung und Benutzung einer Wunschliste",
+            "accepted" : "Akzeptiert"
+        },
+        "actions": {
+            "name": "Wunschliste"
+        },
+        "wishlist-page": {
+            "title": "WUNSCHLISTE",
+            "header": {
+                "addWishlist": "Wunschliste hinzufügen",
+                "removeWishlist": "Löschen",
+                "shareWishlist": "Teilen",
+                "editWishlist": "Bearbeiten",
+                "external": "Externe Wunschliste",
+                "printWishlist": "Drucken"
+            },
+            "createModal": {
+                "title" : "Wunschliste erstellen",
+                "description" : "Erstellen Sie eine Wunschliste",
+                "close": "Abbrechen",
+                "save" : "Speichern",
+                "form": {
+                    "name" : "Name:",
+                    "editable": "Bearbeitbar:",
+                    "editableDescription": "Sobald dies aktiviert ist, können Benutzer (welche die Wunschliste abonniert haben) Produkte von der Wunschliste bearbeiten, löschen und hinzugefügen.",
+                    "birthday": "Geburtstag",
+                    "birthdayDescription": "Sobald dies aktiviert ist verschwinden Produkte von der Wunschliste welche, von dem abonnierten Benutzern gekauft wurden.",
+                    "private": "Privat",
+                    "privateDescription": "Sobald dies nicht aktiviert ist, ist die Wunschliste öffentlich und kann von jedem Benutzer angesehen werden (außer ein Passwort wurde gesetzt).",
+                    "password": "Passwort:",
+                    "placeholder": {
+                        "name" : "Name der Wunschliste",
+                        "password": "Passwort für die Wunschliste"
+                    }
+                }
+            },
+            "editWishlist": {
+                "title": "Wunschliste \"%name%\" bearbeiten",
+                "description": "Bearbeiten Sie Ihre Wunschliste",
+                "close": "Abbrechen",
+                "save" : "Speichern",
+                "form": {
+                    "name" : "Name:",
+                    "editable": "bearbeitbar",
+                    "editableDescription": "Sobald dies aktiviert ist, können Benutzer (welche die Wunschliste abonniert haben) Produkte von der Wunschliste bearbeiten, löschen und hinzugefügen. ",
+                    "birthday": "Geburtstag",
+                    "birthdayDescription": "Sobald dies aktiviert ist verschwinden Produkte von der Wunschliste welche, von dem abonnierten Benutzern gekauft wurden.",
+                    "private": "privat",
+                    "privateDescription": "Sobald dies nicht aktiviert ist, ist die Wunschliste öffentlich und kann von jedem Benutzer angesehen werden (außer ein Passwort wurde gesetzt).",
+                    "password": "Passwort:",
+                    "placeholder": {
+                        "name" : "Name der Wunschliste",
+                        "password": "Passwort für die Wunschliste"
+                    }
+                }
+            },
+            "shareWishlist": {
+                "title": "Wunschliste \"%name%\" teilen",
+                "description": "Mit dem folgenden Link können sie die Wunschliste teilen",
+                "close": "Schließen",
+                "copy": "Kopieren",
+                "privateError": "Sie müssen Ihre Wunschliste auf öffentlich stellen, um sie zu teilen"
+            },
+            "deleteWishlist": {
+                "title": "Wunschliste \"%name%\" löschen",
+                "description": "Sind Sie sicher, dass Sie diese Wunschliste löschen wollen?",
+                "close": "Abbrechen",
+                "delete": "Ja, Löschen"
+            },
+            "wishlist": {
+                "removeWishlist": "Wunschliste löschen",
+                "password": {
+                    "enterPasswordLabel": "Passwort",
+                    "enterPasswordDescription": "Geben Sie das Passwort für die Wunschliste ein",
+                    "confirm" : "Speichern"
+                },
+                "product": {
+                    "removeProductFromWishlist": "Produkt löschen",
+                    "moveProductModal": {
+                        "title":"Wunschlisten-Zuordnung bearbeiten",
+                        "description": "Verschieben Sie Produkte zu ein oder mehreren Wunschlisten",
+                        "confirm": "Speichern",
+                        "close": "Schließen"
+                    }
+                },
+                "batch": {
+                    "editable": "Bearbeitbar",
+                    "public": "Öffentlich",
+                    "birthday": "Geburtstag",
+                    "subscribed": "Abonniert"
+                }
+            },
+            "errorCodes": {
+                "0": "",
+                "1": "Es muss eine Wunschlisten ID übermittelt werden.",
+                "2": "Sie haben keine Rechte um Produkte hinzuzufügen oder zu löschen.",
+                "3": "Sie haben keine Rechte die Wunschliste zu sehen.",
+                "4": "Sie haben keine Rechte um Einstellungen bei dieser Wunschliste zu bearbeiten.",
+                "5": "Sie haben keine Rechte die Geburtstagsfunktion zu nutzen.",
+                "6": "Die Customer-ID muss übermittelt werden.",
+                "7": "Die Wunschlisten-ID exestiert nicht.",
+                "8": "Sie müssen eingeloggt sein.",
+                "9": "Die Wunschliste ist nicht in diesem SalesChannel vorhanden.",
+                "10": "Die Wunschliste konnte nicht gefunden werden.",
+                "11": "Die Wunschliste ist Privat.",
+                "12": "Falsches Passwort für die Wunschliste.",
+                "13": "Die Wunschliste ist nicht abonnierbar (nicht bearbeitbar und keine Geburtstagsfunktionalität aktiviert).",
+                "14": "Sie haben bereits eine Wunschliste mit diesem Namen.",
+                "15": "Es ist etwas schiefgelaufen :/",
+                "noProducts":  {
+                    "title": "Sie haben leider keine Produkte auf Ihrer Wunschliste.",
+                    "desc": "Füge jetzt Produkte zu deiner Wunschliste hinzu!"
+                }
+            },
+            "success": {
+                "subscribed" : "Sie haben erfolgreich eine Wunschliste abonniert."
+            }
+        }
+    }
+}

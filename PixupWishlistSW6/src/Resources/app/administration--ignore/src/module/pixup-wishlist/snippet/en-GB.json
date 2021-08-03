@@ -1,0 +1,9 @@
+{
+    "pixup-wishlist": {
+        "title": "Pixup wishlist",
+        "description": "a wishlist overview",
+        "page": {
+            "overview": "overview"
+        }
+    }
+}

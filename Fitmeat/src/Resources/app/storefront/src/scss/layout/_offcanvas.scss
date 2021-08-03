@@ -1,0 +1,167 @@
+.offcanvas-cart {
+     .offcanvas-close {
+         background: #E6E6E6;
+     }
+    .offcanvas-cart-actions .btn.begin-checkout-btn {
+        height: 47px;
+        line-height: 47px;
+        font-size: 14px;
+        border-radius: 25px;
+
+    }
+    .offcanvas-cart-header, .PixupAddToWishlistBtnPDP {
+        display: none;
+    }
+    .alert {
+        border-radius: 5px;
+        &:first-child {
+            margin-top: 0;
+        }
+    }
+    .cart-item {
+        &:first-child {
+            padding-top: 0;
+        }
+        > .cart-item-row {
+            > .cart-item-details {
+                margin: 0;
+            }
+        }
+    }
+    .cart-item-details-container {
+        .cart-item-details {
+            margin-right: 25px;
+            margin-bottom: 5px;
+        }
+    }
+    .cart-item-img {
+        border: 0;
+        padding: 0;
+        width: 50px;
+        height: 50px;
+    }
+    .cart-item-img-link {
+        display: block;
+        overflow: hidden;
+        .cart-item-img-source {
+            object-fit: cover;
+            min-width: 100%;
+            min-height: 100%;
+        }
+    }
+    .cart-item-label {
+        font-family: "NeutrifStudio", sans-serif;
+        text-transform: uppercase;
+        line-height: 1;
+        font-size: 13px;
+        letter-spacing: .0087em;
+    }
+    .cart-item-characteristics, .product-feature-list {
+        display: none;
+    }
+    .cart-quantity-price {
+        min-height: initial;
+    }
+    .cart-item-price {
+        text-align: left;
+        margin: 0;
+        font-size: 13px;
+    }
+    .cart-item-quantity {
+        display: none;
+    }
+    .cart-item-remove {
+        .btn {
+            width: 20px;
+            height: 20px;
+            line-height: 20px;
+            padding: 0;
+            border-radius: 0;
+            border: 0;
+            background: transparent;
+            margin-top: -2px;
+            transition: 0.3s;
+            .icon {
+                width: 14px;
+                height: 14px;
+                color: #000000;
+                transition: 0.3s;
+                > svg {
+                    top: 0;
+                }
+            }
+            &:hover {
+                opacity: 0.7;
+            }
+        }
+    }
+    .offcanvas-summary {
+        font-size: 13px;
+        line-height: 18px;
+    }
+    .offcanvas-cart-actions {
+        .offcanvas-cart-promotion-form {
+            .btn {
+                width: 40px;
+                padding: 0;
+            }
+        }
+        .btn {
+            border-radius: 0;
+            &.btn-link, &.begin-checkout-btn {
+                font-family: "NeutrifStudio", sans-serif;
+                font-size: 13px;
+                letter-spacing: .0087em;
+                font-weight: 700;
+                height: 40px;
+                transition: .3s;
+                line-height: 40px;
+                text-transform: uppercase;
+                text-decoration: none;
+                border: 0;
+                @media screen and(min-width: 90em) {
+                    height: 47px;
+                    line-height: 47px;
+                    font-size: 14px;
+                }
+            }
+            &.btn-link {
+                border: 1px solid #000;
+                margin-top: 15px;
+                background-color: transparent;
+                border-radius: 25px;
+                &:hover {
+                    opacity: 0.7;
+                }
+            }
+            &.begin-checkout-btn {
+                background: $secondary;
+                border-radius: 25px;
+                &:hover {
+                    background: $primary;
+                }
+            }
+        }
+    }
+    .offcanvas-cart-actions .btn.begin-checkout-btn.disabled {
+        background-color: #172816;
+        border: 1px solid #172816;
+        color: white;
+        padding: 0 12px;
+        cursor: pointer;
+        &:hover {
+            background: #ffffff;
+            color: #172816;
+        }
+    }
+     .offcanvas-cart-actions .btn.btn-link.disabled {
+        background-color: white;
+         color: #172816;
+         border: 1px solid #172816;
+         padding: 0 12px;
+         cursor: pointer;
+         &:hover{
+             opacity: 0.6;
+         }
+    }
+}

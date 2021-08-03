@@ -1,0 +1,107 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="Pixup\Wishlist\Framework\Cookie\WishlistCookieProvider"
+                 decorates="Shopware\Storefront\Framework\Cookie\CookieProviderInterface">
+            <argument type="service" id="Pixup\Wishlist\Framework\Cookie\WishlistCookieProvider.inner" />
+        </service>
+
+        <service id="Pixup\Wishlist\Subscriber\ProductDetailSubscriber">
+            <tag name="kernel.event_subscriber"/>
+            <argument type="service" id="Pixup\Wishlist\Core\Boot" />
+            <argument type="service" id="request_stack" />
+        </service>
+        <service id="Pixup\Wishlist\Subscriber\CartSubscriber">
+            <tag name="kernel.event_subscriber"/>
+            <argument type="service" id="Pixup\Wishlist\Core\Boot" />
+            <argument type="service" id="request_stack" />
+        </service>
+
+        <service id="Pixup\Wishlist\Core\Boot">
+            <argument type="service" id="service_container"/>
+            <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService" />
+        </service>
+
+        <service id="Pixup\Wishlist\Resources\snippet\en_GB\SnippetFile_en_GB" public="true">
+            <tag name="shopware.snippet.file"/>
+        </service>
+        <service id="Pixup\Wishlist\Resources\snippet\de_DE\SnippetFile_de_DE" public="true">
+            <tag name="shopware.snippet.file"/>
+        </service>
+
+        <service id="Pixup\Wishlist\Controller\PixupWishlistController">
+            <call method="setContainer"> <argument type="service" id="service_container"/> </call>
+            <argument type="service" id="Pixup\Wishlist\Core\Boot" />
+            <argument type="service" id="Shopware\Core\Content\Product\SalesChannel\Listing\ProductListingLoader"/>
+            <argument type="service" id="Shopware\Storefront\Page\Product\Configurator\ProductPageConfiguratorLoader"/>
+            <argument type="service" id="Pixup\Wishlist\Controller\PixupWishlistAjaxController"/>
+            <argument type="service" id="Shopware\Storefront\Pagelet\Header\HeaderPageletLoader"/>
+            <tag name="controller.service_arguments"></tag>
+        </service>
+        <service id="Pixup\Wishlist\Model\StructEncoder">
+            <argument type="service" id="Shopware\Core\Framework\DataAbstractionLayer\DefinitionInstanceRegistry"/>
+            <argument type="service" id="Shopware\Core\Framework\Api\Converter\ApiVersionConverter"/>
+            <argument type="service" id="serializer"/>
+        </service>
+        <service id="Pixup\Wishlist\Controller\PixupWishlistApiController">
+            <call method="setContainer"> <argument type="service" id="service_container"/> </call>
+            <argument type="service" id="Pixup\Wishlist\Core\Boot" />
+            <argument type="service" id="Shopware\Storefront\Page\Product\Configurator\ProductPageConfiguratorLoader"/>
+            <argument type="service" id="Pixup\Wishlist\Model\StructEncoder"/>
+            <argument type="service" id="request_stack"/>
+            <argument type="service" id="event_dispatcher"/>
+            <tag name="controller.service_arguments"></tag>
+        </service>
+        <service id="Pixup\Wishlist\Controller\PixupWishlistAjaxController">
+            <call method="setContainer"> <argument type="service" id="service_container"/> </call>
+            <argument type="service" id="Pixup\Wishlist\Core\Boot" />
+            <argument type="service" id="Shopware\Storefront\Page\Product\Configurator\ProductPageConfiguratorLoader"/>
+            <argument type="service" id="event_dispatcher"/>
+            <argument type="service" id="Shopware\Core\Content\Product\SalesChannel\Listing\ProductListingLoader"/>
+        </service>
+
+        <service id="Pixup\Wishlist\Controller\PixupAddToCartController">
+            <call method="setContainer"> <argument type="service" id="service_container"/> </call>
+            <argument type="service" id="Pixup\Wishlist\Core\Boot" />
+            <argument type="service" id="Shopware\Core\Checkout\Cart\SalesChannel\CartService"/>
+            <argument type="service" id="sales_channel.product.repository"/>
+            <argument type="service" id="Shopware\Core\Checkout\Promotion\Cart\PromotionItemBuilder"/>
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
+            <argument type="service" id="Shopware\Core\Content\Product\Cart\ProductLineItemFactory"/>
+            <tag name="controller.service_arguments"></tag>
+        </service>
+
+        <service id="Pixup\Wishlist\Entitys\Definitions\WishlistDefinition">
+            <tag name="shopware.entity.definition" entity="pixup_wish_list" />
+        </service>
+        <service id="Pixup\Wishlist\Entitys\Definitions\WishlistBirthdayDefinition">
+            <tag name="shopware.entity.definition" entity="pixup_wish_list_birthday" />
+        </service>
+        <service id="Pixup\Wishlist\Entitys\Aggregate\WishlistProducts\Definitions\WishlistProductsDefinition">
+            <tag name="shopware.entity.definition" entity="pixup_wish_list_products" />
+        </service>
+        <service id="Pixup\Wishlist\Entitys\Aggregate\WishlistSalesChannels\Definitions\WishlistSalesChannelsDefinition">
+            <tag name="shopware.entity.definition" entity="pixup_wish_list_sales_channels" />
+        </service>
+        <service id="Pixup\Wishlist\Entitys\Aggregate\WishlistSubscribers\Definitions\WishlistSubscribersDefinition">
+            <tag name="shopware.entity.definition" entity="pixup_wish_list_subscribers" />
+        </service>
+        <service id="Pixup\Wishlist\Entitys\Aggregate\WishlistCustomer\Definitions\WishlistCustomerDefinition">
+            <tag name="shopware.entity.definition" entity="pixup_wish_list_customers" />
+        </service>
+        <service id="Pixup\Wishlist\ScheduledTask\clearTableHandler">
+            <argument type="service" id="scheduled_task.repository" />
+            <argument type="service" id="Pixup\Wishlist\Core\Boot" />
+            <tag name="messenger.message_handler" />
+        </service>
+        <service id="Pixup\Wishlist\ScheduledTask\clearTable">
+            <tag name="shopware.scheduled.task" />
+        </service>
+    </services>
+</container>

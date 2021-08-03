@@ -1,0 +1,143 @@
+{% sw_extends '@Storefront/storefront/page/product-detail/index.html.twig' %}
+
+
+{#{% block base_head %}#}
+   {#{{ parent() }}#}
+    {#<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">#}
+{#{% endblock %}#}
+
+{# Hide headline #}
+{% block page_product_detail_headline %}
+{% endblock %}
+
+{# Change block cross selling #}
+{% block page_product_detail_cross_selling %}
+    {% if page.product.customFields.custom_product_cooking and page.product.customFields.custom_product_cooking_image %}
+        {% set cooking_image = page.product.customFields.custom_product_cooking_image %}
+        {% set cooking_text = page.product.customFields.custom_product_cooking %}
+        {% set mediaCollection = searchMedia([cooking_image], context.context) %}
+        {% set cooking_image_array = mediaCollection.get(cooking_image) %}
+        <div class="product-detail-cooking">
+            <div class="product-detail-cooking-content">
+                <div class="product-detail-cooking-image"
+                     style="background-image: url({{ cooking_image_array.url }});"></div>
+                <div class="product-detail-cooking-text">
+                    {{ cooking_text|raw }}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{# Check tabs data #}
+{% block page_product_detail_tabs %}
+
+{% endblock %}
+
+
+ {% block page_product_detail_media %}
+     <div class="col-lg-7 product-detail-media detail-media-mobile d-md-block d-lg-none">
+         {% if page.product.media %}
+             {% sw_include '@Storefront/storefront/element/cms-element-image-gallery.html.twig' with {
+                 'mediaItems': mediaItems,
+                 'zoom': true,
+                 'zoomModal': false,
+                 'displayMode': 'contain',
+                 'gutter': 5,
+                 'minHeight': '430px',
+                 'navigationArrows': 'insiproduct-detail-mediade',
+                 'navigationDots': 'outside',
+                 'galleryPosition': 'left',
+                 'isProduct': true,
+                 'fallbackImageTitle': page.product.translated.name,
+                 'startIndexThumbnails': page.product.cover.position + 1,
+                 'startIndexSlider': page.product.cover.position + 1
+             } %}
+         {% endif %}
+     </div>
+     <div class="col-lg-7 product-detail-media detail-media-desktop d-none d-lg-block">
+         {% if page.product.media %}
+             <div class="pagination-move-wrapper">
+                 <div class="d-none"></div>
+                 <div class="pagination-move sticky">
+                     {% for element in page.product.media.elements %}
+                         <a href="#slide-{{ loop.index }}" data-scroll="slide-{{ loop.index }}" class="pagination-link {% if loop.index == 1  %}active{% endif %}"></a>
+                     {% endfor %}
+                 </div>
+             </div>
+             {% for element in page.product.media.elements %}
+                 <div id="slide-{{ loop.index }}" data-anchor="slide-{{ loop.index }}" class="image-wrapper {% if loop.index == 1 or loop.index == 2 %}active{% endif %}"><img src="{{ element.media.url }}" alt="detail-image"></div>
+             {% endfor %}
+         {% endif %}
+     </div>
+ {% endblock %}
+
+      {% block page_product_detail_buy %}
+          <div class="col-lg-5 product-detail-buy">
+              <div class="d-none"></div>
+             <div class="wrapper-scroll sticky">
+                 {% sw_include '@Storefront/storefront/page/product-detail/buy-widget.html.twig' %}
+                 {% set product_fields = page.product.customFields %}
+                 {% if product_fields.product_fields.custom_detail_attribute_frisch or product_fields.custom_detail_attribute_gramm or product_fields.custom_detail_attribute_tielkproduct %}
+                     <div class="row icon-prodcut-wrapper">
+                         {% if product_fields.custom_detail_attribute_frisch %}
+                             <div class="icon-product col-12 col-sm-3">
+                                 <i>
+                                     <svg width="27" height="30" viewBox="0 0 27 30" fill="none"
+                                          xmlns="http://www.w3.org/2000/svg">
+                                         <path d="M26.4733 21.1016L23.3399 19.3424L26.0553 17.7853C26.5562 17.4981 26.7228 16.8705 26.4274 16.3835C26.1321 15.8966 25.4868 15.7346 24.9859 16.0216L21.2453 18.1664L15.6055 14.9999L21.2443 11.834L24.986 13.9785C25.1537 14.0747 25.3379 14.1203 25.5195 14.1203C25.88 14.1203 26.2311 13.9401 26.4274 13.6162C26.7226 13.1292 26.5559 12.5016 26.055 12.2144L23.3392 10.6579L26.4733 8.89827C26.9768 8.61558 27.1494 7.98945 26.8586 7.49983C26.5679 7.01007 25.9241 6.84231 25.4206 7.12514L22.2871 8.88448L22.2586 5.81856C22.2534 5.25318 21.7765 4.79632 21.1965 4.8041C20.6151 4.80915 20.1479 5.27161 20.1533 5.83699L20.1924 10.0604L14.5528 13.2268V6.89459L18.3339 4.81652C18.8401 4.53834 19.0185 3.91385 18.7324 3.4215C18.4464 2.92928 17.804 2.75565 17.2979 3.03397L14.5528 4.5427V1.02375C14.5528 0.458365 14.0815 0 13.5001 0C12.9187 0 12.4473 0.458365 12.4473 1.02375V4.5427L9.70227 3.03411C9.19582 2.75579 8.55391 2.92928 8.2677 3.42163C7.98163 3.91385 8.16004 4.53847 8.66621 4.81666L12.4472 6.89473V13.2268L6.80759 10.0604L6.84675 5.83699C6.85209 5.27161 6.38494 4.80915 5.80354 4.8041C5.80031 4.8041 5.79722 4.8041 5.79385 4.8041C5.21694 4.8041 4.74656 5.25632 4.74137 5.8187L4.71287 8.88448L1.57943 7.12514C1.07593 6.84231 0.432059 7.01021 0.141356 7.49983C-0.149347 7.98945 0.023166 8.61558 0.526667 8.89827L3.66067 10.6579L0.944404 12.2147C0.443569 12.5017 0.276812 13.1293 0.572007 13.6165C0.768382 13.9404 1.11944 14.1206 1.48005 14.1206C1.66169 14.1206 1.84571 14.0749 2.01359 13.9788L5.75567 11.8342L11.3947 15.0002L5.75469 18.1667L2.01359 16.0215C1.51304 15.7344 0.867342 15.8963 0.572007 16.3834C0.276671 16.8704 0.443289 17.498 0.944123 17.7851L3.65997 19.3423L0.526527 21.1015C0.0230257 21.3841 -0.149487 22.0103 0.141216 22.4999C0.336188 22.8283 0.690056 23.0119 1.05389 23.0119C1.23244 23.0119 1.41351 22.9677 1.57929 22.8746L4.71273 21.1152L4.74123 24.1813C4.74642 24.7435 5.2168 25.1959 5.79371 25.1959C5.79694 25.1959 5.80017 25.1959 5.80339 25.1958C6.3848 25.1907 6.85195 24.7283 6.84661 24.1629L6.80745 19.9393L12.4472 16.7729V23.1053L8.66621 25.1833C8.16004 25.4615 7.98163 26.086 8.2677 26.5784C8.46127 26.9114 8.81795 27.0986 9.18515 27.0986C9.36061 27.0986 9.5386 27.0558 9.70227 26.9659L12.4473 25.4573V28.9763C12.4473 29.5416 12.9187 30 13.5001 30C14.0815 30 14.5528 29.5416 14.5528 28.9763V25.4573L17.2979 26.9659C17.4615 27.0558 17.6394 27.0986 17.815 27.0986C18.1822 27.0986 18.5389 26.9114 18.7324 26.5784C19.0185 26.0861 18.8401 25.4615 18.3339 25.1833L14.5528 23.1053V16.7731L20.1924 19.9393L20.1523 24.1627C20.1468 24.7281 20.6138 25.1907 21.1952 25.1959C21.1986 25.196 21.2018 25.196 21.2052 25.196C21.7819 25.196 22.2523 24.7438 22.2577 24.1817L22.2868 21.1152L25.4207 22.8747C25.5865 22.9678 25.7676 23.012 25.9461 23.012C26.3099 23.012 26.6638 22.8283 26.8588 22.5C27.1495 22.0104 26.977 21.3843 26.4733 21.1016Z"
+                                               fill="black"/>
+                                     </svg>
+                                 </i>
+                                 <span>{{ 'detail.frisch'|trans }}</span>
+                             </div>
+                         {% endif %}
+
+                         {% if product_fields.custom_detail_attribute_tielkproduct %}
+                             <div class="icon-product col-12 col-sm-3">
+                                 <i>
+                                     <svg width="27" height="30" viewBox="0 0 27 30" fill="none"
+                                          xmlns="http://www.w3.org/2000/svg">
+                                         <path d="M26.4733 21.1016L23.3399 19.3424L26.0553 17.7853C26.5562 17.4981 26.7228 16.8705 26.4274 16.3835C26.1321 15.8966 25.4868 15.7346 24.9859 16.0216L21.2453 18.1664L15.6055 14.9999L21.2443 11.834L24.986 13.9785C25.1537 14.0747 25.3379 14.1203 25.5195 14.1203C25.88 14.1203 26.2311 13.9401 26.4274 13.6162C26.7226 13.1292 26.5559 12.5016 26.055 12.2144L23.3392 10.6579L26.4733 8.89827C26.9768 8.61558 27.1494 7.98945 26.8586 7.49983C26.5679 7.01007 25.9241 6.84231 25.4206 7.12514L22.2871 8.88448L22.2586 5.81856C22.2534 5.25318 21.7765 4.79632 21.1965 4.8041C20.6151 4.80915 20.1479 5.27161 20.1533 5.83699L20.1924 10.0604L14.5528 13.2268V6.89459L18.3339 4.81652C18.8401 4.53834 19.0185 3.91385 18.7324 3.4215C18.4464 2.92928 17.804 2.75565 17.2979 3.03397L14.5528 4.5427V1.02375C14.5528 0.458365 14.0815 0 13.5001 0C12.9187 0 12.4473 0.458365 12.4473 1.02375V4.5427L9.70227 3.03411C9.19582 2.75579 8.55391 2.92928 8.2677 3.42163C7.98163 3.91385 8.16004 4.53847 8.66621 4.81666L12.4472 6.89473V13.2268L6.80759 10.0604L6.84675 5.83699C6.85209 5.27161 6.38494 4.80915 5.80354 4.8041C5.80031 4.8041 5.79722 4.8041 5.79385 4.8041C5.21694 4.8041 4.74656 5.25632 4.74137 5.8187L4.71287 8.88448L1.57943 7.12514C1.07593 6.84231 0.432059 7.01021 0.141356 7.49983C-0.149347 7.98945 0.023166 8.61558 0.526667 8.89827L3.66067 10.6579L0.944404 12.2147C0.443569 12.5017 0.276812 13.1293 0.572007 13.6165C0.768382 13.9404 1.11944 14.1206 1.48005 14.1206C1.66169 14.1206 1.84571 14.0749 2.01359 13.9788L5.75567 11.8342L11.3947 15.0002L5.75469 18.1667L2.01359 16.0215C1.51304 15.7344 0.867342 15.8963 0.572007 16.3834C0.276671 16.8704 0.443289 17.498 0.944123 17.7851L3.65997 19.3423L0.526527 21.1015C0.0230257 21.3841 -0.149487 22.0103 0.141216 22.4999C0.336188 22.8283 0.690056 23.0119 1.05389 23.0119C1.23244 23.0119 1.41351 22.9677 1.57929 22.8746L4.71273 21.1152L4.74123 24.1813C4.74642 24.7435 5.2168 25.1959 5.79371 25.1959C5.79694 25.1959 5.80017 25.1959 5.80339 25.1958C6.3848 25.1907 6.85195 24.7283 6.84661 24.1629L6.80745 19.9393L12.4472 16.7729V23.1053L8.66621 25.1833C8.16004 25.4615 7.98163 26.086 8.2677 26.5784C8.46127 26.9114 8.81795 27.0986 9.18515 27.0986C9.36061 27.0986 9.5386 27.0558 9.70227 26.9659L12.4473 25.4573V28.9763C12.4473 29.5416 12.9187 30 13.5001 30C14.0815 30 14.5528 29.5416 14.5528 28.9763V25.4573L17.2979 26.9659C17.4615 27.0558 17.6394 27.0986 17.815 27.0986C18.1822 27.0986 18.5389 26.9114 18.7324 26.5784C19.0185 26.0861 18.8401 25.4615 18.3339 25.1833L14.5528 23.1053V16.7731L20.1924 19.9393L20.1523 24.1627C20.1468 24.7281 20.6138 25.1907 21.1952 25.1959C21.1986 25.196 21.2018 25.196 21.2052 25.196C21.7819 25.196 22.2523 24.7438 22.2577 24.1817L22.2868 21.1152L25.4207 22.8747C25.5865 22.9678 25.7676 23.012 25.9461 23.012C26.3099 23.012 26.6638 22.8283 26.8588 22.5C27.1495 22.0104 26.977 21.3843 26.4733 21.1016Z"
+                                               fill="black"/>
+                                     </svg>
+                                 </i>
+                                 <span>{{ 'detail.meat'|trans }}</span>
+                             </div>
+                         {% endif %}
+
+
+                         {% if product_fields.custom_detail_attribute_gramm %}
+                             <div class="icon-product col-12 col-sm-6">
+                                 <i>
+                                     <svg width="30" height="30" viewBox="0 0 30 30" fill="none"
+                                          xmlns="http://www.w3.org/2000/svg">
+                                         <path d="M29.4944 13.942L24.9101 3.13437C24.7892 2.87277 24.5576 2.70713 24.3034 2.70049L24 2.77938H18.0675C17.6289 0.797035 15.9001 -0.393945 14.206 0.119215C13.0915 0.456841 12.2212 1.47523 11.9327 2.77938H6.00013L5.69677 2.70049C5.44263 2.70713 5.21101 2.87277 5.09003 3.13437L0.505793 13.942C0.205459 14.0176 -0.00667828 14.3321 0.000160695 14.6915C0.000160695 18.0048 2.56194 20.7264 5.69677 20.7264C8.8316 20.7264 11.427 18.0048 11.427 14.6915C11.4215 14.3371 11.2147 14.0306 10.9214 13.942L6.84287 4.35714H11.899C12.1539 5.78397 13.1066 6.89877 14.3259 7.19707V21.0419C12.1349 21.3575 10.4158 23.2902 10.1462 25.2624H8.66301C8.26738 25.2996 7.95324 25.6672 7.92143 26.1301V29.2856C7.95659 29.7194 8.28564 30.0376 8.6563 29.9964C8.65856 29.9961 8.66075 29.9958 8.66301 29.9956H21.3371C21.7074 30.0411 22.0391 29.7268 22.078 29.2935C22.0782 29.2908 22.0784 29.2883 22.0786 29.2856V26.1301C22.0468 25.6672 21.7327 25.2996 21.337 25.2624H19.8539C19.5842 23.2902 17.8651 21.3575 15.6741 21.0419V7.19714C16.8935 6.89885 17.8461 5.78405 18.101 4.35721H23.1572L19.0786 13.942C18.7853 14.0306 18.5785 14.3371 18.5729 14.6915C18.5729 18.0048 21.1347 20.7264 24.3032 20.7264C27.4717 20.7264 29.9998 18.0048 29.9998 14.6915C30.0069 14.3321 29.7947 14.0176 29.4944 13.942ZM5.69677 19.0697C3.5732 19.0697 1.78668 17.3737 1.41589 15.4014H10.0114C9.64059 17.3737 7.85407 19.0697 5.69677 19.0697ZM9.40465 13.8237H2.02263L5.69677 5.1855L9.40465 13.8237ZM20.7304 26.8401V28.4179H9.26981V26.8401H20.7304ZM18.472 25.2624H11.5282C11.7979 23.6846 13.2473 22.5013 15.0001 22.5013C16.7529 22.5013 18.2023 23.6846 18.472 25.2624ZM15.0001 5.73769C13.9948 5.73769 13.1799 4.78408 13.1799 3.60775C13.1799 2.43141 13.9948 1.4778 15.0001 1.4778C16.0054 1.4778 16.8203 2.43141 16.8203 3.60775C16.8204 4.78408 16.0054 5.73769 15.0001 5.73769ZM24.3034 5.1855L27.9776 13.8237H20.5956L24.3034 5.1855ZM24.3034 19.0697C22.1461 19.0697 20.3596 17.3737 19.9889 15.4014H28.5843C28.2135 17.3737 26.427 19.0697 24.3034 19.0697Z"
+                                               fill="black"/>
+                                     </svg>
+                                 </i>
+                                 <span>{{ 'detail.gram'|trans }}</span>
+                             </div>
+                         {% endif %}
+                     </div>
+                 {% endif %}
+                 <a href="#produktdetails" class="more-information">
+                     <p>{{ 'detail.more'|trans }}</p>
+                     <i><svg width="14" height="9" viewBox="0 0 14 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+                             <path d="M1 1.65686L6.65685 7.31371L12.3137 1.65685" stroke="black" stroke-width="2"/>
+                         </svg></i>
+                 </a>
+             </div>
+          </div>
+          <div class="product-detail-cross-selling">
+              {% if page.product.description or page.product.customFields.custom_product_details or page.product.customFields.custom_product_origin %}
+                  <div class="product-detail-tabs">
+                      <div id="produktdetails"></div>
+                      {% sw_include '@Storefront/storefront/page/product-detail/tabs.html.twig' %}
+                  </div>
+              {% endif %}
+              {% sw_include '@Storefront/storefront/page/product-detail/cross-selling/tabs.html.twig' with {
+                  crossSellings: page.crossSellings
+              } only %}
+          </div>
+      {% endblock %}

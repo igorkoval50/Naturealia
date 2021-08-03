@@ -1,0 +1,55 @@
+{% sw_extends '@Storefront/storefront/block/cms-block-text.html.twig' %}
+
+{% block block_text %}
+    {% if block.cssClass == 'stories-list' %}
+        {% set menuItems = page.header.navigation.tree %}
+        <div class="stories-list-items">
+            {% for storiesItem in menuItems %}
+                {% if storiesItem.category.customFields.custom_category_stories_primary %}
+                    <h1 class="stories-list-title">{{ storiesItem.category.customFields.custom_category_stories_title }}</h1>
+                    {% for storiesChildren in storiesItem.children %}
+                        <div class="stories-list-item">
+                            <a href="{{ seoUrl('frontend.navigation.page', { navigationId: storiesChildren.category.id }) }}">
+                                <span>{{ storiesChildren.category.name }}</span>
+                                {% if storiesChildren.category.media.url %}
+                                    <div class="stories-list-item-image"><img src="{{ storiesChildren.category.media.url }}"></div>
+                                {% endif %}
+                            </a>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% elseif block.cssClass == 'stories-single-text' %}
+        {% set menuActive = page.header.navigation.active %}
+        {% set customFields = page.header.navigation.active.customFields %}
+        <h1 class="stories-single-headline">{{ customFields.custom_category_stories_headline }}</h1>
+        <div class="single-stories-arrow"></div>
+        {% if customFields.custom_category_stories_date or customFields.custom_category_stories_author or customFields.custom_category_stories_reading_time %}
+            <div class="single-stories-params">
+                {% if customFields.custom_category_stories_author %}
+                    <div class="single-stories-author">Verfasser: {{ customFields.custom_category_stories_author }}</div>
+                {% endif %}
+                {% if customFields.custom_category_stories_reading_time %}
+                    <div class="single-stories-readtime">Lesezeit: {{ customFields.custom_category_stories_reading_time }}</div>
+                {% endif %}
+                {% if customFields.custom_category_stories_reading_time %}
+                    <div class="single-stories-date">Datum: {{ customFields.custom_category_stories_date|date("d.m.Y") }}</div>
+                {% endif %}
+            </div>
+        {% endif %}
+        {{ parent() }}
+        {% if customFields.custom_category_stories_additional_image_1%}
+            {% set mediaCollection1 = searchMedia([customFields.custom_category_stories_additional_image_1], context.context) %}
+            {% set mediaCollection2 = searchMedia([customFields.custom_category_stories_additional_image_2], context.context) %}
+            {% set cooking_image_array1 = mediaCollection1.get(customFields.custom_category_stories_additional_image_1) %}
+            {% set cooking_image_array2 = mediaCollection2.get(customFields.custom_category_stories_additional_image_2) %}
+            <div class="single-stories-additional">
+                <div class="single-stories-additional-image first"><img src="{{ cooking_image_array1.url }}"></div>
+                <div class="single-stories-additional-image second"><img src="{{ cooking_image_array2.url }}"></div>
+            </div>
+        {% endif %}
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}

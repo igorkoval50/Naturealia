@@ -1,0 +1,6 @@
+{% sw_extends '@PixupWishlistSW6/src/Resources/views/wishlist/box/product-prev.html.twig' %}
+{% block wishlist_box_product_prev %}
+    {% if product and product.active %}
+        {% sw_include'@Storefront/storefront/component/product/card/box-standard.html.twig' %}
+    {% endif %}
+{% endblock %}

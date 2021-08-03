@@ -1,0 +1,21 @@
+{% sw_extends '@Storefront/storefront/component/product/card/box-image.html.twig' %}
+
+{% block component_product_box_name %}
+    {# Title #}
+    {{ parent() }}
+    {# Subtitle #}
+    {#<p class="product-subtitle">{{ product.customFields.custom_product_subtitle }}</p>#}
+{% endblock %}
+
+{% block component_product_box_price %}
+    {# Price #}
+    {% sw_include '@Storefront/storefront/component/product/card/price-unit-custom.html.twig' %}
+    {# Delivery #}
+    <div class="product-delivery">
+        {% sw_include '@Storefront/storefront/component/delivery-information.html.twig' %}
+    </div>
+    {# Short description #}
+    <div class="product-description">
+        {{ product.customFields.custom_product_short_description|striptags|raw }}
+    </div>
+{% endblock %}

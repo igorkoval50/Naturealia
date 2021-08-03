@@ -1,0 +1,53 @@
+
+{% block pixup_wishlist_reco %}
+    {% if(pixupReco.wishlist.ids is not empty) %}
+        <div class="cms-section  pos-0 cms-section-default">
+            <div class="cms-section-default boxed">
+                {% sw_include '@Storefront/storefront/element/cms-element-product-slider.html.twig'  with {
+                    pixupGetParameterString: pixupReco.config.pixupGetParameterString,
+                    blockClasses : {
+                        0 : "pos-0",
+                        1 : "cms-block-product-slider"
+                    },
+                    element : {
+                        "data":{
+                            "products":{
+                                "elements":pixupReco.wishlist.products
+                            }
+                        },
+                        "type":"product-slider",
+                        "slot":"productSlider",
+                        "fieldConfig": {
+                            "elements": {
+                                "displayMode": {
+                                    "value" : "standard"
+                                },
+                                "boxLayout":{
+                                    "value": "minimal"
+                                },
+                                "title": {
+                                    "value" : pixupReco.wishlist.label
+                                },
+                                "verticalAlign": {
+                                    "value" : null
+                                },
+                                "navigation":{
+                                    "value":true
+                                },
+                                "elMinWidth":{
+                                    "value":"300px",
+                                },
+                                "products":{
+                                    "value": pixupReco.wishlist.ids
+                                },
+                                "border":{
+                                    "value": false
+                                }
+                            }
+                        }
+                    }
+                } %}
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

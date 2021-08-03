@@ -1,0 +1,66 @@
+.register-hotline {
+    box-shadow: 0 1px 4px 0 #dadada;
+    padding: 30px 20px;
+    text-align: center;
+    margin-top: 20px;
+    .register-hotline-row {
+        margin-bottom: 30px;
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+    .register-hotline-contacts {
+
+    }
+    .register-hotline-secure {
+
+    }
+    .register-hotline-title {
+        font-family: "NeutrifStudio", sans-serif;
+        text-transform: uppercase;
+        line-height: 1;
+        font-size: 13px;
+        font-weight: 700;
+        margin-bottom: 20px;
+        &:after {
+            content: "";
+            height: 1px;
+            background: #000000;
+            width: 50px;
+            margin: 13px auto 0;
+            display: block;
+        }
+    }
+    .register-hotline-content {
+        p {
+            font-size: 13px;
+            line-height: 18px;
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+    }
+    .register-hotline-whatsapp {
+        background-image: url(../assets/img/icons/hotline-whatsapp.svg);
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        width: 30px;
+        height: 30px;
+        display: block;
+        margin: 0 auto;
+        transition: 0.3s;
+        &:hover {
+            opacity: 0.7;
+        }
+    }
+    .register-hotline-phone {
+        color: #000000;
+        text-decoration: none;
+        transition: 0.3s;
+        &:hover {
+            color: $primary;
+        }
+    }
+
+}

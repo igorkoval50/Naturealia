@@ -1,0 +1,304 @@
+{% block wishlist_box_product_collection_view %}
+    {% for wishlist in wishlists %}
+        <div id="{{ wishlist.id }}" class="pixupWishlistContentWishlistContainer" style="display:{% if selectedWishlist.id is not empty %}{{ selectedWishlist.id == wishlist.id ? 'flex' : 'none' }}{% else %}{{ loop.index == 1 ? 'flex' : 'none' }}{% endif %}">
+            {% for key, product in wishlist.products %}
+                <div class="pixupWishlistProductContainer" id="product_container{{ loop.index }}" data-product-id="{{ product.id }}" data-wishlist-id="{{ wishlist.id }}">
+                    {% if not wishlist.isOwnWishlist and not wishlist.external and not wishlist.editable %}
+                        {% set delete = false %}
+                    {% else %}
+                        {% set delete = true %}
+                    {% endif %}
+                    {% sw_include '@Storefront/wishlist/box/product-prev.html.twig' with {
+                        product: product,
+                        configuratorSettings:wishlist.configuratorSettings[key],
+                        index: loop.index,
+                        wishlistId: wishlist.id,
+                        external: wishlist.external,
+                        delete: delete,
+                        move : delete
+                    } only %}
+                </div>
+            {% endfor %}
+            {% if(wishlist.products is empty) %}
+                <div class="pixupWishlistProductContainer pixupWishlistNoProductContainer" id="product_container1" data-product-id="-1" data-wishlist-id="{{ wishlist.id }}" style="min-width:100%;width:100%">
+                    <div class="textWrapper">
+                        <div class="title"> {{ "pixup-wishlist.wishlist-page.errorCodes.noProducts.title"|trans }}</div>
+                        <div class="desc"> {{ "pixup-wishlist.wishlist-page.errorCodes.noProducts.desc"|trans }}</div>
+                    </div>
+                    {% sw_icon 'px-bot' style {"pack":"pixup", "class":"  pxBot", "noIcon":"true"} %}
+                </div>
+            {% endif %}
+        </div>
+        {% sw_include '@Storefront/wishlist/box/pixup-reco-box.html.twig'  with {
+            pixupReco: wishlist.pixupReco
+        } only %}
+    {% endfor %}
+    <!-- product-prev-box scripts -->
+    <script>
+        function pixupWishlist_changeVariant(wishedGroupId,className,parentId,currentProduct,index,productContainerId = null){
+            url = "{{ url('frontend.pixup.wishlist.ajax.get_product_variant', {'parentId': '--parentId--','options':'--options--','wishedGroupId':'--wishedGroupId--'})  }}";
+            elements = document.getElementsByClassName(className);
+            options = {};
+            for(i=0;i<elements.length;i++){
+                if(elements[i].checked) {
+                    groupId = elements[i].name;
+                    optionId = elements[i].value;
+                    options[groupId] = optionId;
+                }
+            }
+            options = JSON.stringify(options);
+            url = url.replace(/--parentId--/,escape(parentId)).replace(/--options--/,escape(options)).replace(/--wishedGroupId--/,escape(wishedGroupId));
+
+            pixupWishlist_ajaxCore(url,function(xhttp,currentProduct,index,productContainerId){
+                data = JSON.parse(xhttp.responseText).data;
+                circle = addLoadingCircle(document.getElementById(productContainerId));
+                if(data.success === true){
+                    //replace variantProductId with current product
+                    variantProductId = data.response.id;
+                    wishlistId =  document.getElementById(productContainerId).dataset.wishlistId;
+
+                    url = "{{ url('frontend.pixup.wishlist.ajax.replace_from_wishlist', {'oldId':'--oldId--','newId':'--newId--','wishListId':'--wishlistid--'}) }}";
+                    url = url.replace(/--oldId--/,currentProduct).replace(/--newId--/,variantProductId).replace(/--wishlistid--/,wishlistId);
+                    pixupWishlist_ajaxCore(url,function(xhttp){
+                        data = JSON.parse(xhttp.responseText);
+                        if(data.data.success === true) {
+                            //replace current productBox with new productId
+                            url = "{{ url('frontend.pixup.wishlist.product_box', {'productId': '--productId--','index':'--index--','wishlistId':"--wishlistId--"}) }}";
+                            url = url.replace(/--productId--/, variantProductId).replace(/--index--/, index).replace(/--wishlistId--/,wishlistId);
+                            pixupWishlist_ajaxCore(url, function(xhttp,productContainerId,newProductId){
+                                document.getElementById(productContainerId).innerHTML = xhttp.responseText;
+                                document.getElementById(productContainerId).dataset.productId = newProductId;
+                            },[productContainerId,variantProductId]);
+                        }else{
+                            //output error and remove loading circle
+                            displayMessage(data.error.codes[0].label,false,4000);
+                            document.getElementById(productContainerId).removeChild(circle);
+                            return false;
+                        }
+                    });
+                }
+            },[currentProduct,index,productContainerId]);
+        }
+
+        function addLoadingCircle(elem){
+            var circle = document.createElement("div");
+            circle.innerHTML = "<div class=\"spinner-grow text-primary\"style=\"width:4rem;height:4rem;\" role=\"status\">\n" +
+                "  <span class=\"sr-only\">Loading...</span>\n" +
+                "</div>";
+
+            var div = document.createElement("div");
+            div.style.backgroundColor = "rgba(0,0,0,.2)";
+            div.style.position = "absolute";
+            div.style.top = "0px";
+            div.style.right = "0px";
+            div.style.height = "100%";
+            div.style.width = "100%";
+            div.style.display = "flex";
+            div.style.alignItems = "center";
+            div.style.justifyContent = "center";
+            div.appendChild(circle);
+
+            elem.style.position = "relative";
+            elem.appendChild(div);
+            return div;
+        }
+
+
+        function pixupWishlist_moveProduct(productId,checkboxElem,removeElem,currentWishlistId){
+
+            isOnWishlist = (checkboxElem.dataset.isOnWishlist!=='false');
+            checked = checkboxElem.checked;
+            if((isOnWishlist === true && checked === true) ||
+                (isOnWishlist === false && checked === false))
+                return true;
+            remove = (isOnWishlist == true && checked == false)?true:false;
+            if(remove === 'true' || remove === true)
+                baseUrl = "{{ url('frontend.pixup.wishlist.ajax.remove_product', {'productId': '--product-id--','wishlistId': '--wishListId--'})  }}";
+            else
+                baseUrl = "{{ url('frontend.pixup.wishlist.ajax.add_product', {'productId': '--product-id--','wishlistId': '--wishListId--'})  }}";
+            url = baseUrl.replace(/--product-id--/,escape(productId)).replace(/--wishListId--/,escape(checkboxElem.value));
+            pixupWishlist_ajaxCore(url,function(xhttp,remove,removeElem,wishlistId){
+                data = JSON.parse(xhttp.responseText).data;
+                if(data.success ===true){
+                    if(remove === 'true' || remove === true) {
+                        if(currentWishlistId == wishlistId) {
+                            element = document.getElementById(removeElem);
+                            element.parentNode.removeChild(element);
+                        }
+
+                        //substrect one from side menu
+                        element = document.getElementById("menu"+wishlistId+"-count");
+                        element.innerHTML = (parseInt(element.innerHTML,0)-1).toString();
+                    }else{
+                        //add one from side menu
+                        element = document.getElementById("menu"+wishlistId+"-count");
+                        element.innerHTML = (parseInt(element.innerHTML,0)+1).toString();
+                    }
+                    if(wishlistId == -1) {// means that a wishlist is created
+                        //get infor about new created wishlist
+                        url = "{{ url("frontend.pixup.wishlist.ajax.get_wishlists", {
+                            'productId':'null',
+                            'wishlistId':'--wishlistId--'
+                        }) }}";
+                        url = url.replace(/--wishlistId--/,data.wishlistId);
+                        pixupWishlist_ajaxCore(url,function(xhttp){
+                            data = JSON.parse(xhttp.responseText).data.wishlists[0];
+                            pixupWIshlist_createMenuEntry(data.id,data.name,data.private,data.editable,data.birthday);
+                        });
+                    }
+                }
+            },[remove,removeElem,checkboxElem.value]);
+        }
+
+        function pixupWishlist_moveProductInit(url,productId,removeElem,currentWishlistId){
+            pixupWishlist_ajaxCore(url,function(xhttp,productId,removeElem,currentWishlistId){
+
+                var safeBtn = document.getElementById('pixupWishlist_save');
+                var select = document.getElementById("pixupWishlist_chooseWishlistModal_body_select");
+                var data = JSON.parse(xhttp.responseText).data.wishlists;
+
+                //clear old event Listener ( so only one function can listen on it )
+                safeBtnClone = safeBtn.cloneNode(true);
+                //set listener
+                safeBtnClone.addEventListener("click", function(){
+                    //get all selected checkboxes and send the value to the changeState function
+                    var all_checkboxes = document.querySelectorAll('input[name="pixupWishlistCheckBoxWishlistSelector[]"]');
+                    for(var x = 0, l = all_checkboxes.length; x < l;  x++)
+                    {
+                        pixupWishlist_moveProduct(
+                            productId,
+                            all_checkboxes[x],
+                            removeElem,
+                            currentWishlistId
+                        );
+                    }
+                    $('#pixupWishlist_chooseWishlistModal').modal('hide')
+                });
+                safeBtn.parentNode.replaceChild(safeBtnClone, safeBtn);
+
+                //delete options
+                select.innerHTML = "";
+
+                //create a checkbox for every recieved wishlist ( subscribed wishlists excluded )
+                ownWishlistAdded = false;
+                for(i=0;i<data.length;i++){
+                    if(data[i].subscribed === true)
+                        continue;
+                    ownWishlistAdded = true;
+                    select.appendChild(createCheckbox(data[i],productId));
+                }
+                //if no wishlist exsist
+                if(ownWishlistAdded === false){
+                    // if the id is -1 it will create a new wishlist
+                    customData = {name:"{{ "pixup-wishlist.product-detail.modal.createNewWishlist"|trans }}",id:-1,products:{product:-1}};
+                    select.appendChild(createCheckbox(customData,2));
+                }
+                //add checkboxes for subcribed wishlists
+                match = 0;
+                for(i=0;i<data.length;i++){
+                    if(data[i].subscribed === false)
+                        continue;
+                    if(data[i].editable !== true)
+                        continue;
+                    match++;
+                    if(match === 1) {
+                        var hr = document.createElement("hr");
+                        var div = document.createElement("div");
+                        div.classList = "center PixupCechBoxGroupTitle";
+                        div.innerHTML = "{{ "pixup-wishlist.product-detail.modal.subscribedWishlists"|trans }}";
+                        select.appendChild(hr);
+                        select.appendChild(div);
+                    }
+                    select.appendChild(createCheckbox(data[i],productId,"PixupCheckBoxRow2"));
+                }
+
+                $('#pixupWishlist_chooseWishlistModal').modal()
+            },[productId,removeElem,currentWishlistId])
+        }
+        function createCheckbox(data,productId, className = "") {
+            var div = document.createElement("div");
+            div.className = "custom-control custom-checkbox PixupCheckBoxRow "+className;
+            var input = document.createElement("input");
+            input.type = "checkbox";
+            input.className = "custom-control-input";
+            input.id = "pixupWishlist" + i;
+            input.name = "pixupWishlistCheckBoxWishlistSelector[]";
+            input.value = data.id;
+
+            isOnWishlist = false;
+            products = Object.values(data.products);
+            for(let x = 0; products.length > x;x++){
+                if(products[x] === productId) {
+                    isOnWishlist = true;
+                    break;
+                }
+            }
+            input.dataset.isOnWishlist = isOnWishlist;
+            if (isOnWishlist)
+                input.checked = true;
+            var label = document.createElement("label");
+            label.className = "custom-control-label";
+            label.htmlFor = "pixupWishlist" + i;
+            label.innerHTML = data.name;
+            div.appendChild(input);
+            div.appendChild(label);
+            return div
+        }
+    </script>
+    <!-- product-configurator scripts -->
+    <script>
+        var activeSelectTimeout = null;
+        var activeOptionContainer = null;
+        var activeOptionSelect = null;
+        var activeIcon = null;
+
+        function pixupShowSelect(optionSelectId, optionContainerId, iconId){
+            optionSelect = document.getElementById(optionSelectId);
+            optionContainer = document.getElementById(optionContainerId);
+            icon = document.getElementById(iconId);
+
+            if(activeOptionContainer !== null)
+                pixupCloseSelectByReference(activeOptionContainer,activeOptionSelect,activeIcon);
+
+            activeOptionContainer = optionContainer;
+            activeOptionSelect = optionSelect;
+            activeIcon = icon;
+
+            optionContainer.style.overflow = "visible";
+            icon.firstElementChild.style.transform ="rotate(180deg)";
+            icon.style.zIndex = 2001;
+            optionSelect.style.zIndex = 2000;
+            optionSelect.style.backgroundColor = "#f6f6f6";
+            optionSelect.classList.add("optionSelectLayerActive");
+        }
+        function pixupCloseSelectByReference(optionContainer,optionSelect,icon){
+            console.log("clear");
+            optionContainer.style.overflow = "hidden";
+            icon.firstElementChild.style.transform = "rotate(0deg)";
+            icon.style.zIndex = null;
+            optionSelect.style.zIndex = null;
+            optionSelect.style.backgroundColor = null;
+            optionSelect.classList.remove("optionSelectLayerActive");
+            activeOptionContainer = null;
+            activeOptionSelect = null;
+            activeIcon = null;
+            if(activeSelectTimeout !== null)
+                clearTimeout(activeSelectTimeout);
+
+        }
+        function pixupCloseSelect(optionSelectId, optionContainerId, iconId){
+            optionSelect = document.getElementById(optionSelectId);
+            optionContainer = document.getElementById(optionContainerId);
+            icon = document.getElementById(iconId);
+
+            activeSelectTimeout = setTimeout(function(){
+                pixupCloseSelectByReference(optionContainer,optionSelect,icon);
+            },200);
+        }
+    </script>
+    <script>
+        window.onload = function() {
+            PluginManager.initializePlugins();
+        }
+    </script>
+{% endblock %}

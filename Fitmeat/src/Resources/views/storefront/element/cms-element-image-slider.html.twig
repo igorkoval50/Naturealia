@@ -1,0 +1,24 @@
+{% sw_extends '@Storefront/storefront/element/cms-element-image-slider.html.twig' %}
+
+{% block element_image_slider_inner_item %}
+    {% if block.cssClass == 'home-hello-slider' %}
+        <div class="home-hello-slider-item" style="background-image: url({{ image.media.url }});">
+            <div class="home-hello-slider-content">
+                {{ image.url | raw }}
+            </div>
+        </div>
+    {% elseif block.cssClass == 'bestellinfo-slider' %}
+        <div class="bestellinfo-slider-item">
+            <div class="bestellinfo-slider-item-image" style="background-image: url({{ image.media.url }});"></div>
+            <div class="bestellinfo-slider-item-content">
+                <span>{{ loop.index }}</span>
+                {{ image.url | raw }}
+                <span class="counter-slider">
+                {{ "bestseller.counterTxt"|trans|striptags }} {{ loop.index }} / {{ loop.length }}
+            </span>
+            </div>
+        </div>
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}

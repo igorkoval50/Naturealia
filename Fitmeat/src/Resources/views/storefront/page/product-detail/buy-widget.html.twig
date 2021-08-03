@@ -1,0 +1,84 @@
+{% sw_extends '@Storefront/storefront/page/product-detail/buy-widget.html.twig' %}
+
+{# Add headline & short description & subtitle #}
+{% block page_product_detail_rich_snippets %}
+    {{ parent() }}
+    {# Headline #}
+    {% block page_product_detail_name %}
+        <h1 class="product-detail-name"
+            itemprop="name">
+            {{ page.product.translated.name }}
+        </h1>
+    {% endblock %}
+    {# Subtitle #}
+    {% block page_product_detail_subtitle %}
+        {% if page.product.customFields.custom_product_subtitle %}
+            <p class="product-detail-subtitle d-none d-sm-block">
+                {{ page.product.customFields.custom_product_subtitle|striptags|raw }}
+            </p>
+        {% endif %}
+    {% endblock %}
+    {# Short description #}
+    {% block page_product_detail_short_description %}
+        {% if  page.product.customFields.custom_product_short_description %}
+        <p class="product-detail-short-description">
+            {{ page.product.customFields.custom_product_short_description|striptags|raw }}
+        </p>
+        {% endif %}
+    {% endblock %}
+    {# <pre>{{ dump(page.product) }}</pre> #}
+    {# Table info #}
+    {% block page_product_detail_status_ordernumber %}
+        <div class="product-detail-table status_ordernumber">
+            {% for sortedProperty in page.product.sortedProperties %}
+                {% if sortedProperty.name == 'Zustand' %}
+                    <div class="product-detail-table-row product-detail-table-status">
+                        <div class="label">{{ sortedProperty.name }}:</div>
+                        <div class="content">
+                            <p>
+                                {% for sortedPropertyItem in sortedProperty.options.elements %}
+                                    {{ sortedPropertyItem.name }}
+                                {% endfor %}
+                            </p>
+                            <div class="product-detail-tooltip">
+                                <div class="icon"></div>
+                                <p class="content">Frisch: Der Artikel wird frisch geliefert<br>Tiefkühlfrisch:
+                                    Schockgefrosteter Artikel mit langer Haltbarkeit, Auftauen ohne Qualitätsverlust!
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+            <div class="product-detail-table-row product-detail-table-delivery">
+                <div class="label">Verfügbarkeit:</div>
+                <div class="content">
+                    {% sw_include '@Storefront/storefront/component/delivery-information.html.twig' %}
+                </div>
+            </div>
+            <div class="product-detail-table-row product-detail-table-ordernumber">
+                <div class="label">Artikelnummer:</div>
+                <div class="content" itemprop="sku">
+                    {{ page.product.productNumber }}
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+{% endblock %}
+
+{# Hide ordernumber container #}
+{% block page_product_detail_ordernumber_container %}{% endblock %}
+
+{# Hide delivery informations #}
+{% block page_product_detail_delivery_informations %}
+    {% if page.product.description %}
+        <div class="product-detail-description">
+            <p> {{ page.product.description|raw }}</p>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{# Hide tax #}
+{% block page_product_detail_tax %}
+    {% block page_product_detail_tax_link %}{% endblock %}
+{% endblock %}

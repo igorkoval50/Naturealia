@@ -1,0 +1,47 @@
+{% sw_extends '@Storefront/storefront/component/product/card/box-standard.html.twig' %}
+{% block component_product_box_image %}
+    {% if product.customFields.showIconOnProductImage == true %}
+         <div class="pixupIconOnImage">
+            {% sw_include '@Storefront/wishlist/add-to-wishlist-button.html.twig'  with {
+                productId: product.id,
+                remove :product.customFields.isOnWishlist,
+            } %}
+         </div>
+    {% endif %}
+    {{ parent() }}
+{% endblock %}
+{% block component_product_box_rating %}
+    {% if product.customFields.showIconOnProductImage == false %}
+        {% if shopware.config.detail.showReviews %}
+            {% if product.ratingAverage %}
+                <div class="product-rating" style="display: flex;align-items: stretch;justify-content: space-between;">
+                    {% sw_include '@Storefront/storefront/component/review/rating.html.twig' with {
+                        points: product.ratingAverage,
+                        style: 'text-primary'
+                    } %}
+                    {% sw_include '@Storefront/wishlist/add-to-wishlist-button.html.twig'  with {
+                        productId: product.id,
+                        remove :product.customFields.isOnWishlist,
+                    } %}
+                </div>
+            {% else %}
+                <div class="product-rating" style="display: flex;align-items: center;justify-content: flex-end;">
+                    {% sw_include '@Storefront/wishlist/add-to-wishlist-button.html.twig'  with {
+                        productId: product.id,
+                        remove :product.customFields.isOnWishlist,
+                    } %}
+                </div>
+            {% endif %}
+        {% else %}
+            <div class="product-rating" style="display: flex;align-items: center;justify-content: flex-end;">
+                {% sw_include '@Storefront/wishlist/add-to-wishlist-button.html.twig'  with {
+                    productId: product.id,
+                    remove :product.customFields.isOnWishlist,
+                } %}
+            </div>
+            {{ parent() }}
+        {% endif %}
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}

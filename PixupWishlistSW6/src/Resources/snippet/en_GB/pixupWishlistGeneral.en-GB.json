@@ -1,0 +1,146 @@
+{
+    "pixup-wishlist": {
+        "firstWishlist": "Favorites",
+        "product-detail": {
+            "title": "wish list",
+            "addProduct": "Add to wish list",
+            "deleteProduct": "Remove from wish list",
+            "modal": {
+                "add": {
+                    "title": "Add product to wish list",
+                    "description": "Select a wish list in which you want to add the product",
+                    "confirm": "Save"
+                },
+                "remove": {
+                    "title": "Edit linked wish lists",
+                    "description": "Select wish lists in which you want to add the product",
+                    "confirm": "Save"
+                },
+                "subscribedWishlists": "Subscribed wish lists",
+                "close": "Close",
+                "createNewWishlist": "Create private wish list"
+            }
+        },
+
+        "cookie": {
+            "name": "wish list",
+            "description" : "For creating and using a wish list",
+            "accepted" : "Accepted"
+        },
+        "actions": {
+            "name": "wish list"
+        },
+        "wishlist-page": {
+            "title": "WISHLIST",
+            "header": {
+                "addWishlist": "Create wish list",
+                "removeWishlist": "Delete",
+                "shareWishlist": "Share",
+                "editWishlist": "Edit",
+                "external": "External wish list",
+                "printWishlist": "Print"
+            },
+            "createModal": {
+                "title" : "Create wish list",
+                "description" : "Create a wish list",
+                "close": "Cancel",
+                "save" : "Create",
+                "form": {
+                    "name": "Name:",
+                    "editable": "Editable",
+                    "editableDescription": "Once enabled, users (who have subscribed to the wish list) can edit, delete and add products from/to the wish list.",
+                    "private": "Private",
+                    "privateDescription": "As soon as this is activated, products purchased by the subscribed user will disappear from the wish list.",
+                    "birthday": "Birthday",
+                    "birthdayDescription": "If this is not activated, the wish list is public and can be viewed by any user (unless a password has been set).",
+                    "password": "Password:",
+                    "placeholder": {
+                        "name": "wish list name",
+                        "password": "Password for wish list"
+                    }
+                }
+            },
+            "editWishlist": {
+                "title": "Edit wish list \"%name%\"",
+                "description": "Edit your wish list",
+                "close": "Cancel",
+                "save" : "Save",
+                "form": {
+                    "name" : "Name:",
+                    "editable": "Editable",
+                    "editableDescription": "Once enabled, users (who have subscribed to the wish list) can edit, delete and add products from/to the wish list.",
+                    "private": "Private",
+                    "privateDescription": "As soon as this is activated, products purchased by the subscribed user will disappear from the wish list.",
+                    "birthday": "Birthday",
+                    "birthdayDescription": "If this is not activated, the wish list is public and can be viewed by any user (unless a password has been set).",
+                    "password": "Password:",
+                    "placeholder": {
+                        "name" : "wish list name",
+                        "password": "Password for wish list"
+                    }
+                }
+            },
+            "shareWishlist": {
+                "title": "Share wish list \"%name%\"",
+                "description": "With the following link you can share your wish list",
+                "close": "Close",
+                "copy": "Copy",
+                "privateError": "You have to set you wish list to public in order to share it"
+            },
+            "deleteWishlist": {
+                "title": "Delete wish list \"%name%\"",
+                "description": "Are you sure you to delete this wish list?",
+                "close": "Cancel",
+                "delete": "Yes, delete"
+            },
+            "wishlist": {
+                "removeWishlist": "Delete wish list",
+                "password": {
+                    "enterPasswordLabel": "Password",
+                    "enterPasswordDescription": "Enter the password for the wish list",
+                    "confirm" : "Save"
+                },
+                "product": {
+                    "removeProductFromWishlist": "Remove product from wish list",
+                    "moveProductModal": {
+                        "title":"Edit wish list assignment",
+                        "description": "Move products to one ore more wish lists",
+                        "confirm": "Save",
+                        "close": "Close"
+                    }
+                },
+                "batch": {
+                    "editable": "Editable",
+                    "public": "Public",
+                    "birthday": "Birthday",
+                    "subscribed": "Subscribed"
+                }
+            },
+            "errorCodes": {
+                "0": "",
+                "1": "you have to pass a wish list ID",
+                "2": "you have no permission to add or delete products on this wish list",
+                "3": "you have no permission to see this wish list",
+                "4": "you have no permissions to set settings for this wish list",
+                "5": "You have no rights to use the birthday function.",
+                "6": "The customer ID must be transmitted.",
+                "7": "The wish list ID does not exist.",
+                "8": "You must be logged in.",
+                "9": "The wish list is not available in this sales channel.",
+                "10": "The wish list could not be found.",
+                "11": "The wish list is private.",
+                "12": "Wrong password for the wish list",
+                "13": "This wish list is not subscribable (not editable and no birthday functionality activated) ",
+                "14": "You already have a wish list with this name.",
+                "15": "Something went wrong :/",
+                "noProducts":  {
+                    "title": "Unfortunately you have no products on your wish list.",
+                    "desc": "Add products to your wish list now!"
+                }
+            },
+            "success": {
+                "subscribed" : "You have successfully subscribed to a wish list."
+            }
+        }
+    }
+}

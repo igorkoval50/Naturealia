@@ -1,0 +1,71 @@
+$confettiYellow: #ffd300;
+$confettiBlue: #17d3ff;
+$confettiPink: #ff4e91;
+
+$confettiDuration: 1000;
+
+@function randomNum($min, $max) {
+    $rand: random(10);
+    $randomNum: $min + floor($rand * (($max - $min) + 1));
+    @return $randomNum;
+}
+.checkout-confetti {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    overflow: hidden;
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    opacity: .3;
+}
+.checkout-confetti-piece {
+    position: absolute;
+    width: 8px;
+    height: 16px;
+    background: $confettiYellow;
+    top: 0;
+    opacity: 0;
+    @for $i from 1 through 13 {
+        &:nth-child(#{$i}) {
+            left: $i * 7%;
+            transform: rotate(#{randomNum(-80, 80)}deg);
+            animation: makeItRain $confettiDuration * 1ms infinite ease-out;
+            animation-delay: #{randomNum(0, $confettiDuration * .5)}ms;
+            animation-duration: #{randomNum($confettiDuration * .7, $confettiDuration * 1.2)}ms
+        }
+    }
+    &:nth-child(odd) {
+        background: $confettiBlue;
+    }
+    &:nth-child(even) {
+        z-index: 1;
+    }
+    &:nth-child(4n) {
+        width: 5px;
+        height: 12px;
+        animation-duration: $confettiDuration * 2ms;
+    }
+    &:nth-child(3n) {
+        width: 3px;
+        height: 10px;
+        animation-duration: $confettiDuration * 2.5ms;
+        animation-delay: $confettiDuration * 1ms;
+    }
+    &:nth-child(4n-7) {
+        background: $confettiPink;
+    }
+}
+@keyframes makeItRain {
+    from {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    to {
+        transform: translateY(200px);
+    }
+}

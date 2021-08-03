@@ -1,0 +1,16 @@
+{% sw_extends '@Storefront/storefront/page/search/search-pagelet.html.twig' %}
+
+{% block element_product_listing_wrapper %}
+    {% set listingColumns = 'col-sm-6 col-lg-6 col-xl-4' %}
+    <div class="cms-element-sidebar-filter">
+        {% sw_include '@Storefront/storefront/component/product/listing.html.twig' with {
+            searchResult: page.listing,
+            dataUrl: url('widgets.search.pagelet.v2'),
+            filterUrl: '',
+            params: { search: page.searchTerm },
+            sidebar: 0,
+            boxLayout: 'image',
+            displayMode: ''
+        } %}
+    </div>
+{% endblock %}

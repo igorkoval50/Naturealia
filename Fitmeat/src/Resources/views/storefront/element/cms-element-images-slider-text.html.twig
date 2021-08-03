@@ -1,0 +1,34 @@
+{% block element_images_slider %}
+    {%  set sliderConfig = element.fieldConfig.elements %}
+
+    <div class="swiper-container swiper-containers itDelight-custom-slider swiper-container-category">
+        {% for image in element.config.sliderItems.value %}
+            {% if loop.index == 1 %}
+               <h2 class="slider-headline">{{ image.imageSorting }}</h2>
+            {% endif %}
+        {% endfor %}
+        <div class="swiper-wrapper">
+            {% block element_image_slider_alignment %}
+            {% set myVal = 0 %}
+            {% for image in element.config.sliderItems.value %}
+            <div class="swiper-slide">
+                <div class="image-slider-content"
+                                           data-base-slider-container="true">
+                    <a class="slider-image-wrapper" href="{{ image.imageHref }}">
+                    <img src="{{ image.mediaUrl }}" alt="test">
+                    </a>
+                </div>
+                <div class="content">
+                    {{ image.content|raw }}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endblock %}
+        <div class="swiper-button-next">
+            <div class="arrow-text">
+                <span>{{ 'sliderArrowText'|trans }}</span>
+            </div>
+        </div>
+    </div>
+{% endblock %}

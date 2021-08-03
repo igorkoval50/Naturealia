@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/shopware/platform/master/src/Core/System/SystemConfig/Schema/config.xsd">
+
+    <card>
+        <title>Settings</title>
+        <title lang="de-DE">Einstellungen</title>
+        <input-field type="bool">
+            <name>enableMultiCookieUsage</name>
+            <label>Enable Cookie Multi Wishlist usage</label>
+            <label lang="de-DE">Aktiviere Cookie Multi Wishlist benutzbar</label>
+            <helpText>if this is active a cookie user is able to create multiple wishlists</helpText>
+            <helpText lang="de-DE">Wenn dies aktiviert ist können Cookie-User mehrere Wishlists erstellen</helpText>
+            <defaultValue>true</defaultValue>
+        </input-field>
+        <input-field type="bool">
+            <name>cookieUserCanSubscribe</name>
+            <label>Enable Cookie User-public wishlists</label>
+            <label lang="de-DE">Aktiviere Cookie User Öffentlicher Merkzettel</label>
+            <helpText>if this is active Cookie User ( user who are not logged in ) can subscribe to wishlists ( edit/birthday wishlists )</helpText>
+            <helpText lang="de-DE">Wenn dies aktiviert is können Cookie-User ( Benutzer welche nicht eingeloggt sind ) Wunschlisten Abonnieren ( wenn Sie bearbeitbar sind )</helpText>
+            <defaultValue>false</defaultValue>
+        </input-field>
+        <input-field type="bool">
+            <name>wishlistCanBePublic</name>
+            <label>Enable Public Wishlists</label>
+            <label lang="de-DE">Aktiviere Öffentliche Merkzettel</label>
+            <helpText>if this is active a wishlist can be set to public so a user can share his wishlist</helpText>
+            <helpText lang="de-DE">Wenn dies aktiviert ist kann der User seinen Merkzettel Öffentlich machen</helpText>
+            <defaultValue>false</defaultValue>
+        </input-field>
+        <input-field type="bool">
+            <name>wishlistCanBeBirthday</name>
+            <label>Enable Birthday Mode </label>
+            <label lang="de-DE">Aktiviere Verbrauchs Merkzettel</label>
+            <helpText>if this is active the customer have the opatunity to set the wishlist to birthday, which will remove all products from the wishlist if they are bought from the wishlist</helpText>
+            <helpText lang="de-DE">Wenn dies aktiviert ist hat der User die Möglichkeit seine Wunschliste auf Geburtstag zu stellen, was alle Produkte vom Merkzettel entfernen wird welche vom Merkzettel gekauft wurden</helpText>
+            <defaultValue>false</defaultValue>
+        </input-field>
+        <input-field type="bool">
+            <name>printWishlist</name>
+            <label>Enable the ability to print the wishlist</label>
+            <label lang="de-DE">Aktiviere die möglichkeit den Merkzettel zu Drucken</label>
+            <helpText>if this is active a Button will appear in the frontend to have the posibility to print the wishlist</helpText>
+            <helpText lang="de-DE">Wenn dies aktiviert ist wird im Frontend ein Knopf angezeigt ( auf dem Merkzettel ) welcher die möglichkeit bietet den Merkzettel zu Drucken</helpText>
+            <defaultValue>false</defaultValue>
+        </input-field>
+        <input-field type="int">
+            <name>wishlistDeleteCookie</name>
+            <label>delete Cookie-User after X Days</label>
+            <label lang="de-DE">Lösche Cookie-Benutzer nach X Tagen</label>
+            <helpText>specify after how many days the cookie data should be deleted ( to keep the database table clean )</helpText>
+            <helpText lang="de-DE">Definiere nach wievielen Tagen die Cookie-Daten gelöscht werden soll</helpText>
+            <defaultValue>2</defaultValue>
+        </input-field>
+        <input-field type="bool">
+            <name>activateWishlistReco</name>
+            <label>enable Recommendations on the WIshlist-Page</label>
+            <label lang="de-DE">Aktiviere Recommendations auf der Wishlist-Page</label>
+            <helpText>this option is only good if you have enabled the plugin PixupReco ( which is a Recommendation Engine from PixupMedia GmbH )</helpText>
+            <helpText lang="de-DE">Diese Option ist nur gut, wenn Sie das Plugin PixupReco installiert haben ( Dies ist eine Recommendation Engine von PixupMedia GmbH )</helpText>
+            <defaultValue>1</defaultValue>
+        </input-field>
+    </card>
+    <card>
+        <title>Styling</title>
+        <title lang="de-DE">Styling</title>
+        <input-field type="bool">
+            <name>showOnImage</name>
+            <label>show add-to-wishlist icon on Product-Image (listing)</label>
+            <label lang="de-DE">Zeige zur-Wunschliste-hinzufügen Icon auf dem Produktbild (listing)</label>
+            <helpText>if you enable this option the Heart-Icon will be shown on the upper right corner of the Product-Image-Card</helpText>
+            <helpText lang="de-DE">Diese Option wird, wenn aktiviert, das Herz-Symbol oben rechts im Produktbild anzeigen</helpText>
+            <defaultValue>0</defaultValue>
+        </input-field>
+        <input-field type="bool">
+            <name>showOnCart</name>
+            <label>show icon on Shopping cart</label>
+            <label lang="de-DE">Zeige zur-Wunschliste-hinzufügen Icon im Warenkorb</label>
+            <helpText>if you enable this option the Heart-Icon will be shown inside the Shopping card</helpText>
+            <helpText lang="de-DE">Diese Option wird, wenn aktiviert, das Herz-Symbol anzeigen (im Warenkorb)</helpText>
+            <defaultValue>1</defaultValue>
+        </input-field>
+        <input-field type="bool">
+            <name>showOnCartImage</name>
+            <label>show icon on Shopping cart Image</label>
+            <label lang="de-DE">Zeige Icon im Warenkorb auf dem Produktbild</label>
+            <helpText>if you enable this option the Heart-Icon will be shown on the upper right corner of the Product-Image-Card inside the Shopping card else it will be behind the name</helpText>
+            <helpText lang="de-DE">Diese Option wird, wenn aktiviert, das Herz-Symbol oben rechts im Produktbild anzeigen (im Warenkorb). Wenn deaktiviert wird das Icon hinter dem Titel gezeigt</helpText>
+            <defaultValue>0</defaultValue>
+        </input-field>
+
+        <input-field type="bool">
+            <name>showOnOffcanvasCart</name>
+            <label>show icon on Offcanvas cart</label>
+            <label lang="de-DE">Zeige zur-Wunschliste-hinzufügen Icon im Offcanvas-Warenkorb</label>
+            <helpText>if you enable this option the Heart-Icon will be shown inside the Offcanvas card</helpText>
+            <helpText lang="de-DE">Diese Option wird, wenn aktiviert, das Herz-Symbol anzeigen (im Warenkorb)</helpText>
+            <defaultValue>1</defaultValue>
+        </input-field>
+        <input-field type="bool">
+            <name>showOnOffcanvasCartImage</name>
+            <label>show icon on Offcanvas cart Image</label>
+            <label lang="de-DE">Zeige Icon im Warenkorb auf dem Produktbild</label>
+            <helpText>if you enable this option the Heart-Icon will be shown on the upper right corner of the Product-Image-Card inside the Offcanvas card else it will be behind the quantity</helpText>
+            <helpText lang="de-DE">Diese Option wird, wenn aktiviert, das Herz-Symbol oben rechts im Produktbild anzeigen (im Offcanvas-Warenkorb). Wenn deaktiviert wird das Icon hinter dem Anzahl gezeigt</helpText>
+            <defaultValue>0</defaultValue>
+        </input-field>
+    </card>
+</config>

@@ -1,0 +1,11 @@
+{% sw_extends '@Storefront/storefront/element/cms-element-form.html.twig' %}
+
+{% block element_form_contact_form_title %}
+    <div class="card-title mb-4">
+        {% if element.config.title.value %}
+            {{ element.config.title.value|raw }}
+        {%  else %}
+            {{ "contact.headline"|trans }}
+        {% endif %}
+    </div>
+{% endblock %}

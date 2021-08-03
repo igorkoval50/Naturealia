@@ -1,0 +1,126 @@
+{% block pixup_wishlist_configurator_form %}
+
+
+        {% block pixup_wishlist_configurator_csrf %}
+            {{ sw_csrf('frontend.detail.switch') }}
+        {% endblock %}
+
+        {% block pixup_wishlist_configurator_groups %}
+            {% for group in page.configuratorSettings %}
+                {% block pixup_wishlist_configurator_group %}
+                    <div class="pixupWishlistConfiguratorGroupContainer">
+                        {% block pixup_wishlist_configurator_group_title %}
+                            <div class="GroupTitle">
+                                {% block pixup_wishlist_configurator_group_title_text %}
+                                    {{ group.translated.name }}
+                                {% endblock %}
+                            </div>
+                        {% endblock %}
+
+                        {% block pixup_wishlist_configurator_options %}
+                            <div class="OptionContainer" id="pixupOptionContainer{{ page.wishlistId}}{{ page.index }}{{ group.id }}">
+                                {% if group.options|length > 1 %}
+                                <div class="OptionContainerSelectIcon text-primary" id="pixupOptionIcon{{ page.wishlistId}}{{ page.index }}{{ group.id }}">
+                                    {% sw_icon 'arrow-head-down' style {"class":" pxOutlinePrimary pxArrowIcon " } %}
+                                </div>
+                                <div class="OptionContainerSelectLayer" tabindex="-1"
+                                     onfocusin="pixupShowSelect(
+                                    'pixupOptionSelectLayer{{ page.wishlistId}}{{ page.index }}{{ group.id }}',
+                                    'pixupOptionContainer{{ page.wishlistId}}{{ page.index }}{{ group.id }}',
+                                    'pixupOptionIcon{{ page.wishlistId}}{{ page.index }}{{ group.id }}'
+                                    )"
+                                     onfocusout="pixupCloseSelect(
+                                    'pixupOptionSelectLayer{{ page.wishlistId}}{{ page.index }}{{ group.id }}',
+                                    'pixupOptionContainer{{ page.wishlistId}}{{ page.index }}{{ group.id }}',
+                                    'pixupOptionIcon{{ page.wishlistId}}{{ page.index }}{{ group.id }}'
+                                    )" ></div>
+                                {% endif %}
+                                <div class="optionSelectLayer" id="pixupOptionSelectLayer{{ page.wishlistId}}{{ page.index }}{{ group.id }}">
+                                {% for option in group.options |sort((a,b) => a.id in page.product.optionIds < b.id in page.product.optionIds) %}
+
+                                    {% set optionIdentifier = [group.id, option.id,page.wishlistId,page.index]|join('-') %}
+                                    {% set isActive = false %}
+                                    {% set isCombinableCls = 'is-combinable' %}
+
+                                    {% if option.id in page.product.optionIds %}
+                                        {% set isActive = true %}
+                                    {% endif %}
+
+                                    {% if not option.combinable %}
+                                        {% set isCombinableCls = false %}
+                                    {% endif %}
+
+                                    {% if option.configuratorSetting.media %}
+                                        {% set displayType = 'media' %}
+                                        {% set media = option.configuratorSetting.media %}
+                                    {% else %}
+                                        {% set displayType = group.displayType %}
+                                        {% if option.media %}
+                                            {% set media = option.media %}
+                                        {% else %}
+                                            {% set media = false %}
+                                        {% endif %}
+                                    {% endif %}
+
+                                    {% block pixup_wishlist_configurator_option %}
+                                        <div class="PixupOptionItem" tabindex="-1">
+                                            {% block pixup_wishlist_configurator_option_radio %}
+                                                <input
+                                                       style="display:none"
+                                                       type="radio"
+                                                       name="{{ [group.id,page.wishlistId,page.index]|join('-') }}"
+                                                       value="{{ option.id }}"
+                                                       class="pixupConfigurator{{ page.wishlistId}}{{ page.index }}"
+                                                       title="{{ optionIdentifier }}"
+                                                       id="{{ optionIdentifier }}"
+                                                       onclick="pixupWishlist_changeVariant(this.name.split('-')[0],
+                                                           'pixupConfigurator{{ page.wishlistId}}{{ page.index }}',
+                                                           '{{ page.product.parentId}}',
+                                                           '{{ page.product.id }}',
+                                                           '{{ page.index }}',
+                                                           'product_container{{ page.index }}')"
+                                                       {% if isActive %}checked="checked"{% endif %}>
+
+                                                {% block pixup_wishlist_configurator_option_radio_label %}
+                                                    <label class="optionItem {% if isCombinableCls %} {{ isCombinableCls }}{% endif %} is-display-{{ displayType }}"
+                                                           title="{{ option.translated.name }}"
+                                                           for="{{ optionIdentifier }}">
+                                                        {% if displayType == 'color' and option.colorHexCode %}
+                                                            <div class="pxColorPrev" style="background-color: {{ option.colorHexCode }}">
+
+                                                            </div>
+                                                        {% endif %}
+                                                        {% if displayType == 'media' and media %}
+                                                            {% set test = media|sw_encode_media_url %}
+                                                            <div class="optionImagePrevContainer">
+                                                                <div class="optionImage"
+                                                                title="{{ option.translated.name }}"
+                                                                >
+                                                                    {% sw_thumbnails 'cart-item-img-thumbnails' with {
+                                                                        media: media,
+                                                                        sizes: {
+                                                                            'default': '100px'
+                                                                        },
+                                                                    } %}
+                                                                </div>
+                                                                <div class="optionTitle">{{ option.translated.name }}</div>
+                                                            </div>
+                                                        {% elseif displayType == 'text' or
+                                                            (displayType == 'media' and not media) or
+                                                            (displayType == 'color' and not option.colorHexCode) %}
+                                                            {{ option.translated.name }}
+                                                        {% endif %}
+                                                    </label>
+                                                {% endblock %}
+                                            {% endblock %}
+                                        </div>
+                                    {% endblock %}
+                                {% endfor %}
+                                </div>
+                            </div>
+                        {% endblock %}
+                    </div>
+                {% endblock %}
+            {% endfor %}
+        {% endblock %}
+{% endblock %}

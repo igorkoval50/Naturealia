@@ -1,0 +1,23 @@
+{% block sw_cms_block_image_text_row_preview %}
+    <div class="sw-cms-preview-image-text-row-two">
+        <div class="sw-cms-preview-image-text-row__left">
+            <div class="sw-cms-preview-image-text-row__image">
+                <img :src="'/administration/static/img/cms/preview_camera_small.jpg' | asset">
+            </div>
+            <div class="image-text">
+                <p class="text">Headline information</p>
+                <button class="btn btn-primary">Show more</button>
+            </div>
+        </div>
+
+        <div class="sw-cms-preview-image-text-row__center">
+            <div class="sw-cms-preview-image-text-row__image">
+                <img :src="'/administration/static/img/cms/preview_plant_small.jpg' | asset">
+            </div>
+            <div class="image-text">
+                <p class="text">Headline information</p>
+                <button class="btn btn-primary">Show more</button>
+            </div>
+        </div>
+    </div>
+{% endblock %}

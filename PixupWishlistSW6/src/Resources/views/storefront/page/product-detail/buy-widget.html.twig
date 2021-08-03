@@ -1,0 +1,12 @@
+{% sw_extends '@Storefront/storefront/page/product-detail/buy-widget.html.twig' %}
+
+
+{% block page_product_detail_tax_link %}
+    <div style="display:flex;align-items:stretch;justify-content: space-between" class="PixupPDPBtnContainer">
+    {{ parent() }}
+    {% sw_include '@Storefront/wishlist/add-to-wishlist-button.html.twig'  with {
+        productId: page.product.id,
+        remove :page.product.extensions.pixup_wish_list_state.isOnWishlist,
+    } %}
+    </div>
+{% endblock %}

@@ -1,0 +1,9 @@
+{% sw_extends '@Storefront/storefront/page/product-detail/buy-widget-form.html.twig' %}
+
+{% block page_product_detail_buy_quantity %}
+    <div class="product--quantity">
+        <button type="button" class="product--quantity-action minus" data-type="minus"></button>
+        <input readonly id="productQuantityVal" type="number" name="lineItems[{{ product.id }}][quantity]" value="{{ product.minPurchase }}" min="{{ product.minPurchase }}" step="{{ product.purchaseSteps }}" max="{{ product.calculatedMaxPurchase }}">
+        <button type="button" class="product--quantity-action plus" data-type="plus"></button>
+    </div>
+{% endblock %}

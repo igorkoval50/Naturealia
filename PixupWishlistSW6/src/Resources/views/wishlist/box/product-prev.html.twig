@@ -1,0 +1,281 @@
+{% sw_extends '@Storefront/storefront/component/product/card/box-standard.html.twig' %}
+
+{#{% block wishlist_box_product_prev %}#}
+    {#{% if product and product.active %}#}
+        {#{% set name = product.translated.name %}#}
+        {#{% set id = product.id %}#}
+        {#{% set cover = product.cover.media %}#}
+        {#<div class="product-image-wrapper pixupImageWrapper">#}
+            {#<div style="position:relative;height:fit-content">#}
+                {#<div class="pixupWishlistActionContainer">#}
+                    {#{% if not external and delete %}#}
+                        {#<div class="pixupWishlistIconLeft"#}
+                             {#title="{{ "pixup-wishlist.wishlist-page.wishlist.product.moveProductModal.title"|trans }}"#}
+                             {#onclick="pixupWishlist_moveProductInit(#}
+                                 {#'{{ url('frontend.pixup.wishlist.ajax.get_wishlists')  }}',#}
+                                 {#'{{ product.id }}',#}
+                                 {#'product_container{{ index }}',#}
+                                 {#'{{ wishlistId }}'#}
+                                 {#)"#}
+                        {#>#}
+                            {#{% sw_icon 'arrow-360-left' style {"pack":"solid","class":" pxProductPrevSettingsIcon" } %}#}
+                            {#{% sw_icon 'arrow-360-left' style {"class":" pxProductPrevSettingsIcon" } %}#}
+                            {#% sw_icon 'PxHeart-remove' style{"pack":"pixup","class":"PixupAddToWishlistIcon"} %#}
+                        {#</div>#}
+                    {#{% endif %}#}
+                    {#{% if not external and move %}#}
+                        {#<div class="pixupWishlistIconRight"#}
+                             {#title="{{ "pixup-wishlist.wishlist-page.wishlist.product.removeProductFromWishlist"|trans }}"#}
+                             {#onclick="pixupWishlist_removeFromWishlistInit(#}
+                                 {#'{{ url('frontend.pixup.wishlist.ajax.remove_product', {'productId': product.id,'wishlistId':wishlistId})  }}',#}
+                                 {#'{{product.id}}',#}
+                                 {#'product_container{{ index }}',#}
+                                 {#'{{ wishlistId }}'#}
+                                 {#)">#}
+                            {#{% sw_icon 'x' style {"pack":"solid","class":" pxProductPrevSettingsIcon" } %}#}
+                            {#{% sw_icon 'x' style {"class":" pxProductPrevSettingsIcon" } %}#}
+                        {#</div>#}
+                    {#{% endif %}#}
+                {#</div>#}
+                        {#<a href="{{ seoUrl('frontend.detail.page', {'productId': id}) }}" title="{{product.translated.name }}" class="product-image-link is-standard">#}
+
+                            {#{% sw_thumbnails 'product-image-thumbnails' with {#}
+                                {#media: cover,#}
+                                {#attributes: attributes,#}
+                                {#sizes: {#}
+                                    {#'xs': '501px',#}
+                                    {#'sm': '315px',#}
+                                    {#'md': '427px',#}
+                                    {#'lg': '333px',#}
+                                    {#'xl': '284px'#}
+                                {#},#}
+                                {#attributes: {#}
+                                    {#'class': 'product-image is-standard',#}
+                                    {#'alt': (product.translated.name ?: ''),#}
+                                    {#'title': (product.translated.name ?: '')#}
+                                {#}#}
+                            {#} %}#}
+                        {#</a>#}
+            {#</div>#}
+        {#</div>#}
+        {#{% set price = product.calculatedPrice %}#}
+        {#{% if product.calculatedPrices|length == 1 %}#}
+            {#{% set price = product.calculatedPrices.first %}#}
+        {#{% endif %}#}
+        {#<div class="pixupWishlistInfoContainer">#}
+            {#<div class="pixupWishlistName text-primary" title="{{product.translated.name }}">{{product.translated.name |length > 24 ? product.translated.name|slice(0, 24) ~ '...' : product.translated.name}}</div>#}
+            {#<div class="pixupWishlistOrdernumber">{{ "detail.ordernumberLabel"|trans|sw_sanitize }}{{product.productNumber }}</div>#}
+            {#<div class="pixupWishlistPrice">{% sw_include '@Storefront/storefront/page/product-detail/buy-widget-price.html.twig'  with {#}
+                    {#'page':{'product':product}#}
+                {#} only %}</div>#}
+        {#</div>#}
+        {#<div class="pixupWishlistConfiguratorContainer">#}
+            {#{% sw_include '@Storefront/wishlist/component/product-configurator.html.twig'  with {#}
+                {#page: {'product':product,'configuratorSettings':configuratorSettings,"index":index,"wishlistId":wishlistId}#}
+            {#} only %}#}
+        {#</div>#}
+        {#<div class="product-detail-delivery-information">#}
+            {#{% sw_include '@Storefront/storefront/component/delivery-information.html.twig' with {#}
+                {#page: {'product':product}#}
+            {#} %}#}
+        {#</div>#}
+        {#{% if product.active %}#}
+            {#<div class="product-detail-form-container">#}
+                {#{% sw_include '@Storefront/wishlist/component/product-add-to-cart.html.twig' with {#}
+                    {#page: {'product':product},wishlistId:wishlistId#}
+                {#} only %}#}
+            {#</div>#}
+        {#{% endif %}#}
+    {#{% endif %}#}
+{#{% endblock %}#}
+
+{#{% block wishlist_box_product_prev %}#}
+    {#{% if product and product.active %}#}
+        {#{% if not external and move %}#}
+            {#<div class="pixupWishlistIconRight"#}
+                 {#title="{{ "pixup-wishlist.wishlist-page.wishlist.product.removeProductFromWishlist"|trans }}"#}
+                 {#onclick="pixupWishlist_removeFromWishlistInit(#}
+                         {#'{{ url('frontend.pixup.wishlist.ajax.remove_product', {'productId': product.id,'wishlistId':wishlistId})  }}',#}
+                         {#'{{product.id}}',#}
+                         {#'product_container{{ index }}',#}
+                         {#'{{ wishlistId }}'#}
+                         {#)">#}
+                {#{% sw_icon 'x' style {"pack":"solid","class":" pxProductPrevSettingsIcon" } %}#}
+                {#{% sw_icon 'x' style {"class":" pxProductPrevSettingsIcon" } %}#}
+            {#</div>#}
+        {#{% endif %}#}
+        {#{% sw_include'@Storefront/storefront/component/product/card/box-standard.html.twig' %}#}
+    {#{% endif %}#}
+{#{% endblock %}#}
+
+
+{% block component_product_box %}
+    {% if product %}
+        {% set name = product.translated.name %}
+        {% set id = product.id %}
+        {% set cover = product.cover.media %}
+
+        <div class="card product-box box-{{ layout }}">
+            {% block component_product_box_content %}
+                <div class="card-body">
+                    {% block component_product_box_badges %}
+                        {% sw_include '@Storefront/storefront/component/product/card/badges.html.twig' %}
+                    {% endblock %}
+
+                    {% block component_product_box_rich_snippets %}
+                        {% sw_include '@Storefront/storefront/component/product/card/meta.html.twig' %}
+                    {% endblock %}
+
+                    {% block component_product_box_image %}
+                        <div class="product-image-wrapper">
+                            <div class="product-badges">
+                                {% block component_product_badges_discount %}
+                                    {% if product.customFields.custom_badge_black %}
+                                        <div class="badge badge-black">
+                                            <span>{{ 'product.black'|trans }}</span>
+                                        </div>
+                                    {% endif %}
+                                    {% if product.stock > 0 and product.stock < 10 %}
+                                        <div class="badge badge-only">
+                                            <span style="font-size: 12px;">{{ 'product.limit'|trans }} {{ product.stock }} STK.</span>
+                                        </div>
+                                    {% endif %}
+                                    {% if product.extensions.BstSoldOutBadge6.isSoldOut %}
+                                        {%  set config = page.header.extensions.BstSoldOutBadge6.config %}
+                                        <div>
+                                            <div class="badge badge-danger badge-soldOut" style="color:{{ config.textColor }};background-color:{{ config.backgroundColor }};">
+                                                <span style="font-size: 12px;">{{ config.infoText }}</span>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+
+                                    {% set listPrice = product.priceRange or product.calculatedPrices.count > 0 ? null : product.calculatedPrice.listPrice.percentage > 0 %}
+
+                                    {% if listPrice %}
+                                        <div class="badge badge-danger badge-discount">
+                                            <span>{{ 'product.sold'|trans }}</span>
+                                        </div>
+                                    {% endif %}
+                                {% endblock %}
+
+                                {% block component_product_badges_topseller %}
+                                    {% if product.markAsTopseller %}
+                                        <div>
+                                            <span class="badge badge-warning badge-topseller">{{ "listing.boxLabelTopseller"|trans|sw_sanitize }}</span>
+                                        </div>
+                                    {% endif %}
+                                {% endblock %}
+
+                                {% block component_product_badges_new %}
+                                    {% if product.isNew %}
+                                        <div>
+                                            <span class="badge badge-success badge-new">{{ "listing.boxLabelNew"|trans|sw_sanitize }}</span>
+                                        </div>
+                                    {% endif %}
+                                {% endblock %}
+                            </div>
+                            {# fallback if display mode is not set #}
+                            {% set displayMode = displayMode ?: 'standard' %}
+
+                            {# set display mode 'cover' for box-image with standard display mode #}
+                            {% if layout == 'image' and displayMode == 'standard' %}
+                                {% set displayMode = 'cover' %}
+                            {% endif %}
+
+                            <a href="{{ seoUrl('frontend.detail.page', {'productId': id}) }}"
+                               title="{{ name }}"
+                               class="product-image-link is-{{ displayMode }}">
+                                {% if cover.url %}
+                                    {% set attributes = {
+                                        'class': 'product-image is-'~displayMode,
+                                        'alt': (cover.translated.alt ?: name),
+                                        'title': (cover.translated.title ?: name)
+                                    } %}
+
+                                    {% if displayMode == 'cover' or displayMode == 'contain' %}
+                                        {% set attributes = attributes|merge({ 'data-object-fit': displayMode }) %}
+                                    {% endif %}
+
+                                    {% sw_thumbnails 'product-image-thumbnails' with {
+                                        media: cover,
+                                        sizes: {
+                                            'xs': '501px',
+                                            'sm': '315px',
+                                            'md': '427px',
+                                            'lg': '333px',
+                                            'xl': '284px'
+                                        }
+                                    } %}
+                                {% else %}
+                                    <div class="product-image-placeholder">
+                                        {% sw_icon 'placeholder' style {
+                                            'size': 'fluid'
+                                        } %}
+                                    </div>
+                                {% endif %}
+                            </a>
+                        </div>
+                    {% endblock %}
+
+                    {% block component_product_box_info %}
+                        <div class="product-info">
+                            {% block component_product_box_rating %}
+                                {% if shopware.config.detail.showReviews %}
+                                    <div class="product-rating">
+                                        {% if product.ratingAverage %}
+                                            {% sw_include '@Storefront/storefront/component/review/rating.html.twig' with {
+                                                points: product.ratingAverage,
+                                                style: 'text-primary'
+                                            } %}
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
+                            {% endblock %}
+
+                            {% block component_product_box_name %}
+                                {% if not external and move %}
+                                    <div class="pixupWishlistIconRight"
+                                         title="{{ "pixup-wishlist.wishlist-page.wishlist.product.removeProductFromWishlist"|trans }}"
+                                         onclick="pixupWishlist_removeFromWishlistInit(
+                                                 '{{ url('frontend.pixup.wishlist.ajax.remove_product', {'productId': product.id,'wishlistId':wishlistId})  }}',
+                                                 '{{product.id}}',
+                                                 'product_container{{ index }}',
+                                                 '{{ wishlistId }}'
+                                                 )">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="20" viewBox="0 0 24 20" fill="none">
+                                            <path d="M22.3341 1.63405C21.2352 0.561053 19.7171 0.0247803 17.7789 0.0247803C17.2425 0.0247803 16.6951 0.11778 16.1372 0.303689C15.5791 0.489735 15.0598 0.740735 14.5801 1.05651C14.0997 1.37219 13.6869 1.66864 13.3406 1.94542C12.9947 2.22228 12.6658 2.51651 12.3544 2.82787C12.0429 2.51651 11.7141 2.22228 11.3682 1.94542C11.022 1.66864 10.609 1.37237 10.1287 1.05651C9.64852 0.740598 9.12938 0.48978 8.57138 0.303689C8.01342 0.117826 7.46611 0.0247803 6.92974 0.0247803C4.9917 0.0247803 3.47343 0.561189 2.3747 1.63405C1.27597 2.70683 0.726562 4.19483 0.726562 6.09819C0.726562 6.67787 0.828381 7.27505 1.03161 7.88901C1.23484 8.50328 1.46643 9.02678 1.72593 9.45928C1.98538 9.89174 2.27961 10.3135 2.60838 10.7245C2.93715 11.1354 3.17743 11.4186 3.32865 11.5744C3.48002 11.7301 3.59902 11.8427 3.68552 11.912L11.7834 19.7245C11.9392 19.8802 12.1295 19.9583 12.3544 19.9583C12.5793 19.9583 12.7697 19.8802 12.9254 19.7245L21.0104 11.9376C22.9917 9.95674 23.9822 8.0101 23.9822 6.09801C23.9822 4.19451 23.4329 2.70664 22.3341 1.63405ZM19.8813 10.718L12.3544 17.9723L4.81465 10.7049C3.19674 9.08737 2.38793 7.55151 2.38793 6.09801C2.38793 5.39733 2.48093 4.77864 2.66683 4.24237C2.85288 3.70601 3.09079 3.27978 3.38061 2.96401C3.67047 2.64814 4.02297 2.39096 4.43824 2.19183C4.85374 1.99287 5.26033 1.85873 5.65824 1.78955C6.05615 1.72046 6.48002 1.68587 6.92997 1.68587C7.37979 1.68587 7.86438 1.79605 8.38347 2.01673C8.90247 2.23733 9.38047 2.51419 9.81733 2.84723C10.2543 3.18051 10.6285 3.49192 10.9401 3.78164C11.2515 4.07164 11.5109 4.33751 11.7186 4.57978C11.8742 4.77019 12.0864 4.86537 12.3545 4.86537C12.6227 4.86537 12.8346 4.77019 12.9904 4.57978C13.198 4.33751 13.4577 4.07151 13.7691 3.78164C14.0805 3.49192 14.4547 3.18064 14.8915 2.84723C15.3285 2.51419 15.8065 2.23733 16.3257 2.01673C16.8447 1.7961 17.3294 1.68587 17.7792 1.68587C18.2291 1.68587 18.6528 1.72046 19.0509 1.78955C19.449 1.85869 19.8556 1.99287 20.2709 2.19183C20.6862 2.39092 21.0387 2.64828 21.3285 2.96401C21.6183 3.27978 21.8563 3.70601 22.0424 4.24237C22.2281 4.77864 22.3211 5.39733 22.3211 6.09801C22.3211 7.55151 21.5079 9.09164 19.8813 10.718Z" fill="#FF0000"/>
+                                            <path d="M22.3341 1.63405C21.2352 0.561053 19.7171 0.0247803 17.7789 0.0247803C17.2425 0.0247803 16.6951 0.11778 16.1372 0.303689C15.5791 0.489735 15.0598 0.740735 14.5801 1.05651C14.0997 1.37219 13.6869 1.66864 13.3406 1.94542C12.9947 2.22228 12.6658 2.51651 12.3544 2.82787C12.0429 2.51651 11.7141 2.22228 11.3682 1.94542C11.022 1.66864 10.609 1.37237 10.1287 1.05651C9.64852 0.740598 9.12938 0.48978 8.57138 0.303689C8.01343 0.117826 7.46611 0.0247803 6.92974 0.0247803C4.9917 0.0247803 3.47343 0.561189 2.3747 1.63405C1.27597 2.70683 0.726562 4.19483 0.726562 6.09819C0.726562 6.67787 0.828381 7.27505 1.03161 7.88901C1.23484 8.50328 1.46643 9.02678 1.72593 9.45928C1.98538 9.89174 2.27961 10.3135 2.60838 10.7245C2.93715 11.1354 3.17743 11.4186 3.32865 11.5744C3.48002 11.7301 3.59902 11.8427 3.68552 11.912L11.7834 19.7245C11.9392 19.8802 12.1295 19.9583 12.3544 19.9583C12.5793 19.9583 12.7697 19.8802 12.9254 19.7245L21.0104 11.9376C22.9917 9.95673 23.9822 8.0101 23.9822 6.09801C23.9822 4.19451 23.4329 2.70664 22.3341 1.63405Z" fill="#FF0000"/>
+                                        </svg>
+                                    </div>
+                                {% endif %}
+                                {# Title #}
+                                {{ parent() }}
+                            {% endblock %}
+
+                            {% block component_product_box_description %}
+                            {% endblock %}
+
+                            {% block component_product_box_price %}
+                                {# Price #}
+                                {% sw_include '@Storefront/storefront/component/product/card/price-unit-custom.html.twig' %}
+                                {# Delivery #}
+                                <div class="product-delivery">
+                                    {% sw_include '@Storefront/storefront/component/delivery-information.html.twig' %}
+                                </div>
+
+                                {# Short description #}
+                                <div class="product-description">
+                                    {{ product.customFields.custom_product_short_description|striptags|raw }}
+                                </div>
+                            {% endblock %}
+
+                            {% block component_product_box_action %}
+                                {% sw_include '@Storefront/storefront/component/product/card/action.html.twig' %}
+                            {% endblock %}
+                        </div>
+                    {% endblock %}
+                </div>
+            {% endblock %}
+        </div>
+    {% endif %}
+{% endblock %}

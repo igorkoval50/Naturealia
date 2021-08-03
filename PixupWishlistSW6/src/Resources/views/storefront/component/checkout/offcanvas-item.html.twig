@@ -1,0 +1,24 @@
+{% sw_extends '@Storefront/storefront/component/checkout/offcanvas-item.html.twig' %}
+{% block component_offcanvas_product_image_inner %}
+    {% if page.extensions.pixup.showOnCart and page.extensions.pixup.showOnCartImage %}
+        {% if isDiscount != true and isNested != true %}
+            <div class="pixupIconOnImageCart">
+                {% sw_include '@Storefront/wishlist/add-to-wishlist-button.html.twig'  with {
+                    productId: lineItem.id,
+                    remove :lineItem.extensions.isOnWishlist,
+                } %}
+            </div>
+        {% endif %}
+    {% endif %}
+    {{ parent() }}
+{% endblock %}
+
+{% block component_offcanvas_product_quantity %}
+    {{ parent() }}
+    {% if page.extensions.pixup.showOnCart and page.extensions.pixup.showOnCartImage != true %}
+        {% sw_include '@Storefront/wishlist/add-to-wishlist-button.html.twig'  with {
+            productId: lineItem.id,
+            remove :lineItem.extensions.isOnWishlist,
+        } %}
+    {% endif %}
+{% endblock %}

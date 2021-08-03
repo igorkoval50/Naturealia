@@ -1,0 +1,18 @@
+{
+  "name": "swag/theme-skeleton",
+  "description": "Theme skeleton plugin",
+  "type": "shopware-platform-plugin",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Fitmeat\\": "src/"
+    }
+  },
+  "extra": {
+    "shopware-plugin-class": "Fitmeat\\Fitmeat",
+    "label": {
+      "de-DE": "Theme Fitmeat plugin",
+      "en-GB": "Theme Fitmeat plugin"
+    }
+  }
+}

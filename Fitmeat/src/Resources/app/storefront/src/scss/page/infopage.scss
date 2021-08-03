@@ -1,0 +1,45 @@
+.section-info-page-head {
+    padding: 15px 10px 20px;
+    background: #ffffff;
+    text-align: center;
+    @media screen and(min-width: 36em) {
+        padding: 30px 10px;
+    }
+    @media screen and(min-width: 48em) {
+        padding: 20px 50px 40px;
+    }
+    @media screen and(min-width: 62em) {
+        padding: 50px;
+    }
+    @media screen and(min-width: 90em) {
+        padding: 0 0px 60px;
+    }
+    .info-page-head {
+        h1 {
+            font-size: 18px;
+            line-height: 24px;
+            letter-spacing: 0.02em;
+            font-weight: 700;
+            margin: 0;
+            font-family: "NeutrifStudio", sans-serif;
+            text-transform: uppercase;
+            @media screen and(min-width: 36em) {
+                font-size: 20px;
+                line-height: 28px;
+            }
+            @media screen and(min-width: 48em) {
+                font-size: 26px;
+                line-height: 33px;
+            }
+            @media screen and(min-width: 62em) {
+                font-size: 28px;
+                line-height: 38px;
+                letter-spacing: 0.04em;
+            }
+            @media screen and(min-width: 90em) {
+                font-size: 34px;
+                line-height: 46px;
+            }
+        }
+    }
+}

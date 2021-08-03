@@ -1,0 +1,21 @@
+{
+    "name": "Fitmeat",
+    "author": "Shopware AG",
+    "views": [
+        "@Storefront",
+        "@Fitmeat",
+        "@Plugins"
+    ],
+    "style": [
+        "app/storefront/src/scss/overrides.scss",
+        "@Storefront",
+        "app/storefront/src/scss/base.scss"
+    ],
+    "script": [
+        "@Storefront",
+        "app/storefront/dist/storefront/js/fitmeat.js"
+    ],
+    "asset": [
+        "app/storefront/src/assets"
+    ]
+}

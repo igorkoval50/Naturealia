@@ -1,0 +1,43 @@
+{
+    "name": "pixup/wish-list",
+    "description": "Pixup Media GmbH Advanced Wish List",
+    "version": "1.0.7",
+    "license": "proprietary",
+    "type": "shopware-platform-plugin",
+    "authors": [
+        {
+            "name": "Pixup Media GmbH",
+            "homepage": "https://pixupmedia.com",
+            "role": "Manufacturer"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Pixup\\Wishlist\\": "src/"
+        }
+    },
+    "extra": {
+        "description": {
+            "de-DE": "Pixup Media GmbH Erweiterte Wunschliste",
+            "en-GB": "Pixup Media GmbH Advanced Wish List"
+        },
+        "manufacturerLink": {
+            "de-DE": "http://pixupmedia.com/",
+            "en-GB": "http://pixupmedia.com/"
+        },
+        "supportLink": {
+            "de-DE": "support@pixupmedia.com",
+            "en-GB": "support@pixupmedia.com"
+        },
+        "shopware-plugin-class": "Pixup\\Wishlist\\PixupWishlistSW6",
+        "plugin-icon": "src/Resources/config/plugin.png",
+        "copyright": "(c) by Pixup Media GmbH",
+        "label": {
+            "de-DE": "Pixup Erweiterte Wunschliste",
+            "en-GB": "Pixup Extended Wish list"
+        }
+    },
+    "require": {
+        "shopware/core": ">=6.1.0"
+    }
+}

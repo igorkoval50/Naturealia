@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="5" height="10" viewBox="0 0 5 10">
+  <defs>
+    <clipPath id="clip-path">
+      <rect width="5" height="10" fill="none"/>
+    </clipPath>
+  </defs>
+  <g id="Повторяющаяся_сетка_7" data-name="Повторяющаяся сетка 7" clip-path="url(#clip-path)">
+    <g transform="translate(-874 -264)">
+      <path id="np_chevron_2623544_000000" d="M40.018,26.153l-3.7,4.256a.591.591,0,0,1-.917,0,.826.826,0,0,1,0-1.053l3.245-3.729L35.4,21.9a.826.826,0,0,1,0-1.053.591.591,0,0,1,.917,0l3.7,4.255a.825.825,0,0,1,0,1.053Z" transform="translate(838.792 243.373)" fill="#fff"/>
+    </g>
+  </g>
+</svg>

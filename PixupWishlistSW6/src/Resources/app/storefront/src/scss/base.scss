@@ -1,0 +1,636 @@
+@mixin background-opacity($color, $opacity: 0.3) {
+    background: $color; /* The Fallback */
+    background: rgba($color, $opacity);
+}
+.pixupIconOnImage,.pixupIconOnImageCart{
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 25px;
+    z-index: 1;
+    button{
+        .add,.remove{
+            background-color: rgba(255,255,255,.6);
+            border-radius: 100%;
+            padding: 0.3em;
+            height: 30px;
+            width: 30px;
+            display: block;
+        }
+    }
+}
+.pixupIconOnImageCart{
+    margin:0 !important;
+    button{
+        .add,.remove{
+            background-color: rgba(255,255,255,.6) !important;
+            border-radius: 100% !important;
+            padding: 0.3em !important;
+        }
+    }
+}
+.pxIcon{
+    font-weight:bold;
+    cursor:pointer;
+    color:black;
+    padding: 0;
+    margin: 0;
+}
+.pxIcon > svg{
+    padding:0.2em;
+    color:white;
+}
+.pxModeIcon{
+    font-size:0.8em;
+    padding:0;
+    margin:0;
+    font-weight:bold;
+    color:black;
+    height: 14px;
+    width: 14px;
+}
+.wishlistContentWrapper{
+    width:100%;
+    .pxWishlistIconSettings{
+        display:flex;
+        align-items:center;
+        margin-left:10px;
+        margin-bottom: 2.9em;
+    }
+}
+.pixupWishlistWrapp{
+    display:flex;
+    height: 100%;
+    flex-direction: column;
+    .pixupWishlistErrorContainer{
+        margin-top: 1rem;
+        color: white;
+        display:flex;
+        position:absolute;
+        top:0px;
+        right:0px;
+        margin-right:1em;
+        flex-direction: column;
+        flex-wrap: wrap;
+        .pixupWishlistErrorMsg{
+            padding: .75rem 1.25rem;
+            border-radius: .25rem;
+            border: 1px solid #f5c6cb;
+            box-sizing: border-box;
+            background-color: #1b9448;
+            width:26em;
+            margin-bottom: 1em;
+            max-width:100%;
+            cursor:pointer;
+            display:flex;
+        }
+    }
+    .pxProductPrevSettingsIcon{
+        transition:6ms;
+        color:$black;
+        height: 18px;
+        width: 18px;
+    }
+    .pxProductPrevSettingsIcon:hover{
+        color:$primary;
+       /* color:complement($white); */
+    }
+    .pixupWishlistHeader{
+        width:100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-top: 0.5em;
+        .wishListTitle{
+            font-weight:bold;
+            font-size:1.5rem;
+        }
+        border-bottom: 3px solid $primary;
+        margin-bottom:0.5em;
+        position:relative;
+    }
+    .pixupWishlistContainer {
+        display: flex;
+        flex-direction: row;
+        @media screen and (max-width: 800px) {
+            flex-direction: column;
+        }
+        .pixupWishlistMobileMenuBtn{
+            background-color:$primary;
+            color:white;
+            display:none;
+            width:100%;
+            padding:0.5em;
+            font-weight:bold;
+            text-align:center;
+            font-size:1.2em;
+            text-transform: uppercase;
+            cursor:pointer;
+            @media screen and (max-width: 800px) {
+                display:none; /*disable mobile menu*/
+            }
+        }
+        #pixupWishlistMobileMenuBtn:checked + .pixupWishlistMobileMenuBtn + .pixupWishlistMenu{
+            max-height:500px;
+            overflow: auto;
+        }
+        #pixupWishlistMobileMenuBtn:checked + .pixupWishlistMobileMenuBtn > span > .pixupWishlistMobileMenuBtnIconColor{
+            transform: rotate(0deg);
+        }
+        #pixupWishlistMobileMenuBtn + .pixupWishlistMobileMenuBtn > span > .pixupWishlistMobileMenuBtnIconColor{
+            transform: rotate(-90deg);
+            transition:0.7s;
+        }
+
+        .pixupWishlistMobileMenuBtnIconColor{
+            color:white;
+            font-weight:bold;
+            height: 14px;
+        }
+        .pixupWishlistMenu {
+            flex-shrink: 0;
+            max-width: 15%;
+            min-width: 15%;
+            width:15%;
+            flex-direction: column;
+            @media screen and (max-width: 800px) {
+                max-width: 100%;
+                min-width: 100%;
+                width:100%;
+                margin-bottom:1em;
+                max-height:0px;
+                overflow:hidden;
+                transition:1s;
+            }
+
+            .pixupWishlistMenuEntry {
+                @media screen and (max-width: 800px) {
+                    margin-right:0em;
+                }
+                margin-right:1em;
+                border-bottom: 1px solid rgba(0,0,0,.5);
+                cursor: pointer;
+                font-weight: bold;
+                padding: 0.7em;
+                position:relative;
+                display: flex;
+                justify-content: space-between;
+                flex-wrap:wrap;
+            }
+
+            .pixupWishlistMenuEntry:hover {
+                color:white;
+                background-color:$primary;
+                span{
+                    color:white;
+                }
+            }
+            .pixupWishlistMenuEntryActive{
+                color:white;
+                background-color:$primary;
+                span{
+                    color:white;
+                }
+            }
+        }
+
+        .pixupWishlistContent {
+            flex-grow: 1;
+            .pixupWishlistContentWishlistContainer {
+                width: 100%;
+                display:flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                @media screen and (max-width: 800px) {
+                    justify-content: center;
+                }
+                .pixupWishlistNoProductContainer{
+                    min-width: 100%;
+                    width: 100%;
+                    height: 100%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    position:relative;
+                    .textWrapper {
+                        background-color:$primary;
+                        display:flex;
+                        justify-content: center;
+                        align-items: center;
+                        padding:0.3em;
+                        flex-direction: column;
+                        color:white;
+                        position:absolute;
+                        z-index:2;
+                        .title {
+                            @media screen and (max-width: 800px) {
+                                font-size: 1.3em;
+                            }
+                            font-size: 2em;
+                            font-weight: bold;
+                        }
+
+                        .desc {
+                            font-size: 1.1em;
+                        }
+                    }
+                    .pxBot{
+                        height: 300px;
+                        width: 300px;
+                        filter: grayscale(1) invert(0.2);
+                    }
+                }
+                .pixupWishlistProductContainer {
+                    width: 30%;
+                    padding: 1rem;
+                    border: 1px solid $border-color;
+                    margin: 1em;
+                    border-radius: 5px;
+                    @media screen and (max-width: 1043px){
+                        flex-basis: 45%;
+                    }
+                    @media screen and (max-width: 700px) {
+                        flex-basis: 60%;
+                    }
+                    @media screen and (max-width: 550px) {
+                        flex-basis: 100%;
+                        width: 98%;
+                        margin-left:0;
+                        margin-bottom: 3em;
+                    }
+
+
+                    .pixupImageWrapper{
+                        position:relative;
+                        flex-grow:0;
+                        display: flex;
+                        justify-content: center;
+                        flex-basis: 200px;
+                        align-items: center;
+                        a{
+                            width:fit-content;
+                            height: unset;
+                            img{
+                                width: unset;
+                            }
+                        }
+                    }
+                    .pixupWishlistActionContainer{
+                        position:absolute;
+                        top:6px;
+                        right:10px;
+                        margin:0;
+                        padding:0 5px 5px;
+                        display:flex;
+                        flex-direction: row;
+                        justify-content: space-between;
+                        width: 3.5em;
+                        margin-right:5px;
+                        .pixupWishlistIconLeft{
+                            margin-right:0.3em;
+                        }
+                        .pixupWishlistIconLeft,.pixupWishlistIconRight{
+                            cursor:pointer;
+                            padding-left: 0.2em;
+                            padding-right: 0.2em;
+                            border-radius:100%;
+                            background-color:rgba(255,255,255,.6);
+                            line-height:1.7em;
+                        }
+                    }
+
+                    .pixupWishlistInfoContainer{
+                        display:flex;
+                        flex-direction: column;
+                        width:100%;
+                        height: 160px;
+                        .pixupWishlistName{
+                            font-weight: bold;
+                            font-size: 1.3em;
+                        }
+                        .pixupWishlistOrdernumber{
+                            font-size:0.7em;
+                            margin-top:5px;
+                            margin-bottom:5px;
+                        }
+                        .pixupWishlistPrice{
+                            overflow:auto;
+                        }
+                    }
+                    .pixupWishlistConfiguratorContainer {
+                        margin-top:0.5em;
+                        margin-bottom: 0.5em;
+                        .pixupWishlistConfiguratorGroupContainer {
+                            display:flex;
+                            flex-direction: column;
+                            margin-top:0.5em;
+                            .GroupTitle{
+                                font-weight:700;
+                                margin-bottom: .2rem;
+                            }
+                            .OptionContainer:hover{
+                                .optionSelectLayer {
+                                    .PixupOptionItem {
+                                        box-shadow: inset 0px -1px 0px 0px $primary, inset -1px 0px 0px 0px $primary,
+                                        inset 1px 0px 0px 0px $primary, inset 0px 1px 0px 0px $primary;
+                                    }
+                                }
+                            }
+                            .OptionContainer{
+                                width:100%;
+                                display:flex;
+                                align-items: flex-start;
+                                flex-direction: column;
+                                height:2.5em;
+                                overflow:hidden;
+                                position:relative;
+                                .OptionContainerSelectIcon{
+                                    width:100%;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: flex-end;
+                                    position:absolute;
+                                    top:0px;
+                                    right:0px;
+                                    height:2.5em;
+                                    cursor:pointer;
+                                    margin-right: 10px;
+                                    span{
+                                        transition:0.5s;
+                                    }
+                                }
+                                .OptionContainerSelectLayer{
+                                    width:100%;
+                                    height:100%;
+                                    position:absolute;
+                                    top:0;
+                                    left:0;
+                                    cursor:pointer;
+                                }
+                                .optionSelectLayerActive{
+                                    .PixupOptionItem{
+                                        /*box-shadow: inset 0px -1px 0px 0px $primary,inset -1px 0px 0px 0px $primary,
+                                        inset 1px 0px 0px 0px $primary,inset 0px 1px 0px 0px $primary !important;*/
+                                        box-shadow: inset -1px 0px 0px 0px $primary,
+                                        inset 1px 0px 0px 0px $primary,inset 0px 1px 0px 0px $primary !important;
+                                    }
+                                    .PixupOptionItem:last-child{
+                                        box-shadow: inset 0px -1px 0px 0px $primary,inset -1px 0px 0px 0px $primary,
+                                        inset 1px 0px 0px 0px $primary,inset 0px 1px 0px 0px $primary !important;
+                                    }
+                                }
+                                .optionSelectLayer {
+                                    width:100%;
+                                    background-color:white;
+                                    .PixupOptionItem:hover{
+                                        background-color:$primary;
+                                        color:white;
+                                        box-shadow: inset 0px -1px 0px 0px $border-color,inset -1px 0px 0px 0px $border-color,
+                                        inset 1px 0px 0px 0px $border-color,inset 0px 1px 0px 0px $border-color;
+                                    }
+                                    .PixupOptionItem {
+                                        height: 2.5em;
+                                        width: 100%;
+                                        max-height: 2.5em;
+                                        box-shadow: inset 0px -1px 0px 0px $border-color,inset -1px 0px 0px 0px $border-color,
+                                        inset 1px 0px 0px 0px $border-color,inset 0px 1px 0px 0px $border-color;
+                                        transition:6ms;
+                                        input[type="radio"]:checked .OptionItem {
+                                            background-color: orange;
+                                        }
+
+                                        .optionItem {
+                                            max-height: 2.5em;
+                                            height: 2.5em;
+                                            width: 100%;
+                                            font-weight: bold;
+                                            display: flex;
+                                            justify-content: center;
+                                            align-items: center;
+                                            margin: 0;
+                                            margin-bottom: 0;
+                                            cursor:pointer;
+                                            .pxColorPrev{
+                                                width: 97%;
+                                                height: 80%;
+                                                margin: 0;
+                                            }
+                                            .optionImagePrevContainer {
+                                                flex-direction: row;
+                                                width: 100%;
+                                                display: flex;
+                                                flex-wrap: nowrap;
+
+                                                .optionImage {
+                                                    height: 2.5em;
+                                                    max-height: 2.5em;
+                                                    width: 20%;
+                                                    min-width: 20%;
+                                                    display: flex;
+                                                    align-items: center;
+                                                    padding: 2px 0px 2px 2px;
+                                                    img{
+                                                        max-height: 100%;
+                                                        width: 100%;
+                                                    }
+                                                }
+
+                                                .optionTitle {
+                                                    width: 80%;
+                                                    flex-grow: 1;
+                                                    display: flex;
+                                                    justify-content: center;
+                                                    align-items: center;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+.pxWishlistPageHeaderIcons{
+    padding:0;
+    cursor:pointer;
+    padding-left:5px;
+    padding-right:5px;
+    background-color:#c1c0c0;
+    color:white;
+    transition: 0.4ms;
+    margin-right: 0.2em;
+}
+.btn-description{
+    @media screen and (max-width: 800px) {
+        display:none;
+    }
+}
+.pxWishlistPageHeaderIcons:hover{
+    color: $primary;
+}
+.pxWishlistPageHeaderIcons:hover .pxHeaderIcon{
+    color: $primary;
+}
+.pxHeaderIcon{
+    color:white;
+    transition:2ms;
+    height:1em;
+    width:1em;
+    svg{
+        height: 20px;
+        width: 20px;
+    }
+}
+.pxHeaderIcon:hover{
+    color:$primary;
+}
+.pixupBaseIcon{
+    height:16px;
+}
+.PixupAddToWishlistBtnPDP{
+    padding-right: 0;
+    .add,.remove{
+        transform: translateY(-4px);
+    }
+}
+.PixupAddToWishlistBtnPDP:focus{
+    outline: none;
+}
+.PixupPDPBtnContainer{
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+}
+.product-rating{
+    .add,.remove{
+        margin-top:-7px;
+    }
+}
+
+.PixupImageWrapper{
+    position:relative;
+    a{
+        width: initial;
+        img{
+            width: initial;
+        }
+    }
+}
+.pxArrowIcon{
+    width:13px;
+    height:13px;
+    color:white;
+    svg{
+        stroke: $primary;
+        stroke-width: 1px;
+        stroke-linejoin: round;
+        transition: 2ms;
+    }
+}
+    .pxOutlineWhite{
+        svg{
+            path{
+                stroke: white;
+                stroke-width: 1px;
+                stroke-linejoin: round;
+            }
+        }
+    }
+    .pxOutlinePrimary{
+        svg{
+            path{
+                stroke: $primary;
+                stroke-width: 1px;
+                stroke-linejoin: round;
+                transition:2ms;
+            }
+        }
+    }
+    .pxOutlinePrimarFat{
+        svg{
+            path{
+                stroke: $primary;
+                stroke-width: 3px;
+                stroke-linejoin: round;
+                transition:2ms;
+            }
+        }
+    }
+    .PixupWishlistPageHeartIcon{
+        color:white;
+        transform: translateY(-.2em);
+        margin-right: 0.2em;
+        svg{
+            overflow:visible;
+        }
+    }
+    .remove,.add {
+        .pxOutlinePrimary:hover {
+            svg {
+                path {
+                    stroke: white;
+                }
+            }
+        }
+    }
+    .PixupAddToWishlistIcon{
+        color:#bcc1c7;
+        transition:2ms;
+    }
+    .PixupAddToWishlistIcon:hover{
+        color:$primary;
+    }
+
+
+    .PixupAddToWishlistRemoveIcon{
+        color:rgba(255, 0, 0,0.60);
+    }
+    .product-image-wrapper{
+        a{
+            width:inherit;
+        }
+    }
+    .PixupCheckBoxRow,.PixupCheckBoxRow2{
+        padding: 0.5em;
+        padding-left: 3em;
+    }
+    .PixupCheckBoxRow:nth-child(odd){
+        background-color: #e0dfdf;
+    }
+    .PixupCheckBoxRow2:nth-child(even){
+        background-color: #e0dfdf;
+    }
+    .PixupCechBoxGroupTitle{
+        padding: 0.7em;
+        margin-left:0.3em;
+    }
+    *[class^="icon-px-"]{
+        svg {
+            path{
+                fill:none;
+            }
+        }
+    }
+    .PixupWishlistPageIcon{
+        position:relative;
+        .PixupWishlistProductCount{
+            background-color: $primary;
+            border-radius: 100%;
+            color: white;
+            padding: .2em;
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            font-size: 0.8em;
+            height: 19px;
+            width: 19px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 20;
+        }
+    }

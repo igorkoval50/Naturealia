@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="50px" height="50px" viewBox="0 0 50 50" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 63.1 (92452) - https://sketch.com -->
+    <title>002-instagram</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="9.1540625%" y1="90.8465625%" x2="90.8459375%" y2="9.1534375%" id="linearGradient-1">
+            <stop stop-color="#FFC107" offset="0%"></stop>
+            <stop stop-color="#F44336" offset="50.7%"></stop>
+            <stop stop-color="#9C27B0" offset="99%"></stop>
+        </linearGradient>
+        <linearGradient x1="14.645625%" y1="85.354375%" x2="85.354375%" y2="14.645625%" id="linearGradient-2">
+            <stop stop-color="#FFC107" offset="0%"></stop>
+            <stop stop-color="#F44336" offset="50.7%"></stop>
+            <stop stop-color="#9C27B0" offset="99%"></stop>
+        </linearGradient>
+        <linearGradient x1="14.6482176%" y1="85.3611632%" x2="85.3517824%" y2="14.6482176%" id="linearGradient-3">
+            <stop stop-color="#FFC107" offset="0%"></stop>
+            <stop stop-color="#F44336" offset="50.7%"></stop>
+            <stop stop-color="#9C27B0" offset="99%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="footer" transform="translate(-1175.000000, -516.000000)" fill-rule="nonzero">
+            <g id="002-instagram" transform="translate(1175.000000, 516.000000)">
+                <path d="M34.375,0 L15.625,0 C6.996875,0 0,6.996875 0,15.625 L0,34.375 C0,43.003125 6.996875,50 15.625,50 L34.375,50 C43.003125,50 50,43.003125 50,34.375 L50,15.625 C50,6.996875 43.003125,0 34.375,0 Z M45.3125,34.375 C45.3125,40.40625 40.40625,45.3125 34.375,45.3125 L15.625,45.3125 C9.59375,45.3125 4.6875,40.40625 4.6875,34.375 L4.6875,15.625 C4.6875,9.59375 9.59375,4.6875 15.625,4.6875 L34.375,4.6875 C40.40625,4.6875 45.3125,9.59375 45.3125,15.625 L45.3125,34.375 Z" id="Shape" fill="url(#linearGradient-1)"></path>
+                <path d="M25,12.5 C18.096875,12.5 12.5,18.096875 12.5,25 C12.5,31.903125 18.096875,37.5 25,37.5 C31.903125,37.5 37.5,31.903125 37.5,25 C37.5,18.096875 31.903125,12.5 25,12.5 Z M25,32.8125 C20.69375,32.8125 17.1875,29.30625 17.1875,25 C17.1875,20.690625 20.69375,17.1875 25,17.1875 C29.30625,17.1875 32.8125,20.690625 32.8125,25 C32.8125,29.30625 29.30625,32.8125 25,32.8125 Z" id="Shape" fill="url(#linearGradient-2)"></path>
+                <circle id="Oval" fill="url(#linearGradient-3)" cx="38.4375" cy="11.5625" r="1.665625"></circle>
+            </g>
+        </g>
+    </g>
+</svg>

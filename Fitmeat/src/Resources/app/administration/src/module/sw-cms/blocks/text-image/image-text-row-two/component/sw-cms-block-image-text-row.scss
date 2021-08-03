@@ -1,0 +1,45 @@
+.sw-cms-block-image-text-row-two {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(195px, 1fr));
+    align-content: stretch;
+    align-items: start;
+    grid-gap: 40px;
+
+    .sw-cms-el-text {
+        padding-top: 20px;
+    }
+
+    .sw-cms-el-image.is--cover {
+        min-height: 200px;
+    }
+    .sw-cms-block-image-text-row__left, .sw-cms-block-image-text-row__center {
+        position: relative;
+        .component-text {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%,-50%);
+            p {
+                font-weight: bold;
+                margin-bottom: 5px;
+                text-align: center;
+                line-height: 18px;
+                color: #000;
+                text-transform: uppercase;
+            }
+            .btn-primary {
+                border: 1px solid #fff;
+                font-size: 14px;
+                color: #333;
+                height: 36px;
+                padding: 0 20px;
+                margin: 10px auto;
+                background: #fff;
+                min-width: 110px;
+            }
+            .sw-text-editor__content-editor {
+                text-align: center;
+            }
+        }
+    }
+}

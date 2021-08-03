@@ -1,0 +1,291 @@
+.is-act-checkoutregisterpage{
+  .checkout-main{
+    .step-container{
+      margin-bottom: 100px;
+      .col-5{
+        max-width: 246px;
+      }
+    }
+  }
+  #one-page-checkout #opc-register-login-tabs .nav-link.active{
+    border-bottom: 1px solid black;
+    color: black;
+    font-weight: 500;
+  }
+  .checkout{
+    max-width: 900px;
+    margin: 0 auto;
+    padding-top: 133px;
+    .step-container{
+      .nav{
+        width: 100%;
+        flex-wrap: nowrap;
+        margin-bottom: 30px;
+        .nav-item{
+          width: 50%;
+          margin: 0 20px;
+          &:last-child{
+            margin-right: 0;
+          }
+          &:first-child{
+            margin-left: 0;
+          }
+          .nav-link{
+            padding: 0;
+            line-height: 29px;
+            font-weight: 500;
+            font-size: 24px;
+            color: rgba(0, 0, 0, 0.4);
+          }
+        }
+      }
+    }
+  }
+  .tab-content{
+
+    .tab-pane.active{
+      .register-card{
+        .card-body{
+          display: flex;
+          justify-content: flex-end;
+          .register-form{
+            max-width: 430px;
+            .js-validation-message , .register-required-info , .headline-checkout-control{
+              display: none;
+            }
+            .custom-control-label{
+              font-size: 18px;
+              line-height: 25px;
+              color: black;
+              margin-left: 12px;
+              &:before{
+                left: -32px;
+                width: 20px;
+                height: 20px;
+                border: 2px solid #BDBDBD;
+                border-radius: 5px;
+              }
+              &:after{
+                left: -30px;
+                top: 4px;
+                background-image: url(../assets/img/icons/formmark.svg);
+                background-size: 15px;
+              }
+            }
+            .custom-control-input:checked ~ .custom-control-label::before{
+              background: #9DAF92;
+              border: 2px solid #9DAF92;
+            }
+            .col-sm-6 , .col-md-6, .col-4 , .col-8{
+              flex: 0 0 100%;
+              max-width: 100%;
+            }
+            .form-control, .custom-select{
+              border: 1.5px solid #BDBDBD !important;
+              box-sizing: border-box;
+              border-radius: 5px !important;
+              font-size: 18px;
+              line-height: 25px;
+              color: black;
+              padding: 25px 10px 10px;
+              height: auto;
+            }
+            .form-control{
+              position: relative;
+            }
+            #personalSalutation{
+              display: none;
+            }
+            .col-sm-12{
+              display: none;
+            }
+            #personalFirstName::placeholder{
+              color: transparent;
+            }
+            .register-different-shipping{
+              margin-bottom: 10px;
+            }
+          }
+        }
+      }
+    }
+    .card{
+      margin-bottom: 34px;
+    }
+    .card-body{
+      .login-form-description{
+        display: none;
+      }
+      .login-password-recover{
+        max-width: 390px;
+        text-align: right;
+        margin-bottom: 30px;
+        a{
+          line-height: 25px;
+          font-size: 14px;
+        }
+      }
+      .login-submit{
+        max-width: 430px;
+        .btn{
+          border-radius: 50px;
+          background: #172815;
+          border: 2px solid #172815;
+          padding: 20px 10px 10px;
+          font-weight: 500;
+          font-size: 14px;
+          line-height: 13px;
+          letter-spacing: 0.03em;
+          text-transform: uppercase;
+        }
+      }
+      .login-form{
+        .form-row{
+          max-width: 390px;
+          .col-md-6{
+            flex: 0 0 100%;
+            max-width: 100%;
+            margin-bottom: 10px;
+            padding-right: 0;
+            padding-left: 5px;
+            &:last-child{
+              margin-bottom: 0;
+            }
+            .form-control{
+              border: 1.5px solid #BDBDBD;
+              font-size: 14px;
+              color: #4F4F4F !important;
+              padding: 5px 10px 31px;
+              height: auto;
+            }
+            .form-control::placeholder{
+                font-size: 14px;
+                color: #4F4F4F !important;
+            }
+          }
+          .form-label{
+            display: none;
+          }
+        }
+      }
+    }
+  }
+  .register-hotline{
+    box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.15);
+    .register-hotline-whatsapp{
+      background-image: url(../assets/img/icons/whatsapp.svg);
+    }
+    .register-hotline-title{
+      font-size: 18px;
+      font-weight: 500;
+      line-height: 25px;
+        &:after{
+          margin-top: 0;
+        }
+      &:first-child:after{
+        width: 71px;
+      }
+      &:last-child:after{
+        width: 95px;
+      }
+    }
+    .register-hotline-content p{
+      font-size: 14px;
+      line-height: 25px;
+    }
+  }
+  .checkout-step-2{
+    .card-title{
+      font-weight: 600;
+      font-size: 24px;
+      line-height: 29px;
+      padding-bottom: 0;
+      border-bottom: 1px solid black;
+      margin-bottom: 29px;
+    }
+  }
+  .confirm-shipping-method-image{
+    display: none;
+  }
+}
+#one-page-checkout{
+  .checkout-step-headline{
+    margin-bottom: 53px;
+  }
+ .confirm-payment-shipping{
+   .confirm-payment-current, .confirm-shipping-current{
+     font-size: 24px;
+     line-height: 29px;
+     font-weight: 600;
+   }
+ }
+  .opc-available-payment-methods ,.opc-available-shipping-methods{
+    .available-title{
+      font-size: 24px;
+      line-height: 29px;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+    .payment-method-label ,.shipping-method-label{
+      .payment-method-description ,.shipping-method-description{
+        position: relative;
+        padding-left: 22px;
+        margin-right: 10px;
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 22px;
+        &:before{
+          content: '';
+          position: absolute;
+          left: 0;
+          top: 1px;
+          background-image: url(../assets/img/icons/mark.svg);
+          background-size: 19px;
+          background-position: center;
+          background-repeat: no-repeat;
+          width: 20px;
+          height: 17px;
+        }
+      }
+      .icon-checkmark-wide{
+        display: none;
+      }
+    }
+  }
+}
+#one-page-checkout.only-vertical{
+  .checkout-step-2{
+    margin-bottom: 100px;
+  }
+}
+.paypal-button.paypal-button-shape-pill{
+  border-radius: 5px!important;
+}
+
+#one-page-checkout{
+  #opc-register-tab-content{
+    .register-address{
+      margin-bottom: 0;
+    }
+    .form-label{
+      display: block;
+      position: absolute;
+      top: 2px;
+      z-index: 99;
+      left: 15px;
+      color: #4F4F4F;
+    }
+    .register-submit{
+      margin-top: 20px;
+      button{
+        border-radius: 50px;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 17px;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+        padding: 15px 10px;
+      }
+    }
+  }
+}

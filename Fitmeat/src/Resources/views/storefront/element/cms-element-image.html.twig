@@ -1,0 +1,23 @@
+{% sw_extends '@Storefront/storefront/element/cms-element-image.html.twig' %}
+
+{# Overwrite banner inner #}
+{% block element_image_inner %}
+    {% if block.cssClass == 'home-important-items' %}
+        <div class="home-important-item" style="background-image: url({{ element.data.media.url }});">
+            {{ element.data.url | raw }}
+        </div>
+    {% elseif block.cssClass == 'aboutus-team' %}
+        <div class="aboutus-team-item">
+            <div class="aboutus-team-image" style="background-image: url({{ element.data.media.url }});"></div>
+            <div class="aboutus-team-content">{{ element.data.url | raw }}</div>
+        </div>
+    {% elseif 'aboutus-farmers-item' in block.cssClass %}
+        {% if element.data.url %}
+            <div class="aboutus-farmers-item-content">{{ element.data.url | raw }}</div>
+        {% else %}
+            {{ parent() }}
+        {% endif %}
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}

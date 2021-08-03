@@ -1,0 +1,51 @@
+{% sw_extends '@Storefront/storefront/block/cms-block-product-listing.html.twig' %}
+
+{% block block_product_listing %}
+    {% if block.cssClass == 'stories-single-products' %}
+
+        {% set element = block.slots.getSlot('content') %}
+        {% set columns = 1 %}
+
+        {# @var result \Shopware\Core\Framework\DataAbstractionLayer\Search\EntitySearchResult #}
+        {% set searchResult = element.data.listing %}
+        {% set listingColumns = 'col-sm-6 col-lg-4 col-xl-3' %}
+
+        {% if section and section.type == 'sidebar' %}
+            {% set listingColumns = 'col-sm-6 col-lg-6 col-xl-4' %}
+        {% endif %}
+
+        {% set slot = page.cmsPage.firstElementOfType('product-listing') %}
+
+        {% set filterUrl = null %}
+        {% set dataUrl = null %}
+
+        {% if searchResult.currentFilters.navigationId %}
+            {% set filterUrl = url('frontend.cms.navigation.filter', { navigationId: searchResult.currentFilters.navigationId }) %}
+            {% set dataUrl = url('frontend.cms.navigation.page', { navigationId: searchResult.currentFilters.navigationId }) %}
+        {% endif %}
+
+        {% set sidebar = sectionType == 'sidebar' %}
+        {% set params = { slots: slot.id, 'no-aggregations': 1 } %}
+        <h2 class="stories-single-products-title">KUNDEN KAUFTEN AUCH DIE FOLGENDEN PRODUKTE</h2>
+        <div class="stories-single-products-items">
+            {% for product in searchResult.elements %}
+                {% set referncePrice = product.calculatedPrice.referencePrice %}
+                <a style="background-image: url({{ product.cover.media.thumbnails.elements|last.url }});" href="{{ seoUrl('frontend.detail.page', {'productId': product.id}) }}" class="cross-selling-product">
+                    <div class="cross-selling-product-top">
+                        {% sw_include '@Storefront/storefront/component/product/card/action.html.twig' %}
+                    </div>
+                    <div class="cross-selling-product-bottom">
+                        <p class="cross-selling-product-title">{{ product.translated.name }}</p>
+                        <p class="cross-selling-product-price">
+                            <span>{{ product.calculatedPrice.unitPrice|currency }}</span>
+                            {{ referncePrice.price|currency }} / {{ product.unit.translation('shortCode') }}
+                        </p>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}

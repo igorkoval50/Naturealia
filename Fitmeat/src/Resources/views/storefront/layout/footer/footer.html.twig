@@ -1,0 +1,158 @@
+{% sw_extends '@Storefront/storefront/layout/footer/footer.html.twig' %}
+
+{#About fitmeat#}
+{% block layout_footer_navigation_hotline %}
+{% endblock %}
+
+{#Qustions, Newsletter, Facts, Payments, Delivery#}
+{% block layout_footer_navigation_columns %}
+    {% for root in page.footer.navigation.tree %}
+        {% block layout_footer_navigation_column %}
+            {% if loop.index < 5 %}
+            <div class="col-md-2 footer-column js-footer-column">
+                {% block layout_footer_navigation_information_headline %}
+                    <div class="footer-column-headline footer-headline js-collapse-footer-column-trigger"
+                         data-target="#collapseFooterTitle{{ loop.index }}"
+                         aria-expanded="true"
+                         aria-controls="collapseFooter{{ loop.index }}">
+
+                        {{ root.category.translated.name }}
+                        {% block layout_footer_navigation_information_icons %}
+                            <div class="footer-column-toggle">
+                                            <span class="footer-plus-icon">
+                                                {% sw_icon 'plus' %}
+                                            </span>
+                                <span class="footer-minus-icon">
+                                                {% sw_icon 'minus' %}
+                                            </span>
+                            </div>
+                        {% endblock %}
+                    </div>
+                {% endblock %}
+
+                {% block layout_footer_navigation_information_content %}
+                    <div id="collapseFooter{{ loop.index }}"
+                         class="footer-column-content collapses js-footer-column-content"
+                         aria-labelledby="collapseFooterTitle{{ loop.index }}">
+                        <div class="footer-column-content-inner">
+                            {% block layout_footer_navigation_information_links %}
+                                <ul class="list-unstyled">
+                                    {% for treeItem in root.children %}
+                                        {% set category = treeItem.category %}
+                                        {% set name = category.translated.name %}
+                                        {% set externalLink = category.translated.externalLink %}
+                                        {% block layout_footer_navigation_information_link_item %}
+                                            <li class="footer-link-item">
+                                                {% block layout_footer_navigation_information_link %}
+                                                    <a class="footer-link"
+                                                       href="{% if externalLink %}{{ externalLink }}{% else %}{{ seoUrl('frontend.navigation.page', { navigationId: category.id }) }}{% endif %}"
+                                                       title="{{ name }}">
+                                                        {{ name }}
+                                                    </a>
+                                                {% endblock %}
+                                            </li>
+                                        {% endblock %}
+                                    {% endfor %}
+                                </ul>
+                            {% endblock %}
+                        </div>
+                    </div>
+                {% endblock %}
+            </div>
+            {% endif %}
+        {% endblock %}
+    {% endfor %}
+
+    <div class="col-md-2 footer-column footer-column-questions">
+        <div class="footer-column-headline footer-headline">
+            {{ 'footer.questions.head'|trans|sw_sanitize }}
+        </div>
+        <div class="footer-column-text footer-column-questions-content">
+            {{ 'footer.questions.description'|trans|sw_sanitize }}
+        </div>
+    </div>
+
+    <div class="col-md-2 footer-column footer-column-about">
+        <div class="footer-column-headline footer-headline">
+            {{ 'footer.aboutFitmeat.head'|trans|sw_sanitize }}
+        </div>
+        <div class="footer-column-text footer-column-about-content">
+            {{ 'footer.aboutFitmeat.description'|trans|sw_sanitize }}
+        </div>
+    </div>
+
+    <div class="col-md-4 footer-column footer-column-facts">
+        <div class="footer-column-facts-col">
+            <div class="footer-column-headline footer-headline">
+                {{ 'footer.facts.head'|trans|sw_sanitize }}
+            </div>
+            <div class="footer-column-text footer-column-facts-content">
+                {{ 'footer.facts.description'|trans|sw_sanitize }}
+            </div>
+        </div>
+    </div>
+
+    {% for root in page.footer.navigation.tree %}
+        {% block layout_footer_navigation_columnser %}
+            {% if loop.index > 4 %}
+                <div class="col-md-2 footer-column footer-column-second js-footer-column">
+                    {% block layout_footer_navigation_information_headlines %}
+                        <div class="footer-column-headline footer-headline js-collapse-footer-column-trigger"
+                             data-target="#collapseFooterTitle{{ loop.index }}"
+                             aria-expanded="true"
+                             aria-controls="collapseFooter{{ loop.index }}">
+
+                            {{ root.category.translated.name }}
+                            {% block layout_footer_navigation_information_iconser %}
+                                <div class="footer-column-toggle">
+                                            <span class="footer-plus-icon">
+                                                {% sw_icon 'plus' %}
+                                            </span>
+                                    <span class="footer-minus-icon">
+                                                {% sw_icon 'minus' %}
+                                            </span>
+                                </div>
+                            {% endblock %}
+                        </div>
+                    {% endblock %}
+
+                    {% block layout_footer_navigation_information_contents %}
+                        <div id="collapseFooter{{ loop.index }}"
+                             class="footer-column-content collapses js-footer-column-content"
+                             aria-labelledby="collapseFooterTitle{{ loop.index }}">
+                            <div class="footer-column-content-inner">
+                                {% block layout_footer_navigation_information_linkser %}
+                                    <ul class="list-unstyled">
+                                        {% for treeItem in root.children %}
+                                            {% set category = treeItem.category %}
+                                            {% set name = category.translated.name %}
+                                            {% set externalLink = category.translated.externalLink %}
+                                            {% block layout_footer_navigation_information_link_itemer %}
+                                                <li class="footer-link-item">
+                                                    {% block layout_footer_navigation_information_linker %}
+                                                        <a class="footer-link"
+                                                           href="{% if externalLink %}{{ externalLink }}{% else %}{{ seoUrl('frontend.navigation.page', { navigationId: category.id }) }}{% endif %}"
+                                                           title="{{ name }}">
+                                                            {{ name }}
+                                                        </a>
+                                                    {% endblock %}
+                                                </li>
+                                            {% endblock %}
+                                        {% endfor %}
+                                    </ul>
+                                {% endblock %}
+                            </div>
+                        </div>
+                    {% endblock %}
+                </div>
+            {% endif %}
+        {% endblock %}
+    {% endfor %}
+{% endblock %}
+
+{#About Fitmeat full#}
+{% block layout_footer_payment_shipping_logos %}
+{% endblock %}
+
+{#Hide footer bottom#}
+{% block layout_footer_bottom %}{% endblock %}

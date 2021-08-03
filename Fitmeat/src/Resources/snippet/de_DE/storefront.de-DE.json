@@ -1,0 +1,120 @@
+{
+  "listing": {
+    "arrowText": "weiterlesen",
+    "arrowTextClose": "schließen"
+  },
+  "detail": {
+    "frisch": "Frisch",
+    "meat": "tiefkühlprodukte",
+    "gram": "Grammgenau verwogen",
+    "more": "Mehr Informationen"
+  },
+  "product": {
+    "meatKnowledge": "Fleischwissen",
+    "preparation": "Zubereitung",
+    "originAttitude": "Herkunft",
+    "details": "Details",
+    "delivery": "Lieferung",
+    "sold": "IN AKTION",
+    "limit": "NUR NOCH",
+    "black": "BLACK LABEL",
+    "table1": "Rasse",
+    "table2": "Schneiden",
+    "table3": "Geboren in",
+    "table4": "Aufgewachsen in",
+    "table5": "Geschlachtet in",
+    "table6": "Einschneiden",
+    "table7": "Fütterung",
+    "table8": "Fleischreifung",
+    "table9": "Bio-Zertifikat",
+    "table10": "Zutaten",
+    "table11": "Lagerungshinweis (frisch)",
+    "table12": "Lagerungshinweis (frisch)",
+    "table13": "Auch bekannt als",
+    "table14": "Haltbarkeit bei 0-4°C",
+    "table15": "Haltbarkeit bei -18°C",
+    "table16": "Akzeptierte Zahlungsarten",
+    "table17": "Einzelheiten",
+    "table18": "Gut zu wissen",
+    "table19": "Sicher einkaufen bei Fitmeat",
+    "good": "<div class=\"good-first\">\n<p><strong>Fakten</strong></p>\n<ul>\n<li>Frisches Fleisch, keine Tiefkühlware</li>\n<li>Fleisch von Kleinbauern aus Österreich</li>\n<li> Vom Traditionsmetzger gereift und veredelt</li>\n<li>Grammgenau Abrechnung</li>\n<li>Recyclbare Verpackung</li>\n<li>Versandfertig in unter 24h</li>\n</ul>\n</div>"
+  },
+  "slider": {
+    "arrowText": "scroll down",
+    "badge": "GEMERKT"
+  },
+  "footer": {
+    "aboutFitmeat": {
+      "head": "Marketing",
+      "description": "Anfrangen bitte an:<br>\u2028marketing@fitmeat.at"
+    },
+    "questions": {
+      "head": "kontakt",
+      "description": "<p><span>Fitmeat<br>\u2028Hannakstr. 17<br> \n5023 Salzburg<br></span><a href=\"tel:+43 660 226 22 22\">+43 660 226 22 22</a><br><a href=\"mailto:mail@fitmeat.at\">mail@fitmeat.at</a></p>"
+    },
+    "newsletter": {
+      "head": "Newsletter",
+      "description": "Melde dich zu unseren Newsletter an <br>und verpasse keine Angebote mehr:"
+    },
+    "facts": {
+      "head": "Facts",
+      "description": "Mindestbestellwert 89,00 € <br> \nVersandkostenfreie Lieferung ab 119,00 € in AT <br>\nVersandkostenfreie Lieferung ab 149,00 € in DE<br>\nAlle Preise zzgl. Versandkosten und inkl. MwSt."
+    },
+    "payments": {
+      "head": "Zahlungsarten"
+    },
+    "delivery": {
+      "head": "Versandpartner"
+    },
+    "social": {
+      "head": "Social Media",
+      "description": "Instagram: <a href=\"#\">fitmeat.at</a> <br>Facebook: <a href=\"#\">fitmeat.at</a>"
+    },
+    "about": {
+      "head": "Über Fitmeat",
+      "description": "<p>Wir beziehen unser Fleisch von kleinen Dorfmetzgern, welche die Bauern der Region und deren Tiere kennen. Gute und traditionelle Aufzucht, viel Auslauf auf den Weideflächen im Waldviertel und dem Salzburger Land ermöglichen den Tieren ein artgerechtes Aufwachsen und ein wertgeschätztes Leben. Unsere Metzgermeister im Waldviertel und in Salzburg erzeugen mit jahrzehntelangen Erfahrung und dem perfekten Know-How tolle Fleischteilstücke.</p><p>Das Fleisch wird vakuumiert und nachhaltig verschickt. Wiederverwendbare Kühlelemente garantieren das Einhalten der Kühlkette. Die Strohplatten im Karton isolieren den Inhalt optimal. Innerhalb Österreichs liegt die Transportzeit bei weniger als 24 Stunden, in weiten Teilen der EU bei weniger als 48 Stunden. So können wir beste Qualität und Frische garantieren und daher unser heimisches Fleisch auch überregional anbieten. Gleichzeitig tragen wir durch den Verzicht auf Styropor und unnötigen Kunststoff zur Müllvermeidung bei.</p><p>Als Ergänzung zur „reinen Fleischbestellung“ bieten wir auch zusammengestellte Pakete zu einigen Gerichten wie zB. Pulled Pork oder Beef Brisket an. Neben dem Fleisch für eine bestimmte Personenanzahl liegen auch Gewürze, ggf. notwendiges Zubehör, Rezepte und eine Liste an weiteren notwendigen Zutaten bei. Hier arbeiten wir mit Gewürzmühlen aus der Umgebung zusammen und bieten nur Gewürze an, die wir selbst auch verwenden. So ist ein Nachkochen der Rezepte noch viel einfacher.</p><p>Sie planen eine Grillfeier, möchten ein schwierigeres Rezept einmal nachkochen oder sind auf der Suche nach neuen kreativen Ideen? Dann senden Sie uns doch eine Nachricht oder rufen kurz an! Wir stehen Ihnen gern mit Rat & Tat zur Seite. Wir beraten Sie bzgl. Auswahl und Menge an Fleisch für eine Feier und erklären Ihnen die idealen Zubereitungsarten unserer Fleischstücke. Wir machen auch Einzelcoachings vor Ort und zeigen Ihnen, wie Sie mit Ihrem Grill die besten Ergebnisse erzielen können. Koch-Inspirationen finden Sie in unserem Blog.</p>"
+    },
+    "promo": {
+      "head": "Folge uns auf Social Media",
+      "description": "<p>Folge uns auf Facebook und Instagram. Hier geben wir unser Fleischwissen weiter. Verpasse keine Zubereitungstipps und nehmen gerne an unseren Gewinnspielen teil.</p>",
+      "social": "<a href=\"#,\">Facebook</a><br><a href=\"#\">Instagram</a>",
+      "image1": "https://testumgebung.fitmeat.at/media/19/2c/02/1595517380/test.png",
+      "image2": "https://testumgebung.fitmeat.at/media/19/2c/02/1595517380/test.png",
+      "image3": "https://testumgebung.fitmeat.at/media/19/2c/02/1595517380/test.png",
+      "link1": "#",
+      "link2": "#",
+      "link3": "#"
+    }
+  },
+  "bestseller": {
+    "counterTxt": "Schritt"
+  },
+  "header": {
+    "search": "...SUCHE",
+    "topOne": "Kostenfreier Versand ab 119 € Warenwert*",
+    "topTwo": "HERZLICH WILLKOMMEN BEI FITMEAT",
+    "logoText": "Wir sind der Überzeugung, <br> dass Fleisch ein hochwertiges Genussgut ist."
+  },
+  "checkout": {
+    "productInformation": "Produktinformation",
+    "details": "Details",
+    "originAttitude": "Herkunft & Haltung"
+  },
+  "dtgs-delivery-date": {
+    "btnLabel": "Wunsch-Lieferdatum"
+  },
+  "error-cart": {
+    "first-part": "Mindestbestellwert von",
+    "second-part": "nicht erreicht. Ihnen fehlen noch"
+  },
+  "cartDetail": "Details",
+  "sliderArrowText": "durchblättern",
+  "cart": {
+    "one": "Kostenloser Versand für Bestellungen über € 119,00",
+    "two": "Gekühltes und frisches Fleisch, keine TK-Ware ",
+    "three": "Grammgenaue Abrechnung",
+    "four": "Umweltfreundliche, reyclbare Verpackung",
+    "five": "Akzeptierte Zahlungsarten",
+    "six": "Sicher einkaufen bei Fitmeat"
+  }
+}

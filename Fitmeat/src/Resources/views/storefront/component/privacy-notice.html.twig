@@ -1,0 +1,31 @@
+{#{% block component_privacy_notice %}#}
+    {#<p class="form-text privacy-notice">#}
+        {#{% block component_privacy_label %}#}
+            {#<input type="checkbox" name="sits_datenschutz" required="required" id="sits_datenschutz" />#}
+            {#<label for="sits_datenschutz">#}
+                {#<strong>{{ "general.privacyTitle"|trans|sw_sanitize }}</strong><br />#}
+                {#{{ "general.privacyNotice"|trans({#}
+                    {#'%url%': path('frontend.cms.page',{ id: shopware.config.core.basicInformation.privacyPage })#}
+                {#})|raw }}#}
+            {#</label>#}
+        {#{% endblock %}#}
+    {#</p>#}
+{#{% endblock %}#}
+
+
+
+{% block component_privacy_notice %}
+    <h3 class="headline-checkout-control">{{ "general.privacyTitle"|trans|sw_sanitize }}</h3>
+    <div class="custom-control custom-checkbox register-different-shipping">
+        {% block component_privacy_label %}
+            <input type="checkbox" class="custom-control-input js-different-shipping-checkbox" name="sits_datenschutz"
+                   required="required" id="sits_datenschutz"/>
+
+            <label class="custom-control-label no-validation" for="sits_datenschutz">
+                {{ "general.privacyNotice"|trans({
+                    '%url%': path('frontend.cms.page',{ id: shopware.config.core.basicInformation.privacyPage })
+                })|raw }}
+            </label>
+        {% endblock %}
+    </div>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% sw_extends '@Storefront/storefront/page/product-detail/cross-selling/tabs.html.twig' %}
+
+
+    {#{% block page_product_detail_cross_selling_tabs_content %}#}
+        {#<div class="product-detail-cross-selling-content">#}
+            {#{% block page_product_detail_cross_selling_tabs_content_container %}#}
+                {#{% for item in crossSellings %}#}
+                    {#{% set id = item.crossSelling.id %}#}
+                    {#{% if item.crossSelling.active and item.getProducts().elements %}#}
+                        {#<div class="product-detail-cross-selling-row" role="tabpanel">#}
+                            {#<h2 class="product-detail-cross-selling-title">{{ item.crossSelling.name }}</h2>#}
+                            {#<div class="product-detail-cross-selling-items">#}
+                                {#{% for product in item.getProducts() %}#}
+                                    {#{% set referncePrice = product.calculatedPrice.referencePrice %}#}
+                                    {#<div style="background-image: url({{ product.cover.media.thumbnails.elements|last.url }});" class="cross-selling-product">#}
+                                        {#<div class="cross-selling-product-top">#}
+                                           {#<div class="wishlist-btn">#}
+                                               {#{% sw_include '@Storefront/wishlist/add-to-wishlist-button.html.twig'  with {#}
+                                                   {#productId: product.id,#}
+                                                   {#remove :product.customFields.isOnWishlist,#}
+                                               {#} %}#}
+                                           {#</div>#}
+                                            {#{% sw_include '@Storefront/storefront/component/product/card/action.html.twig' %}#}
+                                        {#</div>#}
+                                        {#<div class="cross-selling-product-bottom">#}
+                                            {#<a href="{{ seoUrl('frontend.detail.page', {'productId': product.id}) }}" class="cross-selling-product-title">{{ product.translated.name }}</a>#}
+                                            {#<p class="cross-selling-product-price">#}
+                                                {#<span>{{ product.calculatedPrice.unitPrice|currency }}</span>#}
+                                                {#{{ referncePrice.price|currency }} / {{ product.unit.translation('shortCode') }}#}
+                                            {#</p>#}
+                                        {#</div>#}
+                                    {#</div>#}
+                                {#{% endfor %}#}
+                            {#</div>#}
+                        {#</div>#}
+                    {#{% endif %}#}
+                {#{% endfor %}#}
+            {#{% endblock %}#}
+        {#</div>#}
+    {#{% endblock %}#}
+    {% block page_product_detail_cross_selling_tabs_content_container %}
+        <div id="moveCrosseling" class="collapsed"></div>
+        {{ parent() }}
+{% endblock %}
