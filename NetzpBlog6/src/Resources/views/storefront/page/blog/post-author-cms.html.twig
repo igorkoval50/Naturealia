@@ -1,0 +1,28 @@
+<div class="card-text">
+    {% if post.author.translated.name and (post.author.translated.bio or post.author.image) %}
+        <div class="author">
+            {% if element.config.showAuthorName.value %}
+            <div class="name">
+                {{ "netzp.blog.author"|trans }}
+                <b>{{ post.author.translated.name }}</b>
+            </div>
+            {% endif %}
+            {% if element.config.showAuthorAvatar.value and post.author.image %}
+                {% sw_thumbnails 'blog-author-image-thumbnail' with {
+                    media: post.author.image,
+                    sizes: {
+                        'default': '200px'
+                    },
+                    attributes: {
+                        'class': 'avatar',
+                        'alt':   post.author.image.translated.alt ?: '',
+                        'title': post.author.translated.name ?: ''
+                    }
+            } %}
+            {% endif %}
+            {% if element.config.showAuthorBio.value and post.author.translated.bio %}
+                <div class="bio">{{ post.author.translated.bio|raw }}</div>
+            {% endif %}
+        </div>
+    {% endif %}
+</div>

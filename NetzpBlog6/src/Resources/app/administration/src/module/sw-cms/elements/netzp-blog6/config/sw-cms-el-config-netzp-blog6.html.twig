@@ -1,0 +1,82 @@
+{% block sw_cms_element_netzp_blog6_config %}
+    <div class="sw-cms-el-config-netzp-blog6">
+        <sw-container columns="1fr 1fr 1fr" gap="20px">
+            <sw-single-select :label="$t('sw-cms.elements.netzp-blog6.config.category')"
+                              :options="categories" valueProperty="id"
+                              v-model="element.config.category.value">
+                <template #selection-label-property="{ item }">
+                    {{ item.title || item.translated.title }}
+                </template>
+                <template #result-label-property="{ item }">
+                    {{ item.title || item.translated.title }}
+                </template>
+            </sw-single-select>
+
+            <sw-number-field numbertype="int" :min="0"
+                             :label="$tc('sw-cms.elements.netzp-blog6.config.numberofposts.title')"
+                             v-model="element.config.numberOfPosts.value"
+                             :helpText="$tc('sw-cms.elements.netzp-blog6.config.numberofposts.help')"
+            ></sw-number-field>
+
+            <sw-select-field :label="$tc('sw-cms.elements.netzp-blog6.config.sortorder.title')"
+                             v-model="element.config.sortOrder.value">
+                <option value="asc">{{ $tc('sw-cms.elements.netzp-blog6.config.sortorder.asc') }}</option>
+                <option value="desc">{{ $tc('sw-cms.elements.netzp-blog6.config.sortorder.desc') }}</option>
+            </sw-select-field>
+        </sw-container>
+
+        <sw-container columns="1fr 1fr" gap="20px">
+            <sw-entity-multi-select :label="$t('sw-cms.elements.netzp-blog6.config.tags.label')"
+                                    :placeholder="$tc('sw-cms.elements.netzp-blog6.config.tags.title')"
+                                    v-model="tagsCollection" @change="onTagsChange">
+            </sw-entity-multi-select>
+
+            <sw-single-select :label="$t('sw-cms.elements.netzp-blog6.config.author')"
+                              :options="authors" valueProperty="id"
+                              v-model="element.config.author.value">
+
+                <template #selection-label-property="{ item }">
+                    {{ item.name || item.translated.name }}
+                </template>
+                <template #result-label-property="{ item }">
+                    {{ item.name || item.translated.name }}
+                </template>
+            </sw-single-select>
+        </sw-container>
+
+        <sw-container columns="1fr 1fr 1fr" gap="20px">
+            <sw-select-field :label="$tc('sw-cms.elements.netzp-blog6.config.layout.title')"
+                             v-model="element.config.layout.value">
+                <option value="cards">{{ $tc('sw-cms.elements.netzp-blog6.config.layout.cards') }}</option>
+                <option value="slider">{{ $tc('sw-cms.elements.netzp-blog6.config.layout.slider') }}</option>
+                <option value="list">{{ $tc('sw-cms.elements.netzp-blog6.config.layout.list') }}</option>
+                <option value="tpl">{{ $tc('sw-cms.elements.netzp-blog6.config.layout.template') }}</option>
+            </sw-select-field>
+
+            <sw-select-field v-if="element.config.layout.value != 'tpl'" :label="$tc('sw-cms.elements.netzp-blog6.config.imageMode.title')"
+                             v-model="element.config.imageMode.value">
+                <option value="cover">{{ $tc('sw-cms.elements.netzp-blog6.config.imageMode.cover') }}</option>
+                <option value="contain">{{ $tc('sw-cms.elements.netzp-blog6.config.imageMode.contain') }}</option>
+            </sw-select-field>
+
+            <sw-colorpicker v-if="element.config.layout.value != 'tpl'" :label="$tc('sw-cms.elements.netzp-blog6.config.backgroundColor')"
+                            v-model="element.config.backgroundColor.value" colorOutput="hex" :zIndex="1001" :alpha="false">
+            </sw-colorpicker>
+        </sw-container>
+
+        <sw-container columns="1fr 1fr 1fr">
+            <sw-switch-field :label="$t('sw-cms.elements.netzp-blog6.config.filterCategory')" :noMarginTop="true"
+                             v-model="element.config.filterCategory.value" />
+            <sw-switch-field :label="$t('sw-cms.elements.netzp-blog6.config.filterTags')" :noMarginTop="true"
+                             v-model="element.config.filterTags.value" />
+            <sw-switch-field :label="$t('sw-cms.elements.netzp-blog6.config.filterAuthor')" :noMarginTop="true"
+                             v-model="element.config.filterAuthor.value" />
+        </sw-container>
+
+        <template v-if="element.config.layout.value == 'tpl'">
+            <sw-code-editor :label="$t('sw-cms.elements.netzp-blog6.config.template.label')"
+                            v-model="element.config.customTemplate.value" />
+            <small><pre>{{ $t('sw-cms.elements.netzp-blog6.config.template.help') }}</pre></small>
+        </template>
+    </div>
+{% endblock %}

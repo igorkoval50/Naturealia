@@ -1,0 +1,98 @@
+{% sw_extends '@Storefront/storefront/utilities/offcanvas.html.twig' %}
+
+{% block utilities_offcanvas_content %}
+<div class="blog-slider"
+     data-product-slider="true"
+     data-product-slider-options='{
+            "slider": {
+                "gutter": 20,
+                "autoplayButtonOutput": false,
+                "nav": false,
+                "controls": true,
+                "autoplay": false,
+                "mouseDrag": true
+            }
+         }'>
+
+    <div class="netzp-blog6-list">
+        <div class="row blog-slider-container m-0 p-0" data-product-slider-container="true">
+            {% for post in posts %}
+                <div>
+                    <div class="card blog-card h-100" style="background-color: #eee">
+                        {% set image = null %}
+                        {% if post.imagepreview %}
+                            {% set image = post.imagepreview %}
+                        {% elseif post.image %}
+                            {% set image = post.image %}
+                        {% endif %}
+
+                        {% if image %}
+                            <a href="{{ seoUrl('frontend.blog.post', {'postId': post.id}) }}">
+                                {% set thumbnailClass = config('NetzpBlog6.config.layoutdetail') == "largeimagecontain" ? "contain" : "cover" %}
+                                {% sw_thumbnails 'blog_tabs_slider_image_thumbnail' with {
+                                    media: image,
+                                    sizes: {
+                                        'xs': '501px',
+                                        'sm': '315px',
+                                        'md': '427px',
+                                        'lg': '333px',
+                                        'xl': '284px'
+                                    },
+                                    attributes: {
+                                        'class': 'card-img-top ' ~ thumbnailClass,
+                                        'alt':   image.translated.alt ?: '',
+                                        'title': post.translated.title ?: ''
+                                    }
+                                } %}
+                            </a>
+                        {% else %}
+                            <div class="blog-card-paceholder">&nbsp;</div>
+                        {% endif %}
+
+                        <div class="card-body d-flex flex-column p-2">
+                            {% block blog_content_post_inner_title %}
+                                <a href="{{ seoUrl('frontend.blog.post', {'postId': post.id}) }}">
+                                    <h4 class="mt-2 mb-0">{{ post.translated.title }}</h4>
+                                </a>
+                            {% endblock %}
+
+                            {% if config('NetzpBlog6.config.showmeta') %}
+                                {% sw_include "@Storefront/storefront/page/blog/post-meta.html.twig" with { config: config('NetzpBlog6.config') } %}
+                            {% endif %}
+
+                            {% if post.translated.teaser %}
+                                {% block blog_content_post_inner_teaser %}
+                                    <div class="card-text mt-2">
+                                        {{ post.translated.teaser }}
+                                    </div>
+                                {% endblock %}
+                            {% endif %}
+
+                            {% block blog_content_post_inner_more %}
+                                <div class="mt-auto">
+                                    <a href="{{ seoUrl('frontend.blog.post', {'postId': post.id}) }}"
+                                       class="btn btn-outline-primary btn-sm mt-2">
+                                        {{ "netzp.blog.msg.more"|trans }}
+                                    </a>
+                                </div>
+                            {% endblock %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="blog-slider-controls-container">
+            <div class="base-slider-controls"
+                 data-product-slider-controls="true">
+                <button class="base-slider-controls-prev product-slider-controls-prev">
+                    {% sw_icon 'arrow-head-left' %}
+                </button>
+                <button class="base-slider-controls-next product-slider-controls-next">
+                    {% sw_icon 'arrow-head-right' %}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

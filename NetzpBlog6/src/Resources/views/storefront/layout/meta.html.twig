@@ -1,0 +1,94 @@
+{% sw_extends '@Storefront/storefront/layout/meta.html.twig' %}
+{% set postThumb = post.image.getThumbnails() ? post.image.getThumbnails()|filter(t => (t.getHeight() <= 500))|first : null %}
+{% set authorThumb = post.author.image.getThumbnails() ? post.author.image.getThumbnails()|filter(t => (t.getHeight() <= 500))|first : null %}
+
+{% block layout_head_meta_tags_general %}
+    {{ parent() }}
+    <link rel="alternate"
+          type="application/rss+xml"
+          title="{{ "netzp.blog.feed.metatitle"|trans }}"
+          href="{{ app.request.get('sw-sales-channel-base-url') }}/blog.rss" />
+{% endblock %}
+
+{% block layout_head_meta_tags_opengraph %}
+    {% if activeRoute == 'frontend.blog.post' %}
+        <meta property="og:type"
+              content="website"/>
+        <meta property="og:site_name"
+              content="{{ basicConfig.shopName }}"/>
+        <meta property="og:title"
+              content="{{ post.translated.metatitle ? post.translated.metatitle : post.translated.title }}"/>
+        <meta property="og:description"
+              content="{{ post.translated.metadescription ? post.translated.metadescription : post.translated.teaser }}"/>
+
+        {% if(postThumb) %}
+            <meta property="og:image"
+                  content="{{ postThumb.getUrl() }}"/>
+        {% else %}
+            <meta property="og:image"
+                  content="{{ shopware.theme['sw-logo-desktop'] }}"/>
+        {% endif %}
+
+        <meta name="twitter:card"
+              content="summary"/>
+        <meta name="twitter:site"
+              content="{{ basicConfig.shopName }}"/>
+        <meta name="twitter:title"
+              content="{{ post.translated.metatitle ? post.translated.metatitle : post.translated.title  }}"/>
+        <meta name="twitter:description"
+              content="{{ post.translated.metadescription ? post.translated.metadescription : post.translated.teaser }}"/>
+        {% if(postThumb) %}
+            <meta name="twitter:image"
+                  content="{{ postThumb.getUrl() }}"/>
+        {% else %}
+            <meta property="og:image"
+                  content="{{ shopware.theme['sw-logo-desktop'] }}"/>
+        {% endif %}
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}
+
+{% block layout_head_meta_tags_schema_webpage %}
+    {{ parent() }}
+    {% if activeRoute == 'frontend.blog.post' %}
+        <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": "BlogPosting",
+                "headline": "{{ post.translated.title }}",
+                "url": "{{ seoUrl('frontend.blog.post', { postId: post.id }) }}",
+                "datePublished": "{{ post.createdAt|date('Y-m-d') }}",
+                "dateCreated": "{{ post.createdAt|date('Y-m-d') }}",
+                "dateModified": "{{ post.updatedAt|date('Y-m-d') }}",
+                "description": "{{ post.translated.teaser }}",
+                {% if post.tags|length >0 %}"keywords": [
+                    {% for tag in post.tags %}"{{ tag.name }}"{% if not loop.last %}, {% endif %}{% endfor %}
+
+                ],{% endif %}
+
+                {% if postThumb %}"image": "{{ postThumb.getUrl() }}",{% endif %}
+
+                {% if post.author %}
+
+                "author": {
+                    "@type": "Person",
+                    "name": "{{ post.author.translated.name }}"
+                    {% if authorThumb %}, "image": "{{ authorThumb.getUrl() }}"{% endif %}
+
+                },
+                {% endif %}
+
+                "publisher": {
+                    "@type": "Organization",
+                    "name": "{{ config('core.basicInformation.shopName') }}",
+                    "url": "{{ seoUrl('frontend.home.page') }}",
+                    "logo": {
+                        "@type": "ImageObject",
+                        "url": "{{ shopware.theme['sw-logo-desktop']|sw_encode_url }}"
+                    }
+                }
+            }
+        </script>
+    {% endif %}
+{% endblock %}

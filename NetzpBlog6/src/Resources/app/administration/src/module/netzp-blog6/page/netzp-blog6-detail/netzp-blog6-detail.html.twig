@@ -1,0 +1,295 @@
+{% block netzp_blog6_detail %}
+<sw-page class="netzp-blog6-detail">
+    <template #smart-bar-header>
+        <h2>
+            {{ $tc('netzp-blog6.main.title') }}
+            &nbsp;&nbsp;&nbsp;
+            <sw-label v-if="blog && blog.title" variant="info">
+                {{ blog.title }}
+            </sw-label>
+        </h2>
+    </template>
+
+    <template slot="smart-bar-actions">
+        <sw-button :routerLink="{ name: 'netzp.blog6.list' }">
+            {{ $t('netzp-blog6.detail.cancelButtonText') }}
+        </sw-button>
+
+        <sw-button-process
+                :isLoading="isLoading"
+                :processSuccess="processSuccess"
+                variant="primary"
+                @process-finish="saveFinish"
+                @click="onClickSave">
+            {{ $t('netzp-blog6.detail.saveButtonText') }}
+        </sw-button-process>
+    </template>
+    {% block netzp_blog6_detail_language_switch %}
+    <template #language-switch>
+        <sw-language-switch slot="language-switch" :disabled="blog && blog.isNew()"
+                            @on-change="onChangeLanguage"></sw-language-switch>
+    </template>
+    {% endblock %}
+
+    <template slot="content">
+        <sw-card-view>
+            <sw-tabs defaultItem="main">
+                <template slot-scope="{ active }">
+                    <sw-tabs-item name="main" :activeTab="active"
+                                  :title="$tc('netzp-blog6.detail.section.main')">
+                        {{ $tc('netzp-blog6.detail.section.main') }}
+                    </sw-tabs-item>
+                    <sw-tabs-item name="contents" :activeTab="active"
+                                  :title="$tc('netzp-blog6.detail.section.contents')">
+                        {{ $tc('netzp-blog6.detail.section.contents') }}
+                    </sw-tabs-item>
+                    <sw-tabs-item name="media" :activeTab="active"
+                                  :title="$tc('netzp-blog6.detail.section.media')">
+                        {{ $tc('netzp-blog6.detail.section.media') }}
+                    </sw-tabs-item>
+                    <sw-tabs-item name="items" :activeTab="active"
+                                  :title="$tc('netzp-blog6.detail.section.items')">
+                        {{ $tc('netzp-blog6.detail.section.items') }}
+                    </sw-tabs-item>
+                    <sw-tabs-item name="meta" :activeTab="active"
+                                  :title="$tc('netzp-blog6.detail.section.meta')">
+                        {{ $tc('netzp-blog6.detail.section.meta') }}
+                    </sw-tabs-item>
+                </template>
+
+                <template slot="content" slot-scope="{ active }">
+                    <sw-container v-if="active === 'main'">
+                        <sw-card v-if="blog" :isLoading="isLoading" :title="$t('netzp-blog6.detail.section.main')"
+                                 style="width: 100%;">
+                            <sw-field :label="$t('netzp-blog6.detail.label.title')" v-model="blog.title"
+                                      required validation="required" :error="blogTitleError"
+                                      @change="updateSlug(blog.title)"></sw-field>
+                            <sw-language-info :entityDescription="blog.title"></sw-language-info>
+
+                            <sw-container columns="1fr 1fr 1fr 1fr" gap="0px 20px">
+                                <b><sw-datepicker dateType="date" :label="$t('netzp-blog6.detail.label.postdate')" size="default" v-model="blog.postdate"
+                                                  required validation="required" :error="blogPostdateError"></sw-datepicker></b>
+                                <sw-datepicker dateType="date" :label="$t('netzp-blog6.detail.label.showfrom')" size="default" v-model="blog.showfrom"></sw-datepicker>
+                                <sw-datepicker dateType="date" :label="$t('netzp-blog6.detail.label.showuntil')" size="default" v-model="blog.showuntil"></sw-datepicker>
+
+                                <sw-single-select :label="$t('netzp-blog6.detail.label.author')"
+                                                  :options="authors" valueProperty="id"
+                                                  v-model="blog.authorid">
+
+                                    <template #selection-label-property="{ item }">
+                                        {{ item.name || item.translated.name }}
+                                    </template>
+                                    <template #result-label-property="{ item }">
+                                        {{ item.name || item.translated.name }}
+                                    </template>
+                                </sw-single-select>
+                            </sw-container>
+
+                            <sw-container columns="1fr 2fr" gap="20px">
+                                <sw-single-select :label="$t('netzp-blog6.detail.label.category')"
+                                                  :options="categories" valueProperty="id"
+                                                  v-model="blog.categoryid">
+
+                                    <template #selection-label-property="{ item }">
+                                        {{ item.title || item.translated.title }}
+                                    </template>
+                                    <template #result-label-property="{ item }">
+                                        {{ item.title || item.translated.title }}
+                                    </template>
+                                </sw-single-select>
+
+                                <sw-entity-multi-select
+                                        :localMode="blog && blog.isNew()"
+                                        :label="$t('netzp-blog6.detail.label.categories')"
+                                        labelProperty="title"
+                                        v-model="blog.categories">
+                                </sw-entity-multi-select>
+                            </sw-container>
+
+                            <sw-entity-tag-select v-if="blog" v-model="blog.tags" :placeholder="$tc('sw-product.categoryForm.placeholderTags')">
+                            </sw-entity-tag-select>
+
+                            <sw-container columns="2fr 1fr" gap="20px">
+                                <sw-field :label="$t('netzp-blog6.detail.label.slug')" :helpText="$t('netzp-blog6.detail.help.slug')" v-model="blog.slug"
+                                          required validation="required" :error="blogSlugError"></sw-field>
+
+                                <sw-switch-field :label="$t('netzp-blog6.detail.label.noindex')"
+                                                 :helpText="$t('netzp-blog6.detail.help.noindex')"
+                                                 v-model="blog.noindex">
+                                </sw-switch-field>
+                            </sw-container>
+
+                        </sw-card>
+                    </sw-container>
+
+                    <sw-container v-if="active === 'contents'">
+                        <sw-card v-if="blog" :isLoading="isLoading" :title="$t('netzp-blog6.detail.section.contents')"
+                                 style="width: 100%;">
+                            <div class="charcounter">({{ blog.teaser|count }} / ~120 {{ $t('netzp-blog6.detail.label.chars') }})</div>
+                            <sw-field :label="$t('netzp-blog6.detail.label.teaser')" v-model="blog.teaser"></sw-field>
+                            <sw-text-editor :label="$t('netzp-blog6.detail.label.contents')" v-model="blog.contents"
+                                            required validation="required" :error="blogContentsError"></sw-text-editor>
+                        </sw-card>
+
+                        <sw-card v-if="blog" :isLoading="isLoading" :title="$t('netzp-blog6.detail.section.products')"
+                                 style="width: 100%;">
+                            <sw-entity-multi-select
+                                    :localMode="blog && blog.isNew()"
+                                    :label="$t('netzp-blog6.detail.label.products')"
+                                    :criteria="productSelectionCriteria"
+                                    v-model="blog.products">
+                            </sw-entity-multi-select>
+                        </sw-card>
+                    </sw-container>
+
+                    <sw-container v-if="active === 'media'">
+                        <sw-card v-if="blog" :isLoading="isLoading" :title="$t('netzp-blog6.detail.section.mainimage')"
+                                 style="width: 100%;">
+
+                            <sw-upload-listener :uploadTag="imageUploadTag" @media-upload-finish="onSetMediaItem" autoUpload></sw-upload-listener>
+                            <sw-media-upload-v2 :label="$tc('netzp-blog6.detail.label.image')" variant="regular"
+                                                :source="mediaItem" :uploadTag="imageUploadTag" :allowMultiSelect="false"
+                                                defaultFolder="s_plugin_netzp_blog"
+                                                @media-drop="onMediaDropped"
+                                                @media-upload-sidebar-open="openMediaSidebar"
+                                                @media-upload-remove-image="onRemoveMediaItem">
+                            </sw-media-upload-v2>
+                            <br>
+                            <sw-upload-listener :uploadTag="imagepreviewUploadTag" @media-upload-finish="onSetMediaPreviewItem" autoUpload></sw-upload-listener>
+                            <sw-media-upload-v2 :label="$tc('netzp-blog6.detail.label.imagepreview')" variant="regular"
+                                                :source="mediaPreviewItem" :uploadTag="imagepreviewUploadTag" :allowMultiSelect="false"
+                                                defaultFolder="s_plugin_netzp_blog"
+                                                @media-drop="onMediaPreviewDropped"
+                                                @media-upload-sidebar-open="openMediaSidebar"
+                                                @media-upload-remove-image="onRemoveMediaPreviewItem">
+                            </sw-media-upload-v2>
+                        </sw-card>
+
+                        <sw-card v-if="blog" :isLoading="isLoading" :title="$t('netzp-blog6.detail.section.mediagallery')"
+                                 style="width: 100%;">
+
+                            <np-media-list-selection-v2
+                                    :entityMediaItems="blog.blogmedia"
+                                    :entity="blog"
+                                    :uploadTag="blogMediaUploadTag"
+                                    defaultFolderName="s_plugin_netzp_blog"
+                                    @upload-finish="onBlogMediaImageUpload"
+                                    @item-remove="onBlogMediaItemRemove"
+                                    @open-sidebar="onOpenMediaModal"
+                                    dragGroup="blog-media"
+                                    :dragStop="onMediaItemDragSort"
+                                    :imageDropped="onBlogMediaImageUpload">
+                            </np-media-list-selection-v2>
+
+                            <sw-media-modal-v2
+                                    variant="regular"
+                                    v-if="mediaModalIsOpen"
+                                    :caption="$tc('netzp-blog6.detail.label.galleryupload')"
+                                    :entityContext="blog.entityName"
+                                    @media-upload-remove-image="onBlogMediaItemRemove"
+                                    @media-modal-selection-change="onBlogMediaSelectionChange"
+                                    @modal-close="onCloseMediaModal">
+                            </sw-media-modal-v2>
+                        </sw-card>
+                    </sw-container>
+
+                    <sw-container v-if="active === 'items'">
+                        <div v-for="(item, index) in blog.items" :key="item.id" class="item" @mouseenter="onSetCurrentItem(item)">
+                            <sw-container columns="70px 1fr 1fr" gap="10px">
+                                <div class="item-buttons">
+                                    <strong v-if="item.number > 0" class="number">{{ item.number }}</strong>
+
+                                    <div v-if="item.number > 0" class="btn--updown">
+                                        <a @click="moveUpItem(item)"><sw-icon name="default-arrow-head-up"></sw-icon></a>
+                                        <a @click="moveDownItem(item)"><sw-icon name="default-arrow-head-down"></sw-icon></a>
+                                    </div>
+
+                                    <a v-if="item.number > 0"
+                                       @click="removeItem(item)" class="btn--delete">{{ $t('netzp-blog6.detail.items.delete') }}</a>
+                                </div>
+
+                                <sw-container rows>
+                                    <div v-if="item.number == 0" style="margin-bottom: .5rem">
+                                        {{ $t('netzp-blog6.detail.items.summary') }}
+                                    </div>
+
+                                    <sw-field :label="$t('netzp-blog6.detail.items.title')" v-model="item.title">
+                                    </sw-field>
+
+                                    <sw-text-editor v-model="item.content"
+                                                    :label="$t('netzp-blog6.detail.items.content')">
+                                    </sw-text-editor>
+                                </sw-container>
+
+                                <sw-container rows v-if="item.number > 0">
+                                    <sw-upload-listener :uploadTag="'img_' + item.id" autoUpload
+                                                        @media-upload-finish="successfulUploadImage">
+                                    </sw-upload-listener>
+                                    <sw-media-upload-v2 :source="item.imageid" :uploadTag="'img_' + item.id" :allowMultiSelect="false"
+                                                        :label="$tc('netzp-blog6.detail.items.image')"
+                                                        defaultFolder="s_plugin_netzp_blog"
+                                                        @media-upload-remove-image="removeImage()"
+                                                        @selection-change="onSetImage"
+                                                        @media-drop="onImageDropped"
+                                                        @media-upload-sidebar-open="openMediaSidebar">
+                                    </sw-media-upload-v2>
+                                </sw-container>
+                            </sw-container>
+                        </div>
+
+                        <sw-container columns="70px 1fr" gap="10px">
+                            <span></span>
+                            <a class="sw-button sw-button--primary" @click="addItem()">
+                                {{ $t('netzp-blog6.detail.label.addItem') }}
+                            </a>
+                        </sw-container>
+                    </sw-container>
+
+                    <sw-container v-if="active === 'meta'">
+                        <sw-card v-if="blog" :isLoading="isLoading" :title="$t('netzp-blog6.detail.section.meta')"
+                                 style="width: 100%;">
+                            <div class="charcounter">({{ blog.metatitle|count }} / ~60 {{ $t('netzp-blog6.detail.label.chars') }})</div>
+                            <sw-field :label="$t('netzp-blog6.detail.label.metatitle')"
+                                      v-model="blog.metatitle">
+                            </sw-field>
+
+                            <div class="charcounter">({{ blog.metadescription|count }} / ~160 {{ $t('netzp-blog6.detail.label.chars') }})</div>
+                            <sw-textarea-field :label="$t('netzp-blog6.detail.label.metadescription')"
+                                               v-model="blog.metadescription">
+                            </sw-textarea-field>
+
+                            <sw-textarea-field type="textarea" v-model="blog.custom"
+                                               :label="$t('netzp-blog6.detail.label.custom')"
+                                               :helpText="$t('netzp-blog6.detail.help.custom')"></sw-textarea-field>
+                        </sw-card>
+
+                        <sw-card :title="$tc('netzp-blog6.detail.label.customfields')"
+                                 v-if="blog && !blog.isNew() && customFieldSets && customFieldSets.length > 0"
+                                 :isLoading="isLoading" style="width: 100%;">
+                            <sw-custom-field-set-renderer v-if="blog"
+                                    :entity="blog"
+                                    :sets="customFieldSets">
+                            </sw-custom-field-set-renderer>
+                        </sw-card>
+                    </sw-container>
+                </template>
+            </sw-tabs>
+        </sw-card-view>
+    </template>
+
+    {% block netzp_blog6_detail_sidebar %}
+    <template #sidebar>
+        <sw-sidebar>
+            <sw-sidebar-media-item ref="mediaSidebarItem">
+                <template #context-menu-items="media">
+                    <sw-context-menu-item @click="setMediaItemFromSidebar(media.mediaItem)">
+                        {{ $tc('netzp-blog6.detail.label.useAsImage') }}
+                    </sw-context-menu-item>
+                </template>
+            </sw-sidebar-media-item>
+        </sw-sidebar>
+    </template>
+    {% endblock %}
+
+</sw-page>
+{% endblock %}

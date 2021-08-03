@@ -1,0 +1,17 @@
+{% block sw_cms_element_netzp_blog6_structure %}
+    <div class="sw-cms-el-netzp-blog6-structure">
+        <template v-if="element.config.type.value == 'categories'">
+            <div class="card">
+                <div class="card-post" :style="getCardStyle">
+                    <img :src="'/administration/static/img/cms/preview_mountain_small.jpg' | asset">
+
+                    <div class="card-body">
+                        <h3>Blog post</h3>
+                        <div class="text-muted">28.03.2020 | Category</div>
+                        <div class="btn">{{ $tc('sw-cms.elements.netzp-blog6.more') }}</div>
+                    </div>
+                </div>
+            </div>
+        </template>
+    </div>
+{% endblock %}

@@ -1,0 +1,76 @@
+{% block blog_list_item %}
+    {% set postDetailUrl = seoUrl('frontend.blog.post', {'postId': post.id} ) %}
+    {% set paramPage = app.request.get('p') ? 'p=' ~app.request.get('p') : '' %}
+    {% set paramCategory = app.request.get('c') ? 'c=' ~app.request.get('c') : '' %}
+    {% set paramAuthor = app.request.get('a') ? 'a=' ~app.request.get('a') : '' %}
+    {% set urlParams = [paramPage, paramCategory, paramAuthor] | filter(p => p != '') | join('&') %}
+    {% if urlParams %}
+        {% set postDetailUrl = postDetailUrl ~ '?' ~ urlParams %}
+    {% endif %}
+
+    <div class="d-flex flex-sm-row flex-column mb-3 blog-list-item" style="background-color: {{ element.config.backgroundColor.value }}">
+        {% block blog_list_item_wrapper %}
+            <div class="pt-3 pb-3 pl-3">
+            <a href="{{ postDetailUrl }}">
+                {% block blog_content_post_inner_title %}
+                    <h4 class="mb-0">{{ post.translated.title }}</h4>
+                {% endblock %}
+            </a>
+
+            {% if element.data.pluginConfig.showmeta %}
+                {% block blog_content_post_inner_meta %}
+                    {% sw_include "@Storefront/storefront/page/blog/post-meta.html.twig" with { config: element.data.pluginConfig } %}
+                {% endblock %}
+            {% endif %}
+
+            {% if post.translated.teaser %}
+                {% block blog_content_post_inner_teaser %}
+                    <div class="lead mt-3 mb-1">
+                        {{ post.translated.teaser }}
+                    </div>
+                {% endblock %}
+            {% endif %}
+
+            {% block blog_content_post_inner_more %}
+                <a href="{{ postDetailUrl }}"
+                   class="btn btn-outline-primary btn-sm mt-2">
+                    {{ "netzp.blog.msg.more"|trans }}
+                </a>
+            {% endblock %}
+        </div>
+        {% endblock %}
+
+        {% block blog_content_post_inner_image %}
+            <div class="ml-0 ml-sm-auto p-0">
+                {% set image = null %}
+                {% if post.imagepreview %}
+                    {% set image = post.imagepreview %}
+                {% elseif post.image %}
+                    {% set image = post.image %}
+                {% endif %}
+
+                {% if image %}
+                    {% set thumbnailClass = element.config.imageMode.value == "contain" ? "contain" : "cover" %}
+                    <a href="{{ postDetailUrl }}">
+                        {% sw_thumbnails 'blog_list_image_thumbnail' with {
+                            media: image,
+                            sizes: {
+                                'xs': '501px',
+                                'sm': '315px',
+                                'md': '427px',
+                                'lg': '333px',
+                                'xl': '284px'
+                            },
+                            attributes: {
+                                'class': 'img-fluid ' ~ thumbnailClass,
+                                'alt':   image.translated.alt ?: '',
+                                'title': post.translated.title ?: ''
+                            }
+                        } %}
+                    </a>
+                {% endif %}
+            </div>
+        {% endblock %}
+    </div>
+{% endblock %}
+

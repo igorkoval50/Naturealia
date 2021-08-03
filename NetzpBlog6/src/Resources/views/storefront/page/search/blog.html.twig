@@ -1,0 +1,42 @@
+<div class="row">
+{% for blogEntry in page.netzpSearch.blog.data %}
+    <div class="col-12 col-md-6 col-lg-3 my-4">
+        <div class="card h-100">
+            {% if blogEntry.media.url %}
+                <a href="{{ seoUrl('frontend.blog.post', {'postId': blogEntry.id}) }}">
+                {% sw_thumbnails 'blog_image_search_thumbnail' with {
+                    media: blogEntry.media,
+                    sizes: {
+                        'xs': '501px',
+                        'sm': '315px',
+                        'md': '427px',
+                        'lg': '333px',
+                        'xl': '284px'
+                    },
+                    attributes: {
+                        'class': 'card-img-top',
+                        'alt':   blogEntry.media.translated.alt ?: '',
+                        'title': blogEntry.media.translated.title ?: ''
+                    }
+                } %}
+                </a>
+            {% endif %}
+
+            <div class="card-body">
+                <h3 class="card-title mt-3">
+                    {{ blogEntry.getTitle }}
+                </h3>
+                <p class="card-text">
+                    {{ blogEntry.getDescription }}
+                </p>
+                <h2>
+                    <a href="{{ seoUrl('frontend.blog.post', {'postId': blogEntry.id}) }}"
+                       class="btn btn-light">
+                        {{ "netzp.blog.showPost"|trans }}
+                    </a>
+                </h2>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+</div>

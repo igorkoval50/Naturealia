@@ -1,0 +1,38 @@
+<div class="card-text mt-1">
+    {% block blog_content_post_inner_meta_date %}
+        <small class="text-muted">
+            {% sw_icon 'calendar' style { 'size': 'sm' } %} {{ post.postdate is empty ? "" : post.postdate|format_datetime('long', 'none') }}
+        </small>
+    {% endblock %}
+    {% block blog_content_post_inner_meta_author %}
+        {% if config.showauthor and (post.author.translated.name) %}
+            <small class="text-muted">
+                &nbsp;{% sw_icon 'avatar' style { 'size': 'sm' } %} {{ post.author.translated.name }}
+            </small><br>
+        {% endif %}
+    {% endblock %}
+    {% block blog_content_post_inner_meta_category %}
+        {% if post.category.translated.title %}
+            <small class="text-muted">
+                {% sw_icon 'map-closed' style { 'size': 'sm' } %} {{ post.category.translated.title }}
+                {% if(post.categories|length > 0) %}
+                    {% for addCategory in post.categories %}
+                        {% if addCategory.translated.title != post.category.translated.title %}
+                        | {{ addCategory.translated.title }}
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            </small>
+        {% endif %}
+    {% endblock %}
+    {% block blog_content_post_inner_meta_tags %}
+        {% if config.showtags and (post.tags|length > 0) %}
+            <small class="text-muted">
+                &nbsp;{% sw_icon 'tags' style { 'size': 'sm' } %}
+                {% for tag in post.tags %}
+                    {{ tag.name }}{% if not loop.last %}, {% endif %}
+                {% endfor %}
+            </small>
+        {% endif %}
+    {% endblock %}
+</div>

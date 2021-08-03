@@ -1,0 +1,12 @@
+{% block sw_cms_element_netzp_blog6_structure_config %}
+    <div class="sw-cms-el-config-netzp-blog6-structure">
+        <sw-container columns="1fr 1fr 1fr" gap="20px">
+            <sw-select-field :label="$tc('sw-cms.elements.netzp-blog6-structure.config.type.title')"
+                             v-model="element.config.type.value">
+                <option value="categories">{{ $tc('sw-cms.elements.netzp-blog6-structure.config.type.categories') }}</option>
+                <option value="tags">{{ $tc('sw-cms.elements.netzp-blog6-structure.config.type.tags') }}</option>
+                <option value="authors">{{ $tc('sw-cms.elements.netzp-blog6-structure.config.type.authors') }}</option>
+            </sw-select-field>
+        </sw-container>
+    </div>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% block blog_content_post_wrapper %}
+<div class="row mb-5">
+    {% block blog_content_post_inner_wrapper %}
+    <div class="col-md-8">
+        {% if config.showmeta %}
+            {% sw_include "@Storefront/storefront/page/blog/post-meta.html.twig" %}
+        {% endif %}
+
+        {% block blog_content_post_inner_title %}
+            <h2>{{ post.translated.title }}</h2>
+        {% endblock %}
+
+        {% block blog_content_post_inner_contents %}
+            {{ post.translated.contents|raw }}
+        {% endblock %}
+
+        {% block blog_content_post_inner_author %}
+            {% if config.showmeta and config.showauthor %}
+                {% sw_include "@Storefront/storefront/page/blog/post-author.html.twig" %}
+            {% endif %}
+        {% endblock %}
+    </div>
+    {% endblock %}
+
+    {% if post.image %}
+        {% block blog_content_post_inner_image %}
+            <div class="col-md-4 mt-3 mt-md-0">
+                {% sw_thumbnails 'blog_small_image_thumbnail' with {
+                    media: post.image,
+                    sizes: {
+                        'xs': '501px',
+                        'sm': '315px',
+                        'md': '427px',
+                        'lg': '333px',
+                        'xl': '284px',
+                        'default': '100vw'
+                    },
+                    attributes: {
+                        'class': 'img-fluid image-small',
+                        'alt':   post.image.translated.alt ?: '',
+                        'title': post.translated.title ?: ''
+                    }
+                } %}
+            </div>
+        {% endblock %}
+    {% endif %}
+</div>
+{% endblock %}

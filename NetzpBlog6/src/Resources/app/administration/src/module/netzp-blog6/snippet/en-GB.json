@@ -1,0 +1,139 @@
+{
+  "global": {
+    "entities": {
+      "s_plugin_netzp_blog": "Blog | Blog",
+      "s_plugin_netzp_blog_category": "Blog category",
+      "s_plugin_netzp_blog_author": "Blog author"
+    }
+  },
+
+  "sw-seo-url-template-card": {
+    "routeNames": {
+      "frontend-blog-post": "Blog post"
+    }
+  },
+
+  "netzp-blog6": {
+    "main": {
+      "menuLabel": "Blog",
+      "title": "Blog",
+      "menuDescription": "Manage Blog",
+      "placeholderSearchBar": "Blog",
+      "btnAuthors": "edit",
+      "btnCategories": "edit"
+    },
+
+    "list": {
+      "title": "Blog posts",
+      "addButtonText": "New",
+      "columns": {
+        "title": "Title",
+        "teaser": "Teaser",
+        "author": "Author",
+        "category": "Main category",
+        "author": "Author",
+        "postdate": "Post date",
+        "showfrom": "Show from",
+        "showuntil": "until",
+        "image": "Image",
+        "products": "Products"
+      },
+      "sidebar": {
+        "filter": "Filter",
+        "refresh": "Refresh",
+        "category": "Main category",
+        "author": "Author",
+        "tag": "Tag",
+        "allCategories": "- all -",
+        "allAuthors": "- all -",
+        "allTags": "- all -"
+      }
+    },
+
+    "detail": {
+      "cancelButtonText": "Cancel",
+      "saveButtonText": "Save",
+      "msg": {
+        "attention": "Attention",
+        "removeItem": "Remove this item? This can not be undone.",
+        "cancel": "Cancel",
+        "ok": "OK"
+      },
+
+      "section": {
+        "main": "Main",
+        "contents": "Contents",
+        "meta": "Meta data",
+        "products": "Products",
+        "media": "Images/Media",
+        "mainimage": "Main image",
+        "mediagallery": "Image/media gallery",
+        "items": "Additional contents"
+      },
+
+      "items": {
+        "type": {
+          "label": "Type",
+          "0": {
+            "label": "Standard / none",
+            "summary": "Summary"
+          },
+          "1": {
+            "label": "Recipe",
+            "summary": "Ingredients"
+          },
+          "2": {
+            "label": "Guide",
+            "summary": "Material"
+          },
+          "3": {
+            "label": "Review / test",
+            "summary": "Summary"
+          }
+        },
+        "title": "Title",
+        "summary": "Summary (ex. ingredients, material)",
+        "content": "Contents",
+        "image": "Image",
+        "delete": "Delete"
+      },
+
+      "label": {
+        "title": "Title",
+        "teaser": "Teaser",
+        "slug": "Slug",
+        "contents": "Contents",
+        "custom": "Custom data",
+        "postdate": "Post date",
+        "showfrom": "Show from",
+        "showuntil": "Show until",
+        "category": "Main category",
+        "categories": "Other categories",
+        "author": "Author",
+        "image": "Image",
+        "imagepreview": "Alternative preview image (optional)",
+        "useAsImage": "Use as image",
+        "metatitle": "Meta title",
+        "metadescription": "Meta description",
+        "products": "Product assignment",
+        "chars": "chars",
+        "addItem": "Add new item",
+        "galleryupload": "Upload image",
+        "dragtoupload": "Drag files here to upload (you can drag also from media sidebar)",
+        "customfields": "Custom fields",
+        "noindex": "Prevent from indexing"
+      },
+
+      "help": {
+        "slug": "generated automatically, can be overwritten if necessary. Attention: the URL may then change for already existing blog posts.",
+        "custom": "optional, can be used in own templates: post.translated.custom",
+        "noindex": "Prevent search engines from indexing this blog post (noindex) and also excludes it from the RSS feed. Please note: not all search engines adhere to this."
+      },
+
+      "error": {
+        "title": "Error",
+        "message": "Something went wrong."
+      }
+    }
+  }
+}

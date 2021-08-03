@@ -1,0 +1,63 @@
+{% block netzp_blog6_category_list %}
+<sw-page class="netzp-blog6-category-list">
+    {% block netzp_blog6_category_list_smart_bar_header %}
+        <template slot="smart-bar-header">
+            {% block netzp_blog6_category_list_smart_bar_header_title %}
+                <h2>
+                    {% block netzp_blog6_category_list_smart_bar_header_title_text %}
+                        {{ $tc('sw-settings.index.title') }} <sw-icon name="small-arrow-medium-right" small></sw-icon> {{ $tc('netzp-blog6-category.main.menuLabel') }}
+                    {% endblock %}
+                </h2>
+            {% endblock %}
+        </template>
+    {% endblock %}
+
+    {% block netzp_blog6_category_list_smart_bar_actions %}
+    <template slot="smart-bar-actions">
+        <sw-button variant="primary" :routerLink="{ name: 'netzp.blog6.category.create' }">
+            {{ $t('netzp-blog6-category.list.addButtonText') }}
+        </sw-button>
+    </template>
+    {% endblock %}
+    <template #language-switch>
+        <sw-language-switch @on-change="changeLanguage"></sw-language-switch>
+    </template>
+
+    <template slot="content">
+        {% block netzp_blog6_category_list_content %}
+        <sw-entity-listing
+                v-if="category"
+                :items="category"
+                :repository="repository"
+                :showSelection="false"
+                :columns="columns"
+                detailRoute="netzp.blog6.category.detail">
+
+            <template #column-saleschannel="{ item }">
+                <sw-label v-if="item.saleschannel"
+                          variant="info" size="default" :ghost="true">
+                    {{ item.saleschannel.name }}
+                </sw-label>
+            </template>
+
+            <template #column-customergroup="{ item }">
+                <sw-label v-if="item.customergroup"
+                          variant="info" size="default" :ghost="true">
+                    {{ item.customergroup.name }}
+                </sw-label>
+            </template>
+
+            <template #column-onlyloggedin="{ item }">
+                <sw-icon v-if="item.onlyloggedin" name="small-default-checkmark-circle" small></sw-icon>
+                <span v-else>&nbsp;</span>
+            </template>
+
+            <template #column-includeinrss="{ item }">
+                <sw-icon v-if="item.includeinrss" name="small-default-checkmark-line-medium" small class="is--active"></sw-icon>
+                <sw-icon v-else name="small-default-x-line-medium" small class="is--inactive"></sw-icon>
+            </template>
+        </sw-entity-listing>
+        {% endblock %}
+    </template>
+</sw-page>
+{% endblock %}

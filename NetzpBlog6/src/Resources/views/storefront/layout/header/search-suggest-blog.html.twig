@@ -1,0 +1,35 @@
+{% for blogEntry in page.netzpSearch.blog.data %}
+    <li class="search-suggest-product js-result">
+        <a href="{{ seoUrl('frontend.blog.post', {'postId': blogEntry.id}) }}"
+           title="{{ blogEntry.title }}"
+           class="search-suggest-product-link">
+
+            <div class="row align-items-center no-gutters">
+
+                <div class="col-auto search-suggest-product-image-container">
+                    {% if blogEntry.media.url %}
+                        {% sw_thumbnails 'blog-search-suggest-image-thumbnail' with {
+                            media: blogEntry.media,
+                            sizes: {
+                                'default': '200px'
+                            },
+                            attributes: {
+                                'class': 'search-suggest-product-image',
+                                'alt':   blogEntry.media.translated.alt ?: '',
+                                'title': blogEntry.media.translated.title ?: ''
+                            }
+                        } %}
+                    {% else %}
+                        {% sw_icon 'placeholder' style {
+                            'size': 'lg'
+                        } %}
+                    {% endif %}
+                </div>
+
+                <div class="col search-suggest-product-name">
+                    {{ blogEntry.title }}
+                </div>
+            </div>
+        </a>
+    </li>
+{% endfor %}

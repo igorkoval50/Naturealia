@@ -1,0 +1,89 @@
+{% block netzp_blog6_category_detail %}
+<sw-page class="netzp-blog6-category-detail">
+    <template slot="smart-bar-actions">
+        <sw-button :routerLink="{ name: 'netzp.blog6.category.list' }">
+            {{ $t('netzp-blog6-category.detail.cancelButtonText') }}
+        </sw-button>
+
+        <sw-button-process
+                :isLoading="isLoading"
+                :processSuccess="processSuccess"
+                variant="primary"
+                @process-finish="saveFinish"
+                @click="onClickSave">
+            {{ $t('netzp-blog6-category.detail.saveButtonText') }}
+        </sw-button-process>
+    </template>
+    {% block netzp_blog6_category_detail_language_switch %}
+    <template #language-switch>
+        <sw-language-switch slot="language-switch" :disabled="category && category.isNew()"
+                            @on-change="onChangeLanguage"></sw-language-switch>
+    </template>
+    {% endblock %}
+
+    <template slot="content">
+        <sw-card-view>
+            <sw-card v-if="category" :isLoading="isLoading" :title="$t('netzp-blog6-category.detail.section.main')">
+                <sw-field :label="$t('netzp-blog6-category.detail.label.title')"
+                          v-model="category.title"
+                          required validation="required" :error="categoryTitleError"></sw-field>
+
+                <sw-language-info :entityDescription="category.title"></sw-language-info>
+
+                <sw-text-editor :label="$t('netzp-blog6-category.detail.label.teaser')" v-model="category.teaser"></sw-text-editor>
+
+                <sw-entity-single-select :label="$t('netzp-blog6-category.detail.label.cmspage')"
+                                         :resetOption="$t('netzp-blog6-category.detail.label.resetCmspage')"
+                                         class="sw-cms-page-select-box"
+                                         entity="cms_page" :criteria="cmsPageCriteria()"
+                                         v-model="category.cmspageid">
+                </sw-entity-single-select>
+
+                <sw-single-select :label="$t('netzp-blog6-category.detail.label.saleschannel')"
+                                  :options="salesChannels" valueProperty="id"
+                                  v-model="category.saleschannelid">
+                    <template #selection-label-property="{ item }">
+                        {{ item.name || item.translated.name }}
+                    </template>
+                    <template #result-label-property="{ item }">
+                        {{ item.name || item.translated.name }}
+                    </template>
+                </sw-single-select>
+
+                <sw-single-select :label="$t('netzp-blog6-category.detail.label.customergroup')"
+                                         :options="customerGroups" valueProperty="id"
+                                         v-model="category.customergroupid">
+                    <template #selection-label-property="{ item }">
+                        {{ item.name || item.translated.name }}
+                    </template>
+                    <template #result-label-property="{ item }">
+                        {{ item.name || item.translated.name }}
+                    </template>
+                </sw-single-select>
+
+                <sw-container columns="1fr 1fr">
+                    <sw-switch-field :label="$t('netzp-blog6-category.detail.label.onlyloggedin')"
+                                     v-model="category.onlyloggedin"
+                                     noMarginTop>
+                    </sw-switch-field>
+
+                    <sw-switch-field :label="$t('netzp-blog6-category.detail.label.includeinrss')"
+                                     v-model="category.includeinrss"
+                                     noMarginTop>
+                    </sw-switch-field>
+                </sw-container>
+            </sw-card>
+
+            <sw-card :title="$tc('netzp-blog6-category.detail.label.customfields')"
+                     v-if="category && !category.isNew() && customFieldSets && customFieldSets.length > 0"
+                     :isLoading="isLoading" style="width: 100%;">
+
+                <sw-custom-field-set-renderer v-if="category"
+                        :entity="category"
+                        :sets="customFieldSets">
+                </sw-custom-field-set-renderer>
+            </sw-card>
+        </sw-card-view>
+    </template>
+</sw-page>
+{% endblock %}

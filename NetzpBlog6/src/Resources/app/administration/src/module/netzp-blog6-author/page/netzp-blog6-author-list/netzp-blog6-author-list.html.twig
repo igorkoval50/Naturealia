@@ -1,0 +1,47 @@
+{% block netzp_blog6_author_list %}
+<sw-page class="netzp-blog6-author-list">
+    {% block netzp_blog6_author_list_smart_bar_header %}
+        <template slot="smart-bar-header">
+            {% block netzp_blog6_author_list_smart_bar_header_title %}
+                <h2>
+                    {% block netzp_blog6_author_list_smart_bar_header_title_text %}
+                        {{ $tc('sw-settings.index.title') }} <sw-icon name="small-arrow-medium-right" small></sw-icon> {{ $tc('netzp-blog6-author.main.menuLabel') }}
+                    {% endblock %}
+                </h2>
+            {% endblock %}
+        </template>
+    {% endblock %}
+
+    {% block netzp_blog6_author_list_smart_bar_actions %}
+    <template slot="smart-bar-actions">
+        <sw-button variant="primary" :routerLink="{ name: 'netzp.blog6.author.create' }">
+            {{ $t('netzp-blog6-author.list.addButtonText') }}
+        </sw-button>
+    </template>
+    {% endblock %}
+    <template #language-switch>
+        <sw-language-switch @on-change="changeLanguage"></sw-language-switch>
+    </template>
+
+    <template slot="content">
+        {% block netzp_blog6_author_list_content %}
+        <sw-entity-listing
+                v-if="author"
+                :items="author"
+                :repository="repository"
+                :showSelection="false"
+                :columns="columns"
+                detailRoute="netzp.blog6.author.detail">
+
+            {% block netzp_blog6_author_list_grid_columns %}
+                {% block netzp_blog6_list_grid_columns_image %}
+                    <template #column-image="{ item }">
+                        <sw-media-preview-v2 :source="item.imageid ? item.imageid : null"></sw-media-preview-v2>
+                    </template>
+                {% endblock %}
+            {% endblock %}
+        </sw-entity-listing>
+        {% endblock %}
+    </template>
+</sw-page>
+{% endblock %}

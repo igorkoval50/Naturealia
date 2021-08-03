@@ -1,0 +1,46 @@
+{
+  "netzp-blog6-category": {
+    "main": {
+      "menuLabel": "Blog categories",
+      "menuDescription": "Manage blog categories"
+    },
+
+    "list": {
+      "addButtonText": "New",
+      "columns": {
+        "title": "Title",
+        "onlyloggedin": "Only logged in",
+        "includeinrss": "In RSS Feed",
+        "saleschannel": "Sales channel",
+        "customergroup": "Customer group"
+      }
+    },
+
+    "detail": {
+      "cancelButtonText": "Cancel",
+      "saveButtonText": "Save",
+
+      "section": {
+        "main": "Category"
+      },
+
+      "label": {
+        "title": "Title",
+        "teaser": "Teaser",
+        "customfields": "Custom fields",
+        "cmspage": "CMS page for blog detail view",
+        "resetCmspage": "- none (default layout) -",
+        "saleschannel": "Sales channel",
+        "customergroup": "Customer group",
+        "reset": "- no restriction -",
+        "onlyloggedin": "visible only for logged in users",
+        "includeinrss": "Include in RSS Feed"
+      },
+
+      "error": {
+        "title": "Error",
+        "message": "Something went wrong."
+      }
+    }
+  }
+}

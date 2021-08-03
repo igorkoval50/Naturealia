@@ -1,0 +1,17 @@
+{% block sw_search_bar_item_cms_page %}
+    {% parent %}
+
+    <router-link v-else-if="type === 's_plugin_netzp_blog'"
+                 ref="routerLink"
+                 class="sw-search-bar-item__link"
+                 :to="{ name: 'netzp.blog6.detail', params: { id: item.id } }">
+        {% block sw_search_bar_item_netzp_blog6_label %}
+            <span class="sw-search-bar-item__label">
+                <sw-highlight-text
+                        :searchTerm="searchTerm"
+                        :text="item.title">
+                </sw-highlight-text>
+            </span>
+        {% endblock %}
+    </router-link>
+{% endblock %}

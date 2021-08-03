@@ -1,0 +1,101 @@
+{% block blog_content_detail %}
+    <div class="netzp-blog6-post">
+        {% block blog_content %}
+            {% block blog_content_post %}
+                {% block blog_content_post_inner %}
+                    {% if post %}
+                        {% if element.config.part.value == 'title' %}
+                            {% block blog_content_post_inner_title %}
+                                {% if element.config.titleTag.value == 'h1' %}
+                                    <h1 class="mb-1">{{ post.translated.title }}</h1>
+                                {% elseif element.config.titleTag.value == 'h2' %}
+                                    <h2 class="mb-1">{{ post.translated.title }}</h2>
+                                {% elseif element.config.titleTag.value == 'h3' %}
+                                    <h3 class="mb-1">{{ post.translated.title }}</h3>
+                                {% endif %}
+                            {% endblock %}
+
+                        {% elseif element.config.part.value == 'contents' %}
+                            {% block blog_content_post_inner_contents %}
+                                {{ post.translated.contents|raw }}
+                            {% endblock %}
+
+                        {% elseif element.config.part.value == 'teaser' %}
+                            {% block blog_content_post_inner_teaser %}
+                                {{ post.translated.teaser|raw }}
+                            {% endblock %}
+
+                        {% elseif element.config.part.value == 'meta' %}
+                            {% block blog_content_post_inner_meta %}
+                                {% sw_include "@Storefront/storefront/page/blog/post-meta-cms.html.twig" %}
+                            {% endblock %}
+
+                        {% elseif element.config.part.value == 'author' %}
+                            {% block blog_content_post_inner_author %}
+                                {% sw_include "@Storefront/storefront/page/blog/post-author-cms.html.twig" %}
+                            {% endblock %}
+
+                        {% elseif element.config.part.value == 'image' %}
+                            {% block blog_content_post_inner_image %}
+                                {% if element.config.imageType.value == 'preview' %}
+                                    {% set thisImage = post.imagePreview %}
+                                {% else %}
+                                    {% set thisImage = post.image %}
+                                {% endif %}
+                                {% if thisImage %}
+                                    {% set thumbnailClass = (element.config.imageMode.value == 'full') ? "image-full" : "image-small" %}
+                                    {% sw_thumbnails 'blog_detail_image_thumbnail' with {
+                                        media: thisImage,
+                                        sizes: {
+                                            'xs': '501px',
+                                            'sm': '315px',
+                                            'md': '427px',
+                                            'lg': '333px',
+                                            'xl': '284px',
+                                            'default': '100vw'
+                                        },
+                                        attributes: {
+                                            'class': thumbnailClass,
+                                            'style': 'height: ' ~ element.config.height.value ~ 'rem;',
+                                            'alt':   post.image.translated.alt ?: '',
+                                            'title': post.translated.title ?: ''
+                                        }
+                                    } %}
+                                {% endif %}
+                            {% endblock %}
+
+                        {% elseif element.config.part.value == 'custom' %}
+                            {% block blog_content_post_inner_custom %}
+                                {% sw_include "@Storefront/storefront/page/blog/post-custom-cms.html.twig" %}
+                            {% endblock %}
+                        {% endif %}
+                    {% endif %}
+                {% endblock %}
+            {% endblock %}
+
+            {% block blog_content_social %}
+                {% if element.config.part.value == 'social' and netzpShariffActive %}
+                    {% sw_include "@Storefront/storefront/shariff-blog.html.twig" %}
+                {% endif %}
+            {% endblock %}
+
+            {% block blog_content_products %}
+                {% if element.config.part.value == 'products' %}
+                    {% sw_include "@Storefront/storefront/page/blog/post-products.html.twig" %}
+                {% endif %}
+            {% endblock %}
+
+            {% block blog_content_items %}
+                {% if element.config.part.value == 'items' %}
+                    {% sw_include "@Storefront/storefront/page/blog/post-items.html.twig" with { post: post } %}
+                {% endif %}
+            {% endblock %}
+
+            {% block blog_content_media %}
+                {% if element.config.part.value == 'media' %}
+                    {% sw_include "@Storefront/storefront/page/blog/post-media.html.twig" with { post: post } %}
+                {% endif %}
+            {% endblock %}
+        {% endblock %}
+    </div>
+{% endblock %}

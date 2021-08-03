@@ -1,0 +1,137 @@
+{% block netzp_blog6_list %}
+<sw-page class="netzp-blog6-list">
+    <template slot="search-bar">
+        <sw-search-bar initialSearchType="s_plugin_netzp_blog" :initialSearch="term" @search="onSearch"></sw-search-bar>
+    </template>
+
+    {% block netzp_blog6_list_smart_bar_actions %}
+    <template #smart-bar-header>
+        <h2>
+            {{ $tc('netzp-blog6.list.title') }}
+            &nbsp;
+            <sw-label v-if="blog && (categoriesFilter)"
+                      variant="success" size="default" appearance="pill" :ghost="false" :caps="false">
+                {{ getCategory(categoriesFilter).title }}
+            </sw-label>
+
+            <sw-label v-if="blog && (authorsFilter)"
+                      variant="success" size="default" appearance="pill" :ghost="false" :caps="false">
+                {{ getAuthor(authorsFilter).name }}
+            </sw-label>
+        </h2>
+    </template>
+
+    <template slot="smart-bar-actions">
+        <sw-button variant="primary" :routerLink="{ name: 'netzp.blog6.create' }">
+            {{ $t('netzp-blog6.list.addButtonText') }}
+        </sw-button>
+    </template>
+    {% endblock %}
+
+    <template #language-switch>
+        <sw-language-switch @on-change="changeLanguage"></sw-language-switch>
+    </template>
+
+    <template slot="content">
+        {% block netzp_blog6_list_content %}
+        <sw-entity-listing
+                v-if="blog"
+                :items="blog"
+                :repository="repository"
+                :showSelection="false"
+                :columns="columns"
+                detailRoute="netzp.blog6.detail">
+
+            {% block netzp_blog6_list_grid_columns %}
+                {% block netzp_blog6_list_grid_columns_category %}
+                <template #column-category="{ item }">
+                    {{ item.category ? item.category.title : '---' }}
+                </template>
+                {% endblock %}
+
+                {% block netzp_blog6_list_grid_columns_teaser %}
+                <template #column-teaser="{ item }">
+                    {{ item.teaser|truncate(50, true) }}
+                </template>
+                {% endblock %}
+
+                {% block netzp_blog6_list_grid_columns_image %}
+                <template #column-image="{ item }">
+                    <sw-media-preview-v2 :source="item.imageid ? item.imageid : null"></sw-media-preview-v2>
+                </template>
+                {% endblock %}
+
+                {% block netzp_blog6_list_grid_columns_postdate %}
+                <template #column-postdate="{ item }">
+                    <b>{{ item.postdate|date() }}</b>
+                </template>
+                {% endblock %}
+
+                {% block netzp_blog6_list_grid_columns_showfrom %}
+                <template #column-showfrom="{ item }">
+                    {{ item.showfrom|date() }}
+                </template>
+                {% endblock %}
+
+                {% block netzp_blog6_list_grid_columns_showuntil %}
+                    <template #column-showuntil="{ item }">
+                        {{ item.showuntil|date() }}
+                    </template>
+                {% endblock %}
+
+                {% block netzp_blog6_list_grid_columns_author %}
+                    <template #column-author="{ item }">
+                        {{ item.author ? item.author.name : '---' }}
+                    </template>
+                {% endblock %}
+
+                {% block netzp_blog6_list_grid_columns_products %}
+                    <template #column-products="{ item }">
+                        <span v-if="item.products.length > 0">
+                            <sw-label variant="primary" appearance="pill"><b style="float:right">{{ item.products.length }}</b></sw-label>
+                        </span>
+                        <span v-else></span>
+                    </template>
+                {% endblock %}
+            {% endblock %}
+
+        </sw-entity-listing>
+        {% endblock %}
+    </template>
+
+    <template #sidebar>
+        <sw-sidebar v-if="blog" class="sidebar">
+            <sw-sidebar-item icon="default-arrow-360-left"
+                             :title="$tc('netzp-blog6.list.sidebar.refresh')"
+                             @click="onRefresh">
+            </sw-sidebar-item>
+
+            <sw-sidebar-item icon="default-action-filter"
+                             :title="$tc('netzp-blog6.list.sidebar.filter')">
+
+                <sw-entity-single-select
+                        :label="$tc('netzp-blog6.list.sidebar.category')"
+                        entity="s_plugin_netzp_blog_category" v-model="categoriesFilter"
+                        valueProperty="id" labelProperty="title" :resetOption="$tc('netzp-blog6.list.sidebar.allCategories')"
+                        @change="onChangeCategoriesFilter">
+                </sw-entity-single-select>
+
+                <sw-entity-single-select
+                        :label="$tc('netzp-blog6.list.sidebar.tag')"
+                        entity="tag" v-model="tagsFilter"
+                        valueProperty="id" labelProperty="name" :resetOption="$tc('netzp-blog6.list.sidebar.allTags')"
+                        @change="onChangeTagsFilter">
+                </sw-entity-single-select>
+
+                <sw-entity-single-select
+                        :label="$tc('netzp-blog6.list.sidebar.author')"
+                        entity="s_plugin_netzp_blog_author" v-model="authorsFilter"
+                        valueProperty="id" labelProperty="name" :resetOption="$tc('netzp-blog6.list.sidebar.allAuthors')"
+                        @change="onChangeAuthorsFilter">
+                </sw-entity-single-select>
+
+            </sw-sidebar-item>
+        </sw-sidebar>
+    </template>
+</sw-page>
+{% endblock %}
