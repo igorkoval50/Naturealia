@@ -1,7 +1,42 @@
-@import "BrandonGrotesque/font";
+@font-face {
+  font-family: 'BrandonGrotesqueWeb-Regular';
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: url('/bundles/deintheme/webFonts/BrandonGrotesqueWebBold/font.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'BrandonGrotesqueWeb-Medium';
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  src: url('/bundles/deintheme/webFonts/BrandonGrotesqueWebMedium/font.woff2') format('woff2');
+}
+
+//@font-face {
+//  font-family: "BrandonGrotesqueWeb-Regular";
+//  src: url('webFonts/BrandonGrotesqueWebRegular/font.woff2') format('woff2'), url('webFonts/BrandonGrotesqueWebRegular/font.woff') format('woff');
+//}
+//@font-face {
+//  font-family: "BrandonGrotesqueWeb-Bold";
+//  src: url('webFonts/BrandonGrotesqueWebBold/font.woff2') format('woff2'), url('webFonts/BrandonGrotesqueWebBold/font.woff') format('woff');
+//}
+//@font-face {
+//  font-family: "BrandonGrotesqueWeb-Medium";
+//  src: url('webFonts/BrandonGrotesqueWebMedium/font.woff2') format('woff2'), url('webFonts/BrandonGrotesqueWebMedium/font.woff') format('woff');
+//}
+//@font-face {
+//  font-family: "BrandonGrotesqueWeb-Italic";
+//  src: url('webFonts/BrandonGrotesqueWebItalic/font.woff2') format('woff2'), url('webFonts/BrandonGrotesqueWebItalic/font.woff') format('woff');
+//}
+//@font-face {
+//  font-family: "BrandonGrotesqueWeb-BoldItalic";
+//  src: url('webFonts/BrandonGrotesqueWebBoldItalic/font.woff2') format('woff2'), url('webFonts/BrandonGrotesqueWebBoldItalic/font.woff') format('woff');
+//}
 
 body {
-  font-family: 'Brandon Grotesque';
+  font-family: 'BrandonGrotesqueWeb-Regular', sans-serif;
   font-weight: 400;
 }
 
@@ -11,21 +46,25 @@ body {
     font-size: 46px;
     line-height: normal;
     font-weight: 500;
+    font-family: 'BrandonGrotesqueWeb-Medium', sans-serif;
   }
   h2 {
     font-size: 42px;
     line-height: normal;
     font-weight: 500;
+    font-family: 'BrandonGrotesqueWeb-Medium', sans-serif;
   }
   h3 {
     font-size: 34px;
     line-height: normal;
     font-weight: 500;
+    font-family: 'BrandonGrotesqueWeb-Medium', sans-serif;
   }
   h4 {
     font-size: 26px;
     line-height: normal;
     font-weight: 500;
+    font-family: 'BrandonGrotesqueWeb-Medium', sans-serif;
   }
   p, span, a, strong {
     font-size: 20px;
@@ -61,21 +100,25 @@ body {
     font-size: 42px;
     line-height: normal;
     font-weight: 500;
+    font-family: 'BrandonGrotesqueWeb-Medium', sans-serif;
   }
   h2 {
     font-size: 38px;
     line-height: normal;
     font-weight: 500;
+    font-family: 'BrandonGrotesqueWeb-Medium', sans-serif;
   }
   h3 {
     font-size: 30px;
     line-height: normal;
     font-weight: 500;
+    font-family: 'BrandonGrotesqueWeb-Medium', sans-serif;
   }
   h4 {
     font-size: 22px;
     line-height: normal;
     font-weight: 500;
+    font-family: 'BrandonGrotesqueWeb-Medium', sans-serif;
   }
   p, span, a, strong {
     font-size: 19px;
