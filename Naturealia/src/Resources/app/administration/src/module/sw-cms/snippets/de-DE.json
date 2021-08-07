@@ -1,0 +1,11 @@
+{
+    "sw-cms": {
+        "blocks": {
+            "textImage": {
+                "imageTextGallerys": {
+                    "label": "Vier Spalten Text und Bild"
+                }
+            }
+        }
+    }
+}

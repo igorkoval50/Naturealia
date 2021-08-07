@@ -1,0 +1,11 @@
+{
+    "sw-cms": {
+        "blocks": {
+            "textImage": {
+                "imageTextGallerys": {
+                    "label": "Four columns text and image"
+                }
+            }
+        }
+    }
+}
