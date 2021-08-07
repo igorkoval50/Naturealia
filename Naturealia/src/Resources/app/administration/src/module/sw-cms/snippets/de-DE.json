@@ -3,7 +3,8 @@
         "blocks": {
             "textImage": {
                 "imageTextGallerys": {
-                    "label": "Vier Spalten Text und Bild"
+                    "label": "Vier Spalten Text und Bild",
+                    "labels": "Vier Produktspalte"
                 }
             }
         }
