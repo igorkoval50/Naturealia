@@ -6,6 +6,14 @@
                     "label": "Vier Spalten Text und Bild",
                     "labels": "Vier Produktspalte"
                 }
+            },
+            "imageText": {
+                "imageTextInside": {
+                    "label": "Zweispaltiger Text im Inneren"
+                },
+                "bannerTextInside": {
+                    "label": "Einspaltiger Text im Inneren"
+                }
             }
         }
     }
