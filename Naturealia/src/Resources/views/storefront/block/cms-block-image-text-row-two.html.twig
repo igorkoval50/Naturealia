@@ -5,85 +5,37 @@
 
     {% block block_image_text_row_left %}
         <div class="col-md-6 banner-two-colomun">
-            {% if page.header.navigation.active.customFields.custom_category_additional_class == 'is--contacts Werte' %}
-                {% block block_image_text_row_left_image %}
-                    {% set element = block.slots.getSlot('left-image') %}
-                    <div class="col-md-6 banner-two-colomun">
-                        {% block block_image_text_row_left_images %}
-                            {% set element = block.slots.getSlot('left-image') %}
+            {% set elements = block.slots.getSlot('left-image') %}
+            <img src="{{ elements.data.media.url }}" alt="image">
+            <div class="text-wrapper">
+                <div class="text">
+                    {% block block_image_text_row_left_text %}
+                        {% set element = block.slots.getSlot('left-text') %}
 
-                            <div data-cms-element-id="{{ id }}">
-                                {% sw_include "@Storefront/storefront/element/cms-element-" ~ element.type ~ ".html.twig" ignore missing %}
-                            </div>
-                        {% endblock %}
-
-                        <div class="text">
-                            {% block block_image_text_row_left_texts %}
-                                {% set element = block.slots.getSlot('left-text') %}
-
-                                <div data-cms-element-id="{{ id }}">
-                                    {% sw_include "@Storefront/storefront/element/cms-element-" ~ element.type ~ ".html.twig" ignore missing %}
-                                </div>
-                            {% endblock %}
+                        <div data-cms-element-id="{{ id }}">
+                            {% sw_include "@Storefront/storefront/element/cms-element-" ~ element.type ~ ".html.twig" ignore missing %}
                         </div>
-                    </div>
-                {% endblock %}
-            {% else %}
-                {% set elements = block.slots.getSlot('left-image') %}
-                <div class="text-wrapper" style="background: url({{ elements.data.media.url }})">
-                    <div class="text" >
-                        {% block block_image_text_row_left_text %}
-                            {% set element = block.slots.getSlot('left-text') %}
-
-                            <div data-cms-element-id="{{ id }}">
-                                {% sw_include "@Storefront/storefront/element/cms-element-" ~ element.type ~ ".html.twig" ignore missing %}
-                            </div>
-                        {% endblock %}
-                    </div>
+                    {% endblock %}
                 </div>
-            {% endif %}
+            </div>
         </div>
     {% endblock %}
 
     {% block block_image_text_row_center %}
         <div class="col-md-6 banner-two-colomun">
-            {% if page.header.navigation.active.customFields.custom_category_additional_class == 'is--contacts Werte' %}
-                {% block block_image_text_row_center_image %}
-                    {% set element = block.slots.getSlot('center-image') %}
-                    <div class="col-md-6 banner-two-colomun">
-                        {% block block_image_text_row_center_images %}
-                            {% set element = block.slots.getSlot('center-image') %}
+            {% set elements = block.slots.getSlot('center-image') %}
+            <img src="{{ elements.data.media.url }}" alt="image">
+            <div class="text-wrapper">
+                <div class="text">
+                    {% block block_image_text_row_center_text %}
+                        {% set element = block.slots.getSlot('center-text') %}
 
-                            <div data-cms-element-id="{{ id }}">
-                                {% sw_include "@Storefront/storefront/element/cms-element-" ~ element.type ~ ".html.twig" ignore missing %}
-                            </div>
-                        {% endblock %}
-
-                        <div class="text">
-                            {% block block_image_text_row_center_texts %}
-                                {% set element = block.slots.getSlot('center-text') %}
-
-                                <div data-cms-element-id="{{ id }}">
-                                    {% sw_include "@Storefront/storefront/element/cms-element-" ~ element.type ~ ".html.twig" ignore missing %}
-                                </div>
-                            {% endblock %}
+                        <div data-cms-element-id="{{ id }}">
+                            {% sw_include "@Storefront/storefront/element/cms-element-" ~ element.type ~ ".html.twig" ignore missing %}
                         </div>
-                    </div>
-                {% endblock %}
-                 {% else %}
-                     {% set elements = block.slots.getSlot('center-image') %}
-                     <div class="text-wrapper" style="background: url({{ elements.data.media.url }})">
-                         <div class="text" >
-                             {% block block_image_text_row_center_text %}
-                                 {% set element = block.slots.getSlot('center-text') %}
-
-                                 <div data-cms-element-id="{{ id }}">
-                                     {% sw_include "@Storefront/storefront/element/cms-element-" ~ element.type ~ ".html.twig" ignore missing %}
-                                 </div>
-                             {% endblock %}
-                         </div>
-                     </div>
-            {% endif %}
+                    {% endblock %}
+                </div>
+            </div>
         </div>
     {% endblock %}
 {% endblock %}

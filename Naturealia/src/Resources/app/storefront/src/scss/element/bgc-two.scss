@@ -1,6 +1,8 @@
 .cms-block-image-text-row-two {
-  .text-wrapper {
-    min-height: 350px;
-    margin-bottom: 30px;
+  img {
+    max-height: 350px;
+    min-width: 100%;
+    object-fit: cover;
   }
+  margin-bottom: 30px;
 }
