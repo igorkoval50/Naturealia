@@ -1,4 +1,4 @@
-.cms-block-image-text-row-two {
+.cms-block-image-text-row-two, .cms-block-image-text-row-twos {
   .col-md-6 {
     padding: 0 15px;
   }
@@ -8,6 +8,7 @@
     height: 350px;
     width: 100%;
     transition: all .3s;
+    overflow: hidden;
     img {
       position: absolute;
       top: 0;

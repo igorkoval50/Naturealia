@@ -1,10 +1,10 @@
 {% sw_extends '@Storefront/storefront/block/cms-block-image-text-row.html.twig' %}
 {% block block_image_text_row %}
-    {% set columns = 2 %}
+    {% set columns = 3 %}
     {% set id = element.id %}
 
     {% block block_image_text_row_left %}
-        <div class="col-md-6 banner-two-colomun">
+        <div class="col-md-4 banner-two-colomun">
             {% set elements = block.slots.getSlot('left-image') %}
             <a class="wrapper-link" href="{{ elements.config.url.value }}">
                 <img src="{{ elements.data.media.url }}" alt="image">
@@ -18,7 +18,7 @@
     {% endblock %}
 
     {% block block_image_text_row_center %}
-        <div class="col-md-6 banner-two-colomun">
+        <div class="col-md-4 banner-two-colomun">
             {% set elements = block.slots.getSlot('center-image') %}
             <a class="wrapper-link" href="{{ elements.config.url.value }}">
                 <img src="{{ elements.data.media.url }}" alt="image">
@@ -28,6 +28,20 @@
                     {% set element = block.slots.getSlot('center-text') %}
                     {{ element.data.content|raw }}
                 {% endblock %}
+        </div>
+    {% endblock %}
+
+    {% block block_image_text_row_right %}
+        <div class="col-md-4 banner-two-colomun">
+            {% set elements = block.slots.getSlot('right-image') %}
+            <a class="wrapper-link" href="{{ elements.config.url.value }}">
+                <img src="{{ elements.data.media.url }}" alt="image">
+                <span class="overflow"></span>
+            </a>
+            {% block block_image_text_row_right_text %}
+                {% set element = block.slots.getSlot('right-text') %}
+                {{ element.data.content|raw }}
+            {% endblock %}
         </div>
     {% endblock %}
 {% endblock %}

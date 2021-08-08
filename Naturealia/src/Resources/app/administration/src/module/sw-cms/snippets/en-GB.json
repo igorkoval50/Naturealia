@@ -9,7 +9,8 @@
             },
             "imageText": {
                 "imageTextInside": {
-                    "label": "Two column text inside"
+                    "label": "Two column text inside",
+                    "labels": "Three column text inside"
                 },
                 "bannerTextInside": {
                     "label": "One column text inside"

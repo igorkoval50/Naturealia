@@ -9,7 +9,8 @@
             },
             "imageText": {
                 "imageTextInside": {
-                    "label": "Zweispaltiger Text im Inneren"
+                    "label": "Zweispaltiger Text im Inneren",
+                    "labels": "Dreispaltiger Text im Inneren"
                 },
                 "bannerTextInside": {
                     "label": "Einspaltiger Text im Inneren"
