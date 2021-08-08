@@ -6,36 +6,28 @@
     {% block block_image_text_row_left %}
         <div class="col-md-6 banner-two-colomun">
             {% set elements = block.slots.getSlot('left-image') %}
-            <img src="{{ elements.data.media.url }}" alt="image">
-            <div class="text-wrapper">
-                <div class="text">
-                    {% block block_image_text_row_left_text %}
-                        {% set element = block.slots.getSlot('left-text') %}
-
-                        <div data-cms-element-id="{{ id }}">
-                            {% sw_include "@Storefront/storefront/element/cms-element-" ~ element.type ~ ".html.twig" ignore missing %}
-                        </div>
-                    {% endblock %}
-                </div>
-            </div>
+            <a class="wrapper-link" href="{{ elements.config.url.value }}">
+                <img src="{{ elements.data.media.url }}" alt="image">
+                <span class="overflow"></span>
+            </a>
+                {% block block_image_text_row_left_text %}
+                    {% set elements = block.slots.getSlot('center-text') %}
+                    {{ elements.data.content|raw }}
+                {% endblock %}
         </div>
     {% endblock %}
 
     {% block block_image_text_row_center %}
         <div class="col-md-6 banner-two-colomun">
             {% set elements = block.slots.getSlot('center-image') %}
-            <img src="{{ elements.data.media.url }}" alt="image">
-            <div class="text-wrapper">
-                <div class="text">
-                    {% block block_image_text_row_center_text %}
-                        {% set element = block.slots.getSlot('center-text') %}
-
-                        <div data-cms-element-id="{{ id }}">
-                            {% sw_include "@Storefront/storefront/element/cms-element-" ~ element.type ~ ".html.twig" ignore missing %}
-                        </div>
-                    {% endblock %}
-                </div>
-            </div>
+            <a class="wrapper-link" href="{{ elements.config.url.value }}">
+                <img src="{{ elements.data.media.url }}" alt="image">
+                <span class="overflow"></span>
+            </a>
+                {% block block_image_text_row_center_text %}
+                    {% set element = block.slots.getSlot('center-text') %}
+                    {{ element.data.content|raw }}
+                {% endblock %}
         </div>
     {% endblock %}
 {% endblock %}
